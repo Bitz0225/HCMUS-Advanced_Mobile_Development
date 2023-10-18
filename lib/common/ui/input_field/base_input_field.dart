@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lettutor/common/values/hex_color.dart';
 
 class BaseInputField extends StatefulWidget {
   const BaseInputField(
@@ -11,7 +12,8 @@ class BaseInputField extends StatefulWidget {
       this.controller,
       this.hint,
       this.onFieldInit,
-      this.inputFormatters});
+      this.inputFormatters,
+      this.isPassword});
 
   final double height;
   final TextInputType? keyboardType;
@@ -21,6 +23,7 @@ class BaseInputField extends StatefulWidget {
   final Function()? onFieldInit;
   final String? hint;
   final List<TextInputFormatter>? inputFormatters;
+  final bool? isPassword;
 
   @override
   State<BaseInputField> createState() => _BaseInputFieldState();
@@ -47,6 +50,9 @@ class _BaseInputFieldState extends State<BaseInputField> {
                   ? const BorderSide(color: Colors.blue)
                   : BorderSide(color: Colors.red)
           ),
+          focusedBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.blue)
+          ),
           hintText: widget.hint,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 8, vertical: 8)
@@ -57,6 +63,8 @@ class _BaseInputFieldState extends State<BaseInputField> {
         controller: widget.controller,
         onChanged: widget.onChanged,
         inputFormatters: widget.inputFormatters,
+        obscureText: widget.isPassword ?? false,
+        cursorColor: HexColor.fromHex('#333333'),
       ),
     );
   }

@@ -12,3 +12,10 @@ extension HexColor on Color {
     }
   }
 }
+
+class AppColors {
+  static Color get white => HexColor.fromHex('#FFFFFF');
+  static Color get black => HexColor.fromHex('#000000');
+  static Color get appBlue100 => HexColor.fromHex('#3665d3');
+  static Color get appBlue50 => HexColor.fromHex('#8aa5e5');
+}
