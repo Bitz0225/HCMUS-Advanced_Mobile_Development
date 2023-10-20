@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:unicons/unicons.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -44,7 +45,7 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(height: 16),
             GestureDetector(
               onTap: () {},
-              child: Container(
+              child: SizedBox(
                 width: double.infinity,
                 child: Text(
                   'Forgot password?',
@@ -85,8 +86,28 @@ class LoginScreen extends StatelessWidget {
             const SizedBox(
               height: 16,
             ),
-            Row(
-              children: [],
+            const Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                _Icons(
+                  icon: Icon(UniconsLine.facebook_f),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                _Icons(
+                  icon: Icon(UniconsLine.google),
+                ),
+                SizedBox(
+                  width: 16,
+                ),
+                _Icons(
+                  icon: Icon(UniconsLine.mobile_android),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 24,
             ),
             RichText(
               text: TextSpan(
@@ -148,6 +169,26 @@ class InputFormField extends StatelessWidget {
           isPassword: isPassword ?? false,
         ),
       ],
+    );
+  }
+}
+
+class _Icons extends StatelessWidget {
+  final Widget? icon;
+  const _Icons({super.key, this.icon});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 36,
+      height: 36,
+      decoration: BoxDecoration(
+        border: Border.all(
+          color: AppColors.appBlue100,
+        ),
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: icon,
     );
   }
 }
