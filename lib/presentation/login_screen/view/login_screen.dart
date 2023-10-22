@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/gen/assets.gen.dart';
 import 'package:unicons/unicons.dart';
 
 class LoginScreen extends StatelessWidget {

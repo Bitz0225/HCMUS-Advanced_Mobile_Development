@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/presentation/list_courses_screen/list_courses_screen.dart';
 import 'package:lettutor/presentation/login_screen/view/login_screen.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
 
@@ -33,7 +34,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const TeacherDetailScreen(),
+      home: const ListCoursesScreen(),
     );
   }
 }

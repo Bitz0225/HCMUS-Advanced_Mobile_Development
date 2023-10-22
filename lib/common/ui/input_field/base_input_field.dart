@@ -42,12 +42,12 @@ class _BaseInputFieldState extends State<BaseInputField> {
           ),
           enabledBorder: OutlineInputBorder(
               borderSide: widget.isValid
-                  ? BorderSide(color: Colors.blue)
+                  ? BorderSide(color: HexColor.fromHex('#999999'))
                   : BorderSide(color: Colors.red)
           ),
           border: OutlineInputBorder(
               borderSide: widget.isValid
-                  ? const BorderSide(color: Colors.blue)
+                  ? BorderSide(color: HexColor.fromHex('#999999'))
                   : BorderSide(color: Colors.red)
           ),
           focusedBorder: const OutlineInputBorder(
