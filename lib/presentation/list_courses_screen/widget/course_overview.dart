@@ -34,7 +34,14 @@ class CourseOverview extends StatelessWidget {
       ),
       child: Column(
         children: [
-          // Image.network(imageUrl ?? ''),
+          Container(
+              height: MediaQuery.sizeOf(context).height * 0.2,
+              child: imageUrl != null
+                  ? Image.network(
+                      imageUrl!,
+                      fit: BoxFit.contain,
+                    )
+                  : const SizedBox.shrink()),
           Row(
             children: [
               Expanded(

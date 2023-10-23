@@ -9,7 +9,6 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(Assets.svg.lettutorLogo.path);
     return AppBar(
       elevation: 0.4,
       shape: const Border(
@@ -18,13 +17,15 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 0.5,
         ),
       ),
-      leading: GestureDetector(
-        onTap: () {
-          // Navigator.pop(context);
-        },
-        child: Assets.svg.lettutorLogo.svg(),
+      title: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            transform: Matrix4.translationValues(-24, 0, 0),
+              child: Assets.svg.lettutorLogo.svg(width: 120)
+          ),
+        ],
       ),
-      actions: actionWidgets,
     );
   }
 

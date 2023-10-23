@@ -18,22 +18,30 @@ class $AssetsImagesGen {
   AssetGenImage get defaultAvatar =>
       const AssetGenImage('assets/images/default_avatar.jpg');
 
+  /// File path: assets/images/lettutor_logo.jpg
+  AssetGenImage get lettutorLogo =>
+      const AssetGenImage('assets/images/lettutor_logo.jpg');
+
   /// File path: assets/images/login.png
   AssetGenImage get login => const AssetGenImage('assets/images/login.png');
 
   /// List of all assets
-  List<AssetGenImage> get values => [defaultAvatar, login];
+  List<AssetGenImage> get values => [defaultAvatar, lettutorLogo, login];
 }
 
 class $AssetsSvgGen {
   const $AssetsSvgGen();
+
+  /// File path: assets/svg/courses_logo.svg
+  SvgGenImage get coursesLogo =>
+      const SvgGenImage('assets/svg/courses_logo.svg');
 
   /// File path: assets/svg/lettutor_logo.svg
   SvgGenImage get lettutorLogo =>
       const SvgGenImage('assets/svg/lettutor_logo.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [lettutorLogo];
+  List<SvgGenImage> get values => [coursesLogo, lettutorLogo];
 }
 
 class Assets {
