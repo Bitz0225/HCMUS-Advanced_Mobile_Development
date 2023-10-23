@@ -9,6 +9,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(Assets.svg.lettutorLogo.path);
     return AppBar(
       elevation: 0.4,
       shape: const Border(

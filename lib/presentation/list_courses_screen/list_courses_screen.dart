@@ -27,7 +27,7 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: BaseAppBar(),
+        appBar: BaseAppBar(),
         body: Container(
       padding: const EdgeInsets.all(16),
       child: Column(
