@@ -31,9 +31,9 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
     return Scaffold(
         appBar: const BaseAppBar(),
         drawer: const BaseDrawer(),
-        body: Container(
-          padding: const EdgeInsets.all(16),
-          child: SingleChildScrollView(
+        body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.all(16),
             child: Column(
               children: [
                 Row(

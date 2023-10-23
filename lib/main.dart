@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/presentation/list_courses_screen/list_courses_screen.dart';
+import 'package:lettutor/presentation/detail_course_screen/view/detail_course_screen.dart';
+import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
+import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
 import 'package:lettutor/presentation/login_screen/view/login_screen.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
 
@@ -34,7 +36,15 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const ListCoursesScreen(),
+      home: const DetailCourseScreen(
+        imageUrl:
+            'https://camblycurriculumicons.s3.amazonaws.com/5e0e8b212ac750e7dc9886ac?h=d41d8cd98f00b204e9800998ecf8427e',
+        title: 'IELTS',
+        description:
+            'IELTS is the high-stakes English test for study, migration or work.',
+        difficulty: 'Beginner',
+        numberOfLessons: 10,
+      ),
     );
   }
 }

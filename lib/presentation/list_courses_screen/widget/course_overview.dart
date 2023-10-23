@@ -8,13 +8,15 @@ class CourseOverview extends StatelessWidget {
       this.description,
       this.imageUrl,
       this.difficulty,
-      this.numberOfLessons});
+      this.numberOfLessons,
+      this.showButton});
 
   final String? title;
   final String? description;
   final String? imageUrl;
   final String? difficulty;
   final int? numberOfLessons;
+  final bool? showButton;
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +82,32 @@ class CourseOverview extends StatelessWidget {
                             )
                           ],
                         ),
-                      )
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      showButton ?? false
+                          ? GestureDetector(
+                              onTap: () {},
+                              child: Container(
+                                width: double.infinity,
+                                alignment: Alignment.center,
+                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(8),
+                                  color: AppColors.appBlue100,
+                                ),
+                                  child: const Text(
+                                      'Discover',
+                                    style: TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white,
+                                    )
+                                  )
+                              ),
+                            )
+                          : const SizedBox.shrink(),
                     ],
                   ),
                 ),
