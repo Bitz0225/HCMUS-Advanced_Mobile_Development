@@ -36,15 +36,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const DetailCourseScreen(
-        imageUrl:
-            'https://camblycurriculumicons.s3.amazonaws.com/5e0e8b212ac750e7dc9886ac?h=d41d8cd98f00b204e9800998ecf8427e',
-        title: 'IELTS',
-        description:
-            'IELTS is the high-stakes English test for study, migration or work.',
-        difficulty: 'Beginner',
-        numberOfLessons: 10,
-      ),
+      home: const TeacherDetailScreen(),
     );
   }
 }

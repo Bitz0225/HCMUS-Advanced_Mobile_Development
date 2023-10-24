@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
+import 'package:lettutor/common/ui/section/section.dart';
+import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/presentation/list_courses_screen/widget/course_overview.dart';
 
 class DetailCourseScreen extends StatelessWidget {
@@ -36,7 +38,7 @@ class DetailCourseScreen extends StatelessWidget {
                 showButton: true,
               ),
               const SizedBox(height: 32),
-              const _Section(
+              const Section(
                 title: 'Overview',
                 content: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -66,7 +68,7 @@ class DetailCourseScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _Section(
+              Section(
                 title: 'Experience Level',
                 content: Text(
                   difficulty ?? '',
@@ -78,7 +80,7 @@ class DetailCourseScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              _Section(
+              Section(
                 title: 'Course Length',
                 content: Text(
                   '${numberOfLessons ?? 0} topics',
@@ -89,6 +91,19 @@ class DetailCourseScreen extends StatelessWidget {
                   )
                 ),
               ),
+              const SizedBox(height: 16),
+              Section(
+                title: 'List Topics',
+                content: const Column(
+                  children: [
+                    _Topic(title: 'Topic 1'),
+                    SizedBox(height: 16),
+                    _Topic(title: 'Topic 2'),
+                    SizedBox(height: 16),
+                    _Topic(title: 'Topic 3'),
+                  ],
+                ),
+              )
             ],
           ),
         ),
@@ -97,28 +112,30 @@ class DetailCourseScreen extends StatelessWidget {
   }
 }
 
-class _Section extends StatelessWidget {
+class _Topic extends StatelessWidget {
   final String? title;
-  final Widget? content;
 
-  const _Section({super.key, this.title, this.content});
+  const _Topic({super.key, this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title ?? '',
-          style: const TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.w900,
-            color: Colors.black,
-          ),
+    return Container(
+      padding: const EdgeInsets.all(16),
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(
+          color: HexColor.fromHex('#aaaaaa')
         ),
-        const SizedBox(height: 16),
-        content ?? const SizedBox.shrink(),
-      ],
+      ),
+      child: Text(
+        title ?? '',
+        style: const TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w500,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }

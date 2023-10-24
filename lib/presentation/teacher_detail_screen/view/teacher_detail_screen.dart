@@ -1,80 +1,159 @@
 import 'package:flutter/material.dart';
+import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
+import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
+import 'package:lettutor/common/ui/section/section.dart';
 import 'package:lettutor/common/ui/tag_item/tag_item.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/gen/assets.gen.dart';
 import 'package:unicons/unicons.dart';
 
 class TeacherDetailScreen extends StatelessWidget {
-  const TeacherDetailScreen({Key? key}) : super(key: key);
+  const TeacherDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBody: true,
-      extendBodyBehindAppBar: true,
-      body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        child: const Column(
-          children: [
-            TeacherInfo(
-              name: 'Keegan',
-              ratings: 4,
-              ratingsCount: 58,
-              nationality: 'France',
-              description: 'I am a French teacher with 5 years of experience.',
-            ),
-            SizedBox(height: 16),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                _IconWithDescription(
-                  icon: UniconsLine.heart,
-                  description: 'Favourite',
-                ),
-                _IconWithDescription(
-                  icon: Icons.report_gmailerrorred_outlined,
-                  description: 'Report',
-                ),
-                _IconWithDescription(
-                  icon: Icons.star_border,
-                  description: 'Reviews',
-                ),
-              ],
-            ),
-            const SizedBox(height: 48),
-            const _DetailInfo(
-              title: 'Languages',
-              content: Row(
+      appBar: const BaseAppBar(),
+      drawer: const BaseDrawer(),
+      // extendBody: true,
+      // extendBodyBehindAppBar: true,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          child: const Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              TeacherInfo(
+                name: 'Keegan',
+                ratings: 4,
+                ratingsCount: 58,
+                nationality: 'France',
+                description:
+                    'I am a French teacher with 5 years of experience.',
+              ),
+              SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
-                  TagItem(
-                    content: 'English',
+                  _IconWithDescription(
+                    icon: UniconsLine.heart,
+                    description: 'Favourite',
                   ),
-                  SizedBox(width: 8),
-                  TagItem(
-                    content: 'French',
+                  _IconWithDescription(
+                    icon: Icons.report_gmailerrorred_outlined,
+                    description: 'Report',
+                  ),
+                  _IconWithDescription(
+                    icon: Icons.star_border,
+                    description: 'Reviews',
                   ),
                 ],
               ),
-            )
-          ],
+              SizedBox(height: 48),
+              Section(title: 'Education', content: Text('BA')),
+              SizedBox(height: 16),
+              Section(
+                title: 'Languages',
+                content: Wrap(
+                  runSpacing: 16,
+                  spacing: 8,
+                  children: [
+                    TagItem(
+                      content: 'English',
+                    ),
+                    TagItem(
+                      content: 'French',
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 16),
+              Section(
+                  title: 'Specialities',
+                  content: Wrap(
+                    spacing: 8,
+                    runSpacing: 16,
+                    children: [
+                      TagItem(
+                        content: 'English for Business',
+                      ),
+                      TagItem(
+                        content: 'Conversational',
+                      ),
+                      TagItem(
+                        content: 'English for kids',
+                      ),
+                      TagItem(
+                        content: 'IELTS',
+                      ),
+                      TagItem(
+                        content: 'STARTERS',
+                      ),
+                      TagItem(
+                        content: 'MOVERS',
+                      ),
+                      TagItem(
+                        content: 'FLYERS',
+                      ),
+                      TagItem(
+                        content: 'KET',
+                      ),
+                      TagItem(
+                        content: 'PET',
+                      ),
+                      TagItem(
+                        content: 'TOEFL',
+                      ),
+                      TagItem(
+                        content: 'TOEIC',
+                      ),
+                    ],
+                  )),
+              SizedBox(height: 16),
+              Section(
+                title: 'Interest',
+                content: Text(
+                  'I loved the weather, the scenery and the laid-back lifestyle of the locals.'
+                )
+              ),
+              SizedBox(height: 16),
+              Section(
+                title: 'Teaching experience',
+                content: Text(
+                  'I have more than 10 years of teaching English experience'
+                )
+              )
+            ],
+          ),
         ),
       ),
     );
   }
 }
 
-class TeacherInfo extends StatelessWidget{
+class TeacherInfo extends StatelessWidget {
   final String? name;
   final int? ratings;
   final int? ratingsCount;
   final String? nationality;
   final String? description;
 
-  const TeacherInfo({super.key, this.name, this.ratings, this.ratingsCount, this.nationality, this.description});
+  const TeacherInfo(
+      {super.key,
+      this.name,
+      this.ratings,
+      this.ratingsCount,
+      this.nationality,
+      this.description});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
+        CircleAvatar(
+          radius: 48,
+          backgroundImage: Assets.images.defaultAvatar.image().image,
+        ),
         Text(
           name ?? '',
           style: const TextStyle(
@@ -139,31 +218,6 @@ class _IconWithDescription extends StatelessWidget {
             color: AppColors.appBlue100,
           ),
         ),
-      ],
-    );
-  }
-}
-
-class _DetailInfo extends StatelessWidget {
-  final String? title;
-  final Widget? content;
-
-  const _DetailInfo({super.key, this.title, this.content});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title ?? '',
-          style: const TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        const SizedBox(height: 8),
-        content ?? const SizedBox.shrink(),
       ],
     );
   }
