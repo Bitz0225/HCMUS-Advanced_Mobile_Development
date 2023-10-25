@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
-import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
-import 'package:lettutor/gen/assets.gen.dart';
 import 'package:unicons/unicons.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  bool _showPassword = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(),
-      drawer: BaseDrawer(),
+      // appBar: BaseAppBar(),
+      // drawer: BaseDrawer(),
       extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
@@ -43,10 +47,19 @@ class LoginScreen extends StatelessWidget {
                 hint: 'Enter your email',
               ),
               const SizedBox(height: 16),
-              const InputFormField(
+              InputFormField(
                 title: 'Password',
                 hint: 'Enter your password',
-                isPassword: true,
+                isPassword: !_showPassword,
+                trailingIcon: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _showPassword = !_showPassword;
+                      });
+                    },
+                    child: _showPassword
+                        ? const Icon(UniconsLine.eye)
+                        : const Icon(UniconsLine.eye_slash)),
               ),
               const SizedBox(height: 16),
               GestureDetector(
@@ -116,25 +129,23 @@ class LoginScreen extends StatelessWidget {
                 height: 24,
               ),
               RichText(
-                text: TextSpan(
-                  text: 'Not a member yet? ',
-                  style: TextStyle(
+                  text: TextSpan(
+                text: 'Not a member yet? ',
+                style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w500,
-                    color: HexColor.fromHex('#666666')
-                  ),
-                  children: [
-                    TextSpan(
-                      text: 'Sign up',
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                        color: AppColors.appBlue100,
-                      ),
+                    color: HexColor.fromHex('#666666')),
+                children: [
+                  TextSpan(
+                    text: 'Sign up',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.appBlue100,
                     ),
-                  ],
-                )
-              ),
+                  ),
+                ],
+              )),
             ],
           ),
         ),
@@ -174,6 +185,7 @@ class InputFormField extends StatelessWidget {
           keyboardType: TextInputType.text,
           hint: hint ?? '',
           isPassword: isPassword ?? false,
+          suffixIcon: trailingIcon ?? const SizedBox.shrink(),
         ),
       ],
     );
@@ -182,6 +194,7 @@ class InputFormField extends StatelessWidget {
 
 class _Icons extends StatelessWidget {
   final Widget? icon;
+
   const _Icons({super.key, this.icon});
 
   @override
