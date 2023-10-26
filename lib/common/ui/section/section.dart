@@ -3,8 +3,9 @@ import 'package:flutter/material.dart';
 class Section extends StatelessWidget {
   final String? title;
   final Widget? content;
+  final bool? ignoreIndent;
 
-  const Section({super.key, this.title, this.content});
+  const Section({super.key, this.title, this.content, this.ignoreIndent});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class Section extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         Container(
-            padding: const EdgeInsets.only(left: 16),
+            padding: ignoreIndent ?? false ? EdgeInsets.zero : const EdgeInsets.only(left: 16),
             child: content ?? const SizedBox.shrink()),
       ],
     );

@@ -6,6 +6,7 @@ import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/ui/section/section.dart';
 import 'package:lettutor/common/ui/tag_item/tag_item.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/presentation/list_teachers_screen/widget/list_teachers_item.dart';
 
 class ListTeachersScreen extends StatefulWidget {
   const ListTeachersScreen({super.key});
@@ -134,9 +135,46 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                 const SizedBox(
                   height: 16,
                 ),
-                Section(
+                const Section(
+                  ignoreIndent: true,
                   title: 'Recommended tutors',
-                  content: Row(),
+                  content: Column(children: [
+                    ListTeachersItem(
+                      name: 'Keegan',
+                      ratings: 4,
+                      ratingsCount: 58,
+                      nationality: 'France',
+                      description:
+                          'I am a French teacher with 5 years of experience.',
+                    ),
+                    const SizedBox(height: 16),
+                    ListTeachersItem(
+                      name: 'Keegan',
+                      ratings: 4,
+                      ratingsCount: 58,
+                      nationality: 'France',
+                      description:
+                      'I am a French teacher with 5 years of experience.',
+                    ),
+                    const SizedBox(height: 16),
+                    ListTeachersItem(
+                      name: 'Keegan',
+                      ratings: 4,
+                      ratingsCount: 58,
+                      nationality: 'France',
+                      description:
+                      'I am a French teacher with 5 years of experience.',
+                    ),
+                    const SizedBox(height: 16),
+                    ListTeachersItem(
+                      name: 'Keegan',
+                      ratings: 4,
+                      ratingsCount: 58,
+                      nationality: 'France',
+                      description:
+                      'I am a French teacher with 5 years of experience.',
+                    ),
+                  ]),
                 )
               ],
             ),

@@ -111,18 +111,14 @@ class TeacherDetailScreen extends StatelessWidget {
                   )),
               SizedBox(height: 16),
               Section(
-                title: 'Interest',
-                content: Text(
-                  'I loved the weather, the scenery and the laid-back lifestyle of the locals.'
-                )
-              ),
+                  title: 'Interest',
+                  content: Text(
+                      'I loved the weather, the scenery and the laid-back lifestyle of the locals.')),
               SizedBox(height: 16),
               Section(
-                title: 'Teaching experience',
-                content: Text(
-                  'I have more than 10 years of teaching English experience'
-                )
-              )
+                  title: 'Teaching experience',
+                  content: Text(
+                      'I have more than 10 years of teaching English experience'))
             ],
           ),
         ),
@@ -133,10 +129,12 @@ class TeacherDetailScreen extends StatelessWidget {
 
 class TeacherInfo extends StatelessWidget {
   final String? name;
+  final String? avatarUrl;
   final int? ratings;
   final int? ratingsCount;
   final String? nationality;
   final String? description;
+  final bool? showFavoriteButton;
 
   const TeacherInfo(
       {super.key,
@@ -144,15 +142,38 @@ class TeacherInfo extends StatelessWidget {
       this.ratings,
       this.ratingsCount,
       this.nationality,
-      this.description});
+      this.description,
+      this.avatarUrl,
+      this.showFavoriteButton});
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        CircleAvatar(
-          radius: 48,
-          backgroundImage: Assets.images.defaultAvatar.image().image,
+        Stack(
+          children: [
+            Center(
+              child: CircleAvatar(
+                radius: 48,
+                backgroundImage: Assets.images.defaultAvatar.image().image,
+              ),
+            ),
+            showFavoriteButton ?? false
+                ? Positioned(
+                    top: 0,
+                    right: 0,
+                    child: IconButton(
+                      onPressed: () {
+
+                      },
+                      icon: const Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      ),
+                    ),
+                  )
+                : const SizedBox.shrink(),
+          ],
         ),
         Text(
           name ?? '',

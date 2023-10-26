@@ -46,6 +46,7 @@ dependencies:
   unicons: ^2.1.1
   flutter_svg: ^2.0.7
   intl: ^0.18.1
+  extended_wrap: ^0.1.5
 
 dev_dependencies:
   flutter_test:
