@@ -40,10 +40,10 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                   children: [
                     Container(
                         child: Assets.svg.coursesLogo.svg(
-                            width: MediaQuery.sizeOf(context).width * 0.3)),
+                            width: MediaQuery.sizeOf(context).width * 0.25)),
                     const SizedBox(width: 16),
-                    Expanded(
-                      child: const Text('Discover Courses',
+                    const Expanded(
+                      child: Text('Discover Courses',
                           style: TextStyle(
                               color: Colors.black,
                               fontSize: 42,

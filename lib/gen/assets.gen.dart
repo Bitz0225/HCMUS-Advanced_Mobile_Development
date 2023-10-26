@@ -32,16 +32,23 @@ class $AssetsImagesGen {
 class $AssetsSvgGen {
   const $AssetsSvgGen();
 
+  /// File path: assets/svg/calendar.svg
+  SvgGenImage get calendar => const SvgGenImage('assets/svg/calendar.svg');
+
   /// File path: assets/svg/courses_logo.svg
   SvgGenImage get coursesLogo =>
       const SvgGenImage('assets/svg/courses_logo.svg');
+
+  /// File path: assets/svg/history.svg
+  SvgGenImage get history => const SvgGenImage('assets/svg/history.svg');
 
   /// File path: assets/svg/lettutor_logo.svg
   SvgGenImage get lettutorLogo =>
       const SvgGenImage('assets/svg/lettutor_logo.svg');
 
   /// List of all assets
-  List<SvgGenImage> get values => [coursesLogo, lettutorLogo];
+  List<SvgGenImage> get values =>
+      [calendar, coursesLogo, history, lettutorLogo];
 }
 
 class Assets {
