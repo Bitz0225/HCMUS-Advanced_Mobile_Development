@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
@@ -5,6 +6,7 @@ import 'package:lettutor/common/ui/section/section.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/presentation/list_courses_screen/widget/course_overview.dart';
 
+@RoutePage()
 class DetailCourseScreen extends StatelessWidget {
   final String? title;
   final String? description;
@@ -23,8 +25,18 @@ class DetailCourseScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppBar(),
-      drawer: const BaseDrawer(),
+      appBar: BaseAppBar(
+        leading: GestureDetector(
+          onTap: () {
+            context.router.pop();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+        )
+      ),
+      endDrawer: const BaseDrawer(),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -92,9 +104,9 @@ class DetailCourseScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 16),
-              Section(
+              const Section(
                 title: 'List Topics',
-                content: const Column(
+                content: Column(
                   children: [
                     _Topic(title: 'Topic 1'),
                     SizedBox(height: 16),

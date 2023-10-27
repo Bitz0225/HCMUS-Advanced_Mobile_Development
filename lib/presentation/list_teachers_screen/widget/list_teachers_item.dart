@@ -1,5 +1,7 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/tag_item/tag_item.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/gen/assets.gen.dart';
@@ -92,7 +94,9 @@ class ListTeachersItem extends StatelessWidget {
               children: [
                 Spacer(),
                 GestureDetector(
-                  onTap: () {},
+                  onTap: () {
+                    context.router.push(const TeacherDetailScreenRoute());
+                  },
                   child: Container(
                       padding: const EdgeInsets.symmetric(
                           horizontal: 16, vertical: 8),
