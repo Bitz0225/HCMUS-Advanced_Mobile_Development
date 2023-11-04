@@ -1,8 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:unicons/unicons.dart';
 
+@RoutePage()
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -78,7 +81,10 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               const SizedBox(height: 16),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  Navigator.pop(context);
+                  context.router.replace(const ListTeachersScreenRoute());
+                },
                 child: Container(
                   height: 36,
                   decoration: BoxDecoration(

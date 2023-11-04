@@ -1,16 +1,19 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
 import 'package:lettutor/gen/assets.gen.dart';
+import 'package:lettutor/presentation/schedule_screen/widget/schedule_item.dart';
 
+@RoutePage()
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: BaseAppBar(),
-      drawer: BaseDrawer(),
+      appBar: const BaseAppBar(),
+      endDrawer: const BaseDrawer(),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.all(16),
@@ -39,6 +42,15 @@ class ScheduleScreen extends StatelessWidget {
                       fontSize: 14,
                       fontWeight: FontWeight.w400)),
               const SizedBox(height: 16),
+              const ScheduleItem(),
+              const SizedBox(height: 16),
+              const ScheduleItem(),
+              const SizedBox(height: 16),
+              const ScheduleItem(),
+              const SizedBox(height: 16),
+              const ScheduleItem(),
+              const SizedBox(height: 16),
+              const ScheduleItem(),
             ]
           ),
         ),

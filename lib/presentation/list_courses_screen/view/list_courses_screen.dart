@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
@@ -7,6 +8,7 @@ import 'package:lettutor/presentation/list_courses_screen/widget/course_overview
 
 enum CourseType { courses, ebook, interactive }
 
+@RoutePage()
 class ListCoursesScreen extends StatefulWidget {
   const ListCoursesScreen({super.key});
 
@@ -30,7 +32,7 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const BaseAppBar(),
-        drawer: const BaseDrawer(),
+        endDrawer: const BaseDrawer(),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(16),

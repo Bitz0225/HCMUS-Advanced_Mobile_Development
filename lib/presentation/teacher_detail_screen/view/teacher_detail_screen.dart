@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
@@ -7,14 +8,25 @@ import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/gen/assets.gen.dart';
 import 'package:unicons/unicons.dart';
 
+@RoutePage()
 class TeacherDetailScreen extends StatelessWidget {
   const TeacherDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const BaseAppBar(),
-      drawer: const BaseDrawer(),
+      appBar: BaseAppBar(
+        leading: GestureDetector(
+          onTap: () {
+            context.router.pop();
+          },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: Colors.black,
+          ),
+        )
+      ),
+      endDrawer: const BaseDrawer(),
       // extendBody: true,
       // extendBodyBehindAppBar: true,
       body: SingleChildScrollView(

@@ -1,11 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/gen/assets.gen.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
   final List<Widget>? actionWidgets;
+  final Widget? leading;
 
-  const BaseAppBar({super.key, this.title, this.actionWidgets});
+  const BaseAppBar({super.key, this.title, this.actionWidgets, this.leading});
 
   @override
   Widget build(BuildContext context) {
@@ -17,12 +20,19 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 0.5,
         ),
       ),
+      leading: leading ?? const SizedBox.shrink(),
+      scrolledUnderElevation: 0,
       title: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            transform: Matrix4.translationValues(-24, 0, 0),
-              child: Assets.svg.lettutorLogo.svg(width: 120)
+          GestureDetector(
+            onTap: () {
+              context.router.replace(const ListTeachersScreenRoute());
+            },
+            child: Container(
+              // transform: Matrix4.translationValues(24, 0, 0),
+                child: Assets.svg.lettutorLogo.svg(width: 120)
+            ),
           ),
         ],
       ),

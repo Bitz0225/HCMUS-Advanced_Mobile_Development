@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
@@ -8,6 +9,7 @@ import 'package:lettutor/common/ui/tag_item/tag_item.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/presentation/list_teachers_screen/widget/list_teachers_item.dart';
 
+@RoutePage()
 class ListTeachersScreen extends StatefulWidget {
   const ListTeachersScreen({super.key});
 
@@ -25,7 +27,7 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: const BaseAppBar(),
-        drawer: const BaseDrawer(),
+        endDrawer: const BaseDrawer(),
         body: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.all(16),
