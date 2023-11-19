@@ -14,13 +14,12 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  bool _isLoginScreen = true;
   bool _showPassword = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: BaseAppBar(),
-      // drawer: BaseDrawer(),
       extendBody: true,
       extendBodyBehindAppBar: true,
       resizeToAvoidBottomInset: false,
@@ -29,7 +28,10 @@ class _LoginScreenState extends State<LoginScreen> {
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 32),
           child: Column(
             children: [
-              Text('Say hello to your English tutors',
+              Text(
+                  _isLoginScreen
+                      ? 'Say hello to your English tutors'
+                      : 'Start learning with LetTutor',
                   style: TextStyle(
                       fontSize: 32,
                       fontWeight: FontWeight.w900,
@@ -94,7 +96,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   child: Center(
                     child: Text(
-                      'LOG IN',
+                      _isLoginScreen ? 'LOG IN' : 'SIGN UP',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -134,24 +136,34 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(
                 height: 24,
               ),
-              RichText(
-                  text: TextSpan(
-                text: 'Not a member yet? ',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: HexColor.fromHex('#666666')),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  TextSpan(
-                    text: 'Sign up',
+                  Text(
+                    _isLoginScreen
+                        ? 'Not a member yet? '
+                        : 'Already have an account? ',
                     style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      color: AppColors.appBlue100,
-                    ),
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: HexColor.fromHex('#666666')),
                   ),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        _isLoginScreen = !_isLoginScreen;
+                      });
+                    },
+                    child: Text(
+                      _isLoginScreen ? 'Sign up' : 'Log in',
+                      style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.appBlue100),
+                    ),
+                  )
                 ],
-              )),
+              ),
             ],
           ),
         ),
