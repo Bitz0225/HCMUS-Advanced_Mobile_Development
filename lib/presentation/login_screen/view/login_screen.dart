@@ -3,7 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
+import 'package:lettutor/presentation/login_screen/model/user.dart';
 import 'package:unicons/unicons.dart';
+
+part '../components/icon.dart';
 
 @RoutePage()
 class LoginScreen extends StatefulWidget {
@@ -16,6 +20,21 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool _isLoginScreen = true;
   bool _showPassword = false;
+  final List<User?>? listUser = [];
+
+  @override
+  initState() {
+    super.initState();
+    listUser?.add(User(
+        email: 'teacher@lettutor.com',
+        password: '123456',
+        name: 'Teacher',
+        isTeacher: true));
+    listUser?.add(User(
+        email: 'student@lettutor.com',
+        password: '123456',
+        name: 'Student'));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,16 +86,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         : const Icon(UniconsLine.eye_slash)),
               ),
               const SizedBox(height: 16),
-              GestureDetector(
-                onTap: () {},
-                child: SizedBox(
-                  width: double.infinity,
-                  child: Text(
-                    'Forgot password?',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.appBlue100,
+              Visibility(
+                visible: _isLoginScreen,
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                    context.router.replace(ForgotPasswordScreenRoute(listUser: listUser));
+                  },
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Text(
+                      'Forgot password?',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.appBlue100,
+                      ),
                     ),
                   ),
                 ),
@@ -168,65 +193,6 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
-    );
-  }
-}
-
-class InputFormField extends StatelessWidget {
-  final String? title;
-  final String? hint;
-  final bool? isPassword;
-  final Widget? trailingIcon;
-
-  const InputFormField(
-      {super.key, this.title, this.hint, this.isPassword, this.trailingIcon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          title ?? '',
-          style: TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: HexColor.fromHex('#000000'),
-          ),
-          maxLines: 1,
-          overflow: TextOverflow.ellipsis,
-        ),
-        const SizedBox(
-          height: 8,
-        ),
-        BaseInputField(
-          keyboardType: TextInputType.text,
-          hint: hint ?? '',
-          isPassword: isPassword ?? false,
-          suffixIcon: trailingIcon ?? const SizedBox.shrink(),
-        ),
-      ],
-    );
-  }
-}
-
-class _Icons extends StatelessWidget {
-  final Widget? icon;
-
-  const _Icons({super.key, this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 36,
-      height: 36,
-      decoration: BoxDecoration(
-        border: Border.all(
-          color: AppColors.appBlue100,
-        ),
-        borderRadius: BorderRadius.circular(24),
-      ),
-      child: icon,
     );
   }
 }

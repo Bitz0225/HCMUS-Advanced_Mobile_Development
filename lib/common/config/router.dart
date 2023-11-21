@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/presentation/detail_course_screen/view/detail_course_screen.dart';
+import 'package:lettutor/presentation/forgot_password_screen/view/forgot_password_screen.dart';
 import 'package:lettutor/presentation/history_screen/view/history_screen.dart';
 import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
 import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
+import 'package:lettutor/presentation/login_screen/model/user.dart';
 import 'package:lettutor/presentation/login_screen/view/login_screen.dart';
 import 'package:lettutor/presentation/schedule_screen/view/schedule_screen.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
@@ -29,5 +31,6 @@ class AppRouter extends _$AppRouter {
     AutoRoute(page: TeacherDetailScreenRoute.page, path: '/teacher-detail'),
     AutoRoute(page: ScheduleScreenRoute.page, path: '/schedule'),
     AutoRoute(page: HistoryScreenRoute.page, path: '/history'),
+    AutoRoute(page: ForgotPasswordScreenRoute.page, path: '/forgot-password'),
   ];
 }

@@ -2,14 +2,16 @@ class User {
   final String? name;
   final String? email;
   final String? password;
+  final bool? isTeacher;
 
-  User({this.name, this.email, this.password});
+  User({this.isTeacher = false, this.name, this.email, this.password});
 
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       name: json['name'] as String?,
       email: json['email'] as String?,
       password: json['password'] as String?,
+      isTeacher: json['isTeacher'] as bool?,
     );
   }
 
@@ -17,12 +19,8 @@ class User {
         'name': name,
         'email': email,
         'password': password,
+        'isTeacher': isTeacher,
       };
-
-  @override
-  String toString() {
-    return 'User{name: $name, email: $email, password: $password}';
-  }
 
   @override
   bool operator ==(Object other) =>
@@ -31,21 +29,24 @@ class User {
           runtimeType == other.runtimeType &&
           name == other.name &&
           email == other.email &&
-          password == other.password;
+          password == other.password &&
+          isTeacher == other.isTeacher;
 
   @override
-  int get hashCode => name.hashCode ^ email.hashCode ^ password.hashCode;
+  int get hashCode =>
+      name.hashCode ^ email.hashCode ^ password.hashCode ^ isTeacher.hashCode;
 
-  //copyWith
   User copyWith({
     String? name,
     String? email,
     String? password,
+    bool? isTeacher,
   }) {
     return User(
       name: name ?? this.name,
       email: email ?? this.email,
       password: password ?? this.password,
+      isTeacher: isTeacher ?? this.isTeacher,
     );
   }
 }
