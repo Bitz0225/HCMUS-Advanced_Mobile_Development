@@ -1,40 +1,47 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/config/router.dart';
-import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/core/base_screen/base_screen.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
+import 'package:lettutor/presentation/login_screen/cubit/temp_user_cubit.dart';
+import 'package:lettutor/presentation/login_screen/cubit/temp_user_state.dart';
 import 'package:lettutor/presentation/login_screen/model/user.dart';
 import 'package:unicons/unicons.dart';
 
 part '../components/icon.dart';
 
 @RoutePage()
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends BaseScreen<TempUserCubit, TempUserState> {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
-
-class _LoginScreenState extends State<LoginScreen> {
-  bool _isLoginScreen = true;
-  bool _showPassword = false;
-  final List<User?>? listUser = [];
+  Widget buildWidget(BuildContext context) {
+    return BlocBuilder<TempUserCubit, TempUserState>(
+      builder: (context, state) {
+        final listUser = state.listUser ?? [];
+        return const LoginWidget();
+      },
+    );
+  }
 
   @override
-  initState() {
-    super.initState();
-    listUser?.add(User(
-        email: 'teacher@lettutor.com',
-        password: '123456',
-        name: 'Teacher',
-        isTeacher: true));
-    listUser?.add(User(
-        email: 'student@lettutor.com',
-        password: '123456',
-        name: 'Student'));
+  TempUserCubit? provideCubit(BuildContext context) {
+    return TempUserCubit();
   }
+}
+
+class LoginWidget extends StatefulWidget {
+  const LoginWidget({super.key});
+
+  @override
+  State<LoginWidget> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginWidget> {
+  bool _isLoginScreen = true;
+  bool _showPassword = false;
 
   @override
   Widget build(BuildContext context) {
@@ -91,7 +98,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
-                    context.router.replace(ForgotPasswordScreenRoute(listUser: listUser));
+                    context.router.replace(ForgotPasswordScreenRoute(listUser: context.read<TempUserCubit>().state.listUser ?? []));
                   },
                   child: SizedBox(
                     width: double.infinity,

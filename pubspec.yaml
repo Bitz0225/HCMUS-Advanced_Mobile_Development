@@ -48,6 +48,9 @@ dependencies:
   intl: ^0.18.1
   extended_wrap: ^0.1.5
   cached_network_image: ^3.3.0
+  hydrated_bloc: ^9.1.2
+  lottie: ^2.7.0
+  shared_preferences: ^2.2.2
 
 dev_dependencies:
   flutter_test:
@@ -96,6 +99,7 @@ flutter:
      - assets/icons/
      - assets/images/
      - assets/svg/
+     - assets/lottie/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

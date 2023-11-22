@@ -1,15 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:lettutor/common/config/router.dart';
-import 'package:lettutor/presentation/detail_course_screen/view/detail_course_screen.dart';
-import 'package:lettutor/presentation/history_screen/view/history_screen.dart';
-import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
-import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
-import 'package:lettutor/presentation/login_screen/view/login_screen.dart';
-import 'package:lettutor/presentation/schedule_screen/view/schedule_screen.dart';
-import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
+import 'package:lettutor/common/storage/local_storage.dart';
+import 'package:lettutor/core/app_config/dependency.dart';
+import 'package:path_provider/path_provider.dart';
 
-void main() {
+void main() async {
+  await initApp();
   runApp(const MyApp());
+}
+
+bool isInit = false;
+
+Future<void> initApp() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  if (!isInit) {
+    final localStorage = await LocalStorage.init();
+    getIt.registerSingleton<LocalStorage>(localStorage);
+  }
+
+  if (isInit) {
+    return;
+  }
+  isInit = true;
+
+  HydratedBloc.storage = await HydratedStorage.build(
+    storageDirectory: await getTemporaryDirectory(),
+  );
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
