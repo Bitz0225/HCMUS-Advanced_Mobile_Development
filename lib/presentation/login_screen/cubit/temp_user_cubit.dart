@@ -20,4 +20,37 @@ class TempUserCubit extends WidgetCubit<TempUserState> {
     ];
     emit(state.copyWith(listUser: initListUser));
   }
+
+  Future<void> register(User user) async {
+    final listUser = (state.listUser ?? [])
+    ..add(user);
+    emit(state.copyWith(listUser: listUser));
+  }
+
+  Future<void> login(String? username, String? password) async {
+    final listUser = state.listUser ?? [];
+    final user = listUser.where((element) => element.email == username && element.password == password);
+    if (user.isNotEmpty) {
+      emit(state.copyWith(currentUser: user.first));
+    }
+  }
+
+  Future<(bool, String)> updatePasswordByEmail(String? email, String? password, String? confirmedPassword) async {
+    final listUser = state.listUser ?? [];
+    if (password != confirmedPassword) {
+      return (false, 'Password and confirmed password are not match');
+    }
+    final user = listUser.where((element) => element.email == email);
+    if (user.isNotEmpty) {
+      final newListUser = listUser.map((e) {
+        if (e.email == email) {
+          return e.copyWith(password: password);
+        }
+        return e;
+      }).toList();
+      emit(state.copyWith(listUser: [...newListUser]));
+      return (true, 'Update password successfully');
+    }
+    return (false, 'Email is not exist');
+  }
 }

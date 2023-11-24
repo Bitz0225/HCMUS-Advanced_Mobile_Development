@@ -7,9 +7,10 @@ class InputFormField extends StatelessWidget {
   final String? hint;
   final bool? isPassword;
   final Widget? trailingIcon;
+  final TextEditingController? controller;
 
   const InputFormField(
-      {super.key, this.title, this.hint, this.isPassword, this.trailingIcon});
+      {super.key, this.title, this.hint, this.isPassword, this.trailingIcon, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class InputFormField extends StatelessWidget {
           height: 8,
         ),
         BaseInputField(
+          controller: controller,
           keyboardType: TextInputType.text,
           hint: hint ?? '',
           isPassword: isPassword ?? false,

@@ -31,14 +31,9 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     ForgotPasswordScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<ForgotPasswordScreenRouteArgs>(
-          orElse: () => const ForgotPasswordScreenRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: ForgotPasswordScreen(
-          key: args.key,
-          listUser: args.listUser,
-        ),
+        child: const ForgotPasswordScreen(),
       );
     },
     HistoryScreenRoute.name: (routeData) {
@@ -141,41 +136,16 @@ class DetailCourseScreenRouteArgs {
 
 /// generated route for
 /// [ForgotPasswordScreen]
-class ForgotPasswordScreenRoute
-    extends PageRouteInfo<ForgotPasswordScreenRouteArgs> {
-  ForgotPasswordScreenRoute({
-    Key? key,
-    List<User?>? listUser,
-    List<PageRouteInfo>? children,
-  }) : super(
+class ForgotPasswordScreenRoute extends PageRouteInfo<void> {
+  const ForgotPasswordScreenRoute({List<PageRouteInfo>? children})
+      : super(
           ForgotPasswordScreenRoute.name,
-          args: ForgotPasswordScreenRouteArgs(
-            key: key,
-            listUser: listUser,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'ForgotPasswordScreenRoute';
 
-  static const PageInfo<ForgotPasswordScreenRouteArgs> page =
-      PageInfo<ForgotPasswordScreenRouteArgs>(name);
-}
-
-class ForgotPasswordScreenRouteArgs {
-  const ForgotPasswordScreenRouteArgs({
-    this.key,
-    this.listUser,
-  });
-
-  final Key? key;
-
-  final List<User?>? listUser;
-
-  @override
-  String toString() {
-    return 'ForgotPasswordScreenRouteArgs{key: $key, listUser: $listUser}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

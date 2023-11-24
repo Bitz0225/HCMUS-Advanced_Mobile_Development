@@ -2,9 +2,10 @@ import 'package:lettutor/core/widget_cubit/widget_state.dart';
 import 'package:lettutor/presentation/login_screen/model/user.dart';
 
 class TempUserState extends WidgetState {
-  const TempUserState({this.listUser});
+  const TempUserState({this.listUser, this.currentUser});
 
   final List<User>? listUser;
+  final User? currentUser;
 
   @override
   // TODO: implement props
@@ -24,16 +25,19 @@ class TempUserState extends WidgetState {
       identical(this, other) ||
       other is TempUserState &&
           runtimeType == other.runtimeType &&
-          listUser == other.listUser;
+          listUser == other.listUser &&
+          currentUser == other.currentUser;
 
   @override
-  int get hashCode => listUser.hashCode;
+  int get hashCode => listUser.hashCode ^ currentUser.hashCode;
 
   TempUserState copyWith({
     List<User>? listUser,
+    User? currentUser,
   }) {
     return TempUserState(
       listUser: listUser ?? this.listUser,
+      currentUser: currentUser ?? this.currentUser,
     );
   }
 }

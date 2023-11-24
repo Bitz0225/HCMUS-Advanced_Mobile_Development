@@ -1,14 +1,45 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
+import 'package:lettutor/presentation/login_screen/cubit/temp_user_cubit.dart';
+import 'package:lettutor/presentation/login_screen/cubit/temp_user_state.dart';
 import 'package:lettutor/presentation/login_screen/model/user.dart';
 
 @RoutePage()
-class ForgotPasswordScreen extends StatelessWidget {
-  final List<User?>? listUser;
+class ForgotPasswordScreen extends BaseWidget<TempUserCubit, TempUserState> {
 
-  const ForgotPasswordScreen({super.key, this.listUser});
+  const ForgotPasswordScreen({super.key});
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    return BlocBuilder<TempUserCubit, TempUserState>(
+      builder: (context, state) {
+        return const ForgotPasswordWidget();
+      },
+    );
+  }
+
+  @override
+  TempUserCubit? provideCubit(BuildContext context) {
+
+    return TempUserCubit();
+  }
+}
+
+class ForgotPasswordWidget extends StatefulWidget {
+  const ForgotPasswordWidget({super.key});
+
+  @override
+  State<ForgotPasswordWidget> createState() => _ForgotPasswordWidgetState();
+}
+
+class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  final _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +70,29 @@ class ForgotPasswordScreen extends StatelessWidget {
                   color: Colors.black,
                 ),
               ),
-              const SizedBox(height: 24),
-              const InputFormField(
+              const SizedBox(height: 16),
+              InputFormField(
                 title: 'Email',
+                controller: _emailController,
+              ),
+              const SizedBox(height: 16),
+              InputFormField(
+                title: 'New Password',
+                controller: _passwordController,
+              ),
+              const SizedBox(height: 16),
+              InputFormField(
+                title: 'Confirm New Password',
+                controller: _confirmPasswordController,
               ),
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {},
                 child: Container(
-                  width: MediaQuery.of(context).size.width,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
                   height: 48,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -71,50 +116,5 @@ class ForgotPasswordScreen extends StatelessWidget {
       ),
     );
   }
-
-  void handleResetPassword(BuildContext context, String email) {
-    for (var i = 0; i < (listUser?.length ?? 0); ++i) {
-      if (listUser?[i]?.email == email) {
-      } else {}
-    }
-    _showSnackBar(context, message: 'Email is not exist', isError: true);
-  }
-
-  void _showSnackBar(BuildContext context,
-      {required String message, bool isError = false}) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-            margin: const EdgeInsets.only(left: 12, right: 12, bottom: 36),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            content: Row(
-              children: [
-                isError
-                    ? Icon(
-                        Icons.warning,
-                        color: HexColor.fromHex('#FA5304'),
-                      )
-                    : Icon(
-                        Icons.check_circle,
-                        color: HexColor.fromHex('#34A853'),
-                      ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    'Reset password successfully. Your new password is 654321',
-                    style: TextStyle(
-                        color: isError
-                            ? HexColor.fromHex('#FA5304')
-                            : HexColor.fromHex('#34A853')),
-                  ),
-                ),
-              ],
-            ),
-            backgroundColor: isError
-                ? HexColor.fromHex('#FCE4D9').withOpacity(0.95)
-                : HexColor.fromHex('#E7FBED')),
-      );
-    });
-  }
 }
+

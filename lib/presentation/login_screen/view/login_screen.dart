@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/values/hex_color.dart';
-import 'package:lettutor/core/base_screen/base_screen.dart';
+import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
 import 'package:lettutor/presentation/login_screen/cubit/temp_user_cubit.dart';
 import 'package:lettutor/presentation/login_screen/cubit/temp_user_state.dart';
-import 'package:lettutor/presentation/login_screen/model/user.dart';
 import 'package:unicons/unicons.dart';
 
 part '../components/icon.dart';
 
 @RoutePage()
-class LoginScreen extends BaseScreen<TempUserCubit, TempUserState> {
+class LoginScreen extends BaseWidget<TempUserCubit, TempUserState> {
   const LoginScreen({super.key});
 
   @override
@@ -42,6 +41,9 @@ class LoginWidget extends StatefulWidget {
 class _LoginScreenState extends State<LoginWidget> {
   bool _isLoginScreen = true;
   bool _showPassword = false;
+
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -73,12 +75,14 @@ class _LoginScreenState extends State<LoginWidget> {
                     color: HexColor.fromHex('#000000'),
                   )),
               const SizedBox(height: 24),
-              const InputFormField(
+              InputFormField(
                 title: 'Email',
                 hint: 'Enter your email',
+                controller: _emailController,
               ),
               const SizedBox(height: 16),
               InputFormField(
+                controller: _passwordController,
                 title: 'Password',
                 hint: 'Enter your password',
                 isPassword: !_showPassword,
@@ -98,7 +102,7 @@ class _LoginScreenState extends State<LoginWidget> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
-                    context.router.replace(ForgotPasswordScreenRoute(listUser: context.read<TempUserCubit>().state.listUser ?? []));
+                    context.router.replace(const ForgotPasswordScreenRoute());
                   },
                   child: SizedBox(
                     width: double.infinity,
