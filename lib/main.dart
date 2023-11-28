@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/storage/local_storage.dart';
 import 'package:lettutor/core/app_config/dependency.dart';
@@ -24,9 +23,6 @@ Future<void> initApp() async {
   }
   isInit = true;
 
-  HydratedBloc.storage = await HydratedStorage.build(
-    storageDirectory: await getTemporaryDirectory(),
-  );
 }
 
 final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
