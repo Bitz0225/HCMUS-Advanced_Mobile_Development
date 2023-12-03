@@ -61,16 +61,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                     letterSpacing: 0.5,
                     height: 1.6),
               ),
-              const SizedBox(height: 24),
-              const Text(
-                'Please enter your email address to search for your account.',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 48),
               InputFormField(
                 title: 'Email',
                 controller: _emailController,
@@ -87,7 +78,12 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
               ),
               const SizedBox(height: 16),
               GestureDetector(
-                onTap: () {},
+                onTap: () {
+                  context.read<TempUserCubit>().updatePasswordByEmail(
+                      email: _emailController.text,
+                      password: _passwordController.text,
+                      confirmedPassword: _confirmPasswordController.text) as (bool, String);
+                },
                 child: Container(
                   width: MediaQuery
                       .of(context)
@@ -101,6 +97,33 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                   child: const Center(
                     child: Text(
                       'Reset Password',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              GestureDetector(
+                onTap: () {
+                  context.router.back();
+                },
+                child: Container(
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  height: 48,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: Colors.grey,
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Back',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w700,

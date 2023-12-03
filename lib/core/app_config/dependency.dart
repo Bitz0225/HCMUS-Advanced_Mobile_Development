@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:lettutor/core/data_source/network/network_manager.dart';
+import 'package:lettutor/core/network/network_manager.dart';
 
 final getIt = GetIt.instance;
 

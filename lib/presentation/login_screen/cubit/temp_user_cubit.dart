@@ -10,32 +10,24 @@ class TempUserCubit extends WidgetCubit<TempUserState> {
 
   @override
   Future<void> init() async {
-    final initListUser = <User>[
-      User(
-          email: 'teacher@lettutor.com',
-          password: '123456',
-          name: 'Teacher',
-          isTeacher: true),
-      User(email: 'student@lettutor.com', password: '123456', name: 'Student')
-    ];
-    emit(state.copyWith(listUser: initListUser));
+
   }
 
-  Future<void> register(User user) async {
+  Future<void> register({String? email, String? password}) async {
     final listUser = (state.listUser ?? [])
-    ..add(user);
+      ..add(User(email: email, password: password));
     emit(state.copyWith(listUser: listUser));
   }
 
-  Future<void> login(String? username, String? password) async {
+  Future<void> login({String? email, String? password}) async {
     final listUser = state.listUser ?? [];
-    final user = listUser.where((element) => element.email == username && element.password == password);
-    if (user.isNotEmpty) {
-      emit(state.copyWith(currentUser: user.first));
-    }
+    final user = listUser.firstWhere(
+        (element) => element.email == email && element.password == password);
+    emit(state.copyWith(currentUser: user));
   }
 
-  Future<(bool, String)> updatePasswordByEmail(String? email, String? password, String? confirmedPassword) async {
+  Future<(bool, String)> updatePasswordByEmail(
+      {String? email, String? password, String? confirmedPassword}) async {
     final listUser = state.listUser ?? [];
     if (password != confirmedPassword) {
       return (false, 'Password and confirmed password are not match');

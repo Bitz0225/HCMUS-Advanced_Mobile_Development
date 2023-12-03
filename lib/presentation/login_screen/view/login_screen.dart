@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginWidget> {
                 child: GestureDetector(
                   onTap: () {
                     Navigator.pop(context);
-                    context.router.replace(const ForgotPasswordScreenRoute());
+                    context.router.push(const ForgotPasswordScreenRoute());
                   },
                   child: SizedBox(
                     width: double.infinity,
@@ -120,8 +120,14 @@ class _LoginScreenState extends State<LoginWidget> {
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  Navigator.pop(context);
-                  context.router.replace(const ListTeachersScreenRoute());
+                  // _isLoginScreen
+                  //     ? context.read<TempUserCubit>().login(
+                  //         email: _emailController.text,
+                  //         password: _passwordController.text)
+                  //     : context.read<TempUserCubit>().register(
+                  //         email: _emailController.text,
+                  //         password: _passwordController.text);
+                  context.router.push(const ListTeachersScreenRoute());
                 },
                 child: Container(
                   height: 36,

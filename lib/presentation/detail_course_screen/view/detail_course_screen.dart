@@ -28,7 +28,7 @@ class DetailCourseScreen extends StatelessWidget {
       appBar: BaseAppBar(
         leading: GestureDetector(
           onTap: () {
-            context.router.pop();
+            context.router.back();
           },
           child: const Icon(
             Icons.arrow_back_ios,
