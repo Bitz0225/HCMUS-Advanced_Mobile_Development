@@ -4,28 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
-import 'package:lettutor/presentation/login_screen/cubit/temp_user_cubit.dart';
-import 'package:lettutor/presentation/login_screen/cubit/temp_user_state.dart';
-import 'package:lettutor/presentation/login_screen/model/user.dart';
 
 @RoutePage()
-class ForgotPasswordScreen extends BaseWidget<TempUserCubit, TempUserState> {
-
+class ForgotPasswordScreen extends StatelessWidget {
   const ForgotPasswordScreen({super.key});
 
   @override
-  Widget buildWidget(BuildContext context) {
-    return BlocBuilder<TempUserCubit, TempUserState>(
-      builder: (context, state) {
-        return const ForgotPasswordWidget();
-      },
-    );
-  }
-
-  @override
-  TempUserCubit? provideCubit(BuildContext context) {
-
-    return TempUserCubit();
+  Widget build(BuildContext context) {
+    return const ForgotPasswordWidget();
   }
 }
 
@@ -78,17 +64,9 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
               ),
               const SizedBox(height: 16),
               GestureDetector(
-                onTap: () {
-                  context.read<TempUserCubit>().updatePasswordByEmail(
-                      email: _emailController.text,
-                      password: _passwordController.text,
-                      confirmedPassword: _confirmPasswordController.text) as (bool, String);
-                },
+                onTap: () {},
                 child: Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   height: 48,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -112,10 +90,7 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
                   context.router.back();
                 },
                 child: Container(
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width,
+                  width: MediaQuery.of(context).size.width,
                   height: 48,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -140,4 +115,3 @@ class _ForgotPasswordWidgetState extends State<ForgotPasswordWidget> {
     );
   }
 }
-

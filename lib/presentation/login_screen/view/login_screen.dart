@@ -5,29 +5,17 @@ import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
-import 'package:lettutor/presentation/login_screen/cubit/temp_user_cubit.dart';
-import 'package:lettutor/presentation/login_screen/cubit/temp_user_state.dart';
 import 'package:unicons/unicons.dart';
 
 part '../components/icon.dart';
 
 @RoutePage()
-class LoginScreen extends BaseWidget<TempUserCubit, TempUserState> {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  Widget buildWidget(BuildContext context) {
-    return BlocBuilder<TempUserCubit, TempUserState>(
-      builder: (context, state) {
-        final listUser = state.listUser ?? [];
-        return const LoginWidget();
-      },
-    );
-  }
-
-  @override
-  TempUserCubit? provideCubit(BuildContext context) {
-    return TempUserCubit();
+  Widget build(BuildContext context) {
+    return const LoginWidget();
   }
 }
 
