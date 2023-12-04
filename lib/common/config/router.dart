@@ -5,7 +5,6 @@ import 'package:lettutor/presentation/forgot_password_screen/view/forgot_passwor
 import 'package:lettutor/presentation/history_screen/view/history_screen.dart';
 import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
 import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
-import 'package:lettutor/presentation/login_screen/model/user.dart';
 import 'package:lettutor/presentation/login_screen/view/login_screen.dart';
 import 'package:lettutor/presentation/schedule_screen/view/schedule_screen.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';

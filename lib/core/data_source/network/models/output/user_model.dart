@@ -1,4 +1,4 @@
-//"user": {
+// "user": {
 //         "id": "cb9e7deb-3382-48db-b07c-90acf52f541c",
 //         "email": "phhai@ymail.com",
 //         "name": "Phhai",
@@ -39,48 +39,48 @@
 //     }
 
 class User {
-  final String id;
-  final String email;
-  final String name;
-  final String avatar;
-  final String country;
-  final String phone;
-  final List<String> roles;
+  final String? id;
+  final String? email;
+  final String? name;
+  final String? avatar;
+  final String? country;
+  final String? phone;
+  final List<String>? roles;
   final String? language;
-  final String birthday;
-  final bool isActivated;
-  final WalletInfo walletInfo;
-  final List<Course> courses;
-  final String requireNote;
-  final String level;
-  final List<String> learnTopics;
-  final List<TestPreparation> testPreparations;
-  final bool isPhoneActivated;
-  final int timezone;
-  final String studySchedule;
-  final bool canSendMessage;
+  final String? birthday;
+  final bool? isActivated;
+  final WalletInfo? walletInfo;
+  final List<Course>? courses;
+  final String? requireNote;
+  final String? level;
+  final List<String>? learnTopics;
+  final List<TestPreparation>? testPreparations;
+  final bool? isPhoneActivated;
+  final int? timezone;
+  final String? studySchedule;
+  final bool? canSendMessage;
 
   User({
-    required this.id,
-    required this.email,
-    required this.name,
-    required this.avatar,
-    required this.country,
-    required this.phone,
-    required this.roles,
-    required this.language,
-    required this.birthday,
-    required this.isActivated,
-    required this.walletInfo,
-    required this.courses,
-    required this.requireNote,
-    required this.level,
-    required this.learnTopics,
-    required this.testPreparations,
-    required this.isPhoneActivated,
-    required this.timezone,
-    required this.studySchedule,
-    required this.canSendMessage,
+    this.id,
+    this.email,
+    this.name,
+    this.avatar,
+    this.country,
+    this.phone,
+    this.roles,
+    this.language,
+    this.birthday,
+    this.isActivated,
+    this.walletInfo,
+    this.courses,
+    this.requireNote,
+    this.level,
+    this.learnTopics,
+    this.testPreparations,
+    this.isPhoneActivated,
+    this.timezone,
+    this.studySchedule,
+    this.canSendMessage,
   });
 
   User copyWith({
