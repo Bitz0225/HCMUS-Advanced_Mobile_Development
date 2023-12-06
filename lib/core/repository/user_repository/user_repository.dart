@@ -1,8 +1,8 @@
 import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
+import 'package:lettutor/core/repository/base_repository.dart';
 
-abstract class UserRepository {
-  Future<User?> login(String username, String password);
-  Future<User?> register(String username, String password);
-  Future<User?> getUserInfo();
-  Future<void> logout();
+class UserRepository extends BaseRepository{
+  UserRepository() : super('/user');
+
+
 }

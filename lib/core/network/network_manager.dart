@@ -73,9 +73,33 @@ class NetworkManager {
     logger.e('ERROR[${error.response?.statusCode}] => DATA: ${error.response?.data}');
     return handler.reject(error); //continue
   }
-  // Future get(String path, {Map<String, dynamic>? queryParameters});
-  // Future post(String path,
-  //     {Map<String, dynamic>? queryParameters,
-  //     Map<String, dynamic>? data});
-  //
+
+  Future<Response> get(
+      String path, {
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    return dio.get(path,
+        queryParameters: queryParameters,
+        options: options,
+        onReceiveProgress: onReceiveProgress);
+  }
+
+  Future<Response> post(
+      String path, {
+        dynamic data,
+        Map<String, dynamic>? queryParameters,
+        Options? options,
+        Map<String, dynamic>? headers,
+        ProgressCallback? onSendProgress,
+        ProgressCallback? onReceiveProgress,
+      }) async {
+    return dio.post(path,
+        data: data,
+        queryParameters: queryParameters,
+        options: Options(headers: {...dio.options.headers, ...headers ?? {}}),
+        onSendProgress: onSendProgress,
+        onReceiveProgress: onReceiveProgress);
+  }
 }
