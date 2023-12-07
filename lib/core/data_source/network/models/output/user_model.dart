@@ -1,23 +1,23 @@
-class Auth {
+class AuthOutput {
   final User? user;
   final Tokens? tokens;
 
-  Auth({
+  AuthOutput({
     this.user,
     this.tokens,
   });
 
-  Auth copyWith({
+  AuthOutput copyWith({
     User? user,
     Tokens? tokens,
   }) =>
-      Auth(
+      AuthOutput(
         user: user ?? this.user,
         tokens: tokens ?? this.tokens,
       );
 
-  factory Auth.fromJson(Map<String, dynamic> json) {
-    return Auth(
+  factory AuthOutput.fromJson(Map<String, dynamic> json) {
+    return AuthOutput(
       user: json['user'] != null
           ? User.fromJson(json['user'] as Map<String, dynamic>)
           : null,

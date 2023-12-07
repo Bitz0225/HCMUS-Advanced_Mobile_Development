@@ -108,13 +108,7 @@ class _LoginScreenState extends State<LoginWidget> {
               const SizedBox(height: 16),
               GestureDetector(
                 onTap: () {
-                  // _isLoginScreen
-                  //     ? context.read<TempUserCubit>().login(
-                  //         email: _emailController.text,
-                  //         password: _passwordController.text)
-                  //     : context.read<TempUserCubit>().register(
-                  //         email: _emailController.text,
-                  //         password: _passwordController.text);
+
                   context.router.push(const ListTeachersScreenRoute());
                 },
                 child: Container(

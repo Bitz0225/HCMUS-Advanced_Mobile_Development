@@ -1,13 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:lettutor/common/storage/local_storage.dart';
 import 'package:lettutor/core/network/network_manager.dart';
+import 'package:lettutor/core/repository/auth_repository/auth_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 final getIt = GetIt.instance;
 
 Future<void> initializeDependency() async {
-  // if (!getIt.isRegistered<LocalStorage>()) {
-  //   getIt.registerSingleton<LocalStorage>(LocalStorage());
-  // }
+  getIt..registerSingletonAsync<SharedPreferences>(LocalStorage.init)
 
-  getIt.registerSingletonAsync<Dio>(NetworkManager().initDio);
+  ..registerSingletonAsync<Dio>(NetworkManager().initDio)
+      ..registerSingleton<AuthRepository>(AuthRepository());
 }

@@ -1,29 +1,26 @@
+import 'package:lettutor/core/data_source/network/models/input/auth_form.dart';
 import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
 import 'package:lettutor/core/repository/base_repository.dart';
 
 class AuthRepository extends BaseRepository {
   AuthRepository() : super('/auth');
 
-  Future<Auth> login(String email, String password) async {
-    final response = await post<Auth>(
+  Future<AuthOutput> login(AuthForm input) async {
+    final response = await post<AuthOutput>(
       path: '/login',
-      parseJsonFunction: Auth.fromJson,
-      data: {
-        'email': email,
-        'password': password,
-      },
+      parseJsonFunction: AuthOutput.fromJson,
+      data: input.toJson(),
     );
     return response;
   }
 
-  Future<Auth> register(String email, String password) async {
-    final response = await post<Auth>(
+  Future<AuthOutput> register(AuthForm input) async {
+    final response = await post<AuthOutput>(
       path: '/register',
-      parseJsonFunction: Auth.fromJson,
+      parseJsonFunction: AuthOutput.fromJson,
       data: {
-        'email': email,
-        'password': password,
-        'source': 'https://www.google.com/'
+        ...input.toJson(),
+        ...{'source': 'https://www.google.com/'}
       },
     );
     return response;
