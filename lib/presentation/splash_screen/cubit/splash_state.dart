@@ -1,11 +1,14 @@
 import 'package:lettutor/core/widget_cubit/widget_state.dart';
 
 class SplashState extends WidgetState {
-  const SplashState();
+  final bool? isLogin;
+  const SplashState({this.isLogin = null});
 
   @override
   // TODO: implement props
-  List<Object?> get props => [];
+  List<Object?> get props => [
+    isLogin
+  ];
 
   @override
   Map<String, dynamic> toJson() {
@@ -13,7 +16,16 @@ class SplashState extends WidgetState {
   }
 
   factory SplashState.fromJson(Map<String, dynamic> json) {
-    return const SplashState();
+    return SplashState(
+      isLogin: json['isLogin'] as bool?,
+    );
   }
 
+  SplashState copyWith({
+    bool? isLogin,
+  }) {
+    return SplashState(
+      isLogin: isLogin ?? this.isLogin,
+    );
+  }
 }

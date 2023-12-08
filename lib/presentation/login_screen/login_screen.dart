@@ -7,7 +7,7 @@ import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
 import 'package:unicons/unicons.dart';
 
-part '../components/icon.dart';
+part 'components/icon.dart';
 
 @RoutePage()
 class LoginScreen extends StatelessWidget {

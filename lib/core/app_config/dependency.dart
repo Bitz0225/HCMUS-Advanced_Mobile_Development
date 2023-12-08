@@ -8,8 +8,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 final getIt = GetIt.instance;
 
 Future<void> initializeDependency() async {
-  getIt..registerSingletonAsync<SharedPreferences>(LocalStorage.init)
-
-  ..registerSingletonAsync<Dio>(NetworkManager().initDio)
-      ..registerSingleton<AuthRepository>(AuthRepository());
+  getIt
+    ..registerSingletonAsync<LocalStorage>(LocalStorage.init)
+    ..registerSingleton<NetworkManager>(NetworkManager.initial())
+    ..registerLazySingleton<AuthRepository>(AuthRepository.new);
 }

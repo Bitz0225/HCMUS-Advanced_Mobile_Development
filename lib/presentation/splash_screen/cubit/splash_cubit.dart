@@ -14,14 +14,14 @@ class SplashCubit extends WidgetCubit<SplashState> {
     final _authRepository = getIt.get<AuthRepository>();
   }
 
-  Future<void>  _handleScreenNavigate() async {
-    final localStorage = getIt.get<SharedPreferences>();
-    final accessToken = localStorage.getString(StorageKey.accessToken.toString());
+  Future<void> handleScreenNavigate() async {
+    final localStorage = LocalStorage.instance;
+    final accessToken = localStorage.getString(key: StorageKey.accessToken, );
 
     if (accessToken == null) {
-
+      emit(state.copyWith(isLogin: false));
+    } else {
+      emit(state.copyWith(isLogin: true));
     }
-    return;
   }
-
 }

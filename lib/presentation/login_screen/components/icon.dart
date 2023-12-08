@@ -1,4 +1,4 @@
-part of '../view/login_screen.dart';
+part of '../login_screen.dart';
 
 class _Icons extends StatelessWidget {
   final Widget? icon;

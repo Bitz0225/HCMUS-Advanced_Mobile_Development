@@ -47,7 +47,7 @@ class BaseRepository {
         Map<String, dynamic>? headers,
         Map<String, dynamic>? data}) async {
     final response = await _networkManager.post(serviceName + path,
-        queryParameters: queryParameters, data: data, headers: headers);
+        queryParameters: queryParameters, data: data);
 
     try {
       if (response.statusCode == 200 || response.statusCode == 201) {
