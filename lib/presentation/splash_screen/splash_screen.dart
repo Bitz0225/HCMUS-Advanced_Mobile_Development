@@ -7,20 +7,6 @@ import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
 import 'package:lettutor/presentation/splash_screen/cubit/splash_state.dart';
 
 @RoutePage()
-class SplashScreenWrapper extends BaseWidget<SplashCubit, SplashState> {
-  const SplashScreenWrapper({super.key});
-
-  @override
-  Widget buildWidget(BuildContext context) {
-    return const SplashScreen();
-  }
-
-  @override
-  SplashCubit? provideCubit(BuildContext context) {
-    return SplashCubit();
-  }
-}
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 

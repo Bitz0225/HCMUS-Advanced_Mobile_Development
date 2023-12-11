@@ -66,10 +66,16 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ScheduleScreen(),
       );
     },
-    SplashScreenWrapperRoute.name: (routeData) {
+    SplashScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const SplashScreenWrapper(),
+        child: const SplashScreen(),
+      );
+    },
+    SplashWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const SplashWrapper(),
       );
     },
     TeacherDetailScreenRoute.name: (routeData) {
@@ -225,15 +231,29 @@ class ScheduleScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [SplashScreenWrapper]
-class SplashScreenWrapperRoute extends PageRouteInfo<void> {
-  const SplashScreenWrapperRoute({List<PageRouteInfo>? children})
+/// [SplashScreen]
+class SplashScreenRoute extends PageRouteInfo<void> {
+  const SplashScreenRoute({List<PageRouteInfo>? children})
       : super(
-          SplashScreenWrapperRoute.name,
+          SplashScreenRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'SplashScreenWrapperRoute';
+  static const String name = 'SplashScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SplashWrapper]
+class SplashWrapperRoute extends PageRouteInfo<void> {
+  const SplashWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          SplashWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SplashWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

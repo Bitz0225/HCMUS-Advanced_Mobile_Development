@@ -1,3 +1,5 @@
+import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
+
 class AuthOutput {
   final User? user;
   final Tokens? tokens;
@@ -115,22 +117,23 @@ class User {
   final String? country;
   final String? phone;
   final List<String>? roles;
-  final dynamic language;
+  final String? language;
   final DateTime? birthday;
   final bool? isActivated;
   final TutorInfo? tutorInfo;
   final WalletInfo? walletInfo;
+  final List<Course>? courses;
   final String? requireNote;
   final String? level;
-  final List<dynamic>? learnTopics;
+  final List<TestPreparation>? learnTopics;
   final List<TestPreparation>? testPreparations;
   final bool? isPhoneActivated;
   final int? timezone;
   final ReferralInfo? referralInfo;
   final String? studySchedule;
   final bool? canSendMessage;
-  final dynamic studentGroup;
-  final dynamic studentInfo;
+  final List<dynamic>? studentGroup;
+  final String? studentInfo;
   final int? avgRating;
 
   User({
@@ -146,6 +149,7 @@ class User {
     this.isActivated,
     this.tutorInfo,
     this.walletInfo,
+    this.courses,
     this.requireNote,
     this.level,
     this.learnTopics,
@@ -168,22 +172,23 @@ class User {
     String? country,
     String? phone,
     List<String>? roles,
-    dynamic language,
+    String? language,
     DateTime? birthday,
     bool? isActivated,
     TutorInfo? tutorInfo,
     WalletInfo? walletInfo,
+    List<Course>? courses,
     String? requireNote,
     String? level,
-    List<dynamic>? learnTopics,
+    List<TestPreparation>? learnTopics,
     List<TestPreparation>? testPreparations,
     bool? isPhoneActivated,
     int? timezone,
     ReferralInfo? referralInfo,
     String? studySchedule,
     bool? canSendMessage,
-    dynamic studentGroup,
-    dynamic studentInfo,
+    List<dynamic>? studentGroup,
+    String? studentInfo,
     int? avgRating,
   }) =>
       User(
@@ -199,6 +204,7 @@ class User {
         isActivated: isActivated ?? this.isActivated,
         tutorInfo: tutorInfo ?? this.tutorInfo,
         walletInfo: walletInfo ?? this.walletInfo,
+        courses: courses ?? this.courses,
         requireNote: requireNote ?? this.requireNote,
         level: level ?? this.level,
         learnTopics: learnTopics ?? this.learnTopics,
@@ -224,7 +230,7 @@ class User {
       roles: json['roles'] != null
           ? (json['roles'] as List).map((e) => e as String).toList()
           : null,
-      language: json['language'] as dynamic,
+      language: json['language'] as String?,
       birthday: json['birthday'] != null
           ? DateTime.tryParse(json['birthday'] as String)
           : null,
@@ -235,10 +241,17 @@ class User {
       walletInfo: json['walletInfo'] != null
           ? WalletInfo.fromJson(json['walletInfo'] as Map<String, dynamic>)
           : null,
+      courses: json['courses'] != null
+          ? (json['courses'] as List)
+              .map((e) => Course.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : null,
       requireNote: json['requireNote'] as String?,
       level: json['level'] as String?,
       learnTopics: json['learnTopics'] != null
-          ? (json['learnTopics'] as List).map((e) => e as dynamic).toList()
+          ? (json['learnTopics'] as List)
+              .map((e) => TestPreparation.fromJson(e as Map<String, dynamic>))
+              .toList()
           : null,
       testPreparations: json['testPreparations'] != null
           ? (json['testPreparations'] as List)
@@ -252,8 +265,8 @@ class User {
           : null,
       studySchedule: json['studySchedule'] as String?,
       canSendMessage: json['canSendMessage'] as bool?,
-      studentGroup: json['studentGroup'] as dynamic,
-      studentInfo: json['studentInfo'] as dynamic,
+      studentGroup: json['studentGroup'] as List<dynamic>?,
+      studentInfo: json['studentInfo'] as String?,
       avgRating: json['avgRating'] as int?,
     );
   }
@@ -509,39 +522,67 @@ class TutorInfo {
 }
 
 class WalletInfo {
+  final String? id;
+  final String? userId;
   final String? amount;
   final bool? isBlocked;
+  final DateTime? createdAt;
+  final DateTime? updatedAt;
   final int? bonus;
 
   WalletInfo({
+    this.id,
+    this.userId,
     this.amount,
     this.isBlocked,
+    this.createdAt,
+    this.updatedAt,
     this.bonus,
   });
 
   WalletInfo copyWith({
+    String? id,
+    String? userId,
     String? amount,
     bool? isBlocked,
+    DateTime? createdAt,
+    DateTime? updatedAt,
     int? bonus,
   }) =>
       WalletInfo(
+        id: id ?? this.id,
+        userId: userId ?? this.userId,
         amount: amount ?? this.amount,
         isBlocked: isBlocked ?? this.isBlocked,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
         bonus: bonus ?? this.bonus,
       );
 
   factory WalletInfo.fromJson(Map<String, dynamic> json) {
     return WalletInfo(
+      id: json['id'] as String?,
+      userId: json['userId'] as String?,
       amount: json['amount'] as String?,
       isBlocked: json['isBlocked'] as bool?,
+      createdAt: json['createdAt'] != null
+          ? DateTime.tryParse(json['createdAt'] as String)
+          : null,
+      updatedAt: json['updatedAt'] != null
+          ? DateTime.tryParse(json['updatedAt'] as String)
+          : null,
       bonus: json['bonus'] as int?,
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
+      'userId': userId,
       'amount': amount,
       'isBlocked': isBlocked,
+      'createdAt': createdAt?.toIso8601String(),
+      'updatedAt': updatedAt?.toIso8601String(),
       'bonus': bonus,
     };
   }

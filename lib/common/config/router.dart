@@ -8,6 +8,7 @@ import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_sc
 import 'package:lettutor/presentation/login_screen/login_screen.dart';
 import 'package:lettutor/presentation/schedule_screen/view/schedule_screen.dart';
 import 'package:lettutor/presentation/splash_screen/splash_screen.dart';
+import 'package:lettutor/presentation/splash_screen/splash_wrapper.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
 
 part 'router.gr.dart';
@@ -25,15 +26,28 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
         AutoRoute(
-            page: SplashScreenWrapperRoute.page, initial: true, path: '/'),
-        AutoRoute(page: LoginScreenRoute.page, path: '/login'),
-        AutoRoute(page: ListCoursesScreenRoute.page, path: '/list-courses'),
-        AutoRoute(page: DetailCourseScreenRoute.page, path: '/detail-course'),
-        AutoRoute(page: ListTeachersScreenRoute.page, path: '/list-teachers'),
-        AutoRoute(page: TeacherDetailScreenRoute.page, path: '/teacher-detail'),
-        AutoRoute(page: ScheduleScreenRoute.page, path: '/schedule'),
-        AutoRoute(page: HistoryScreenRoute.page, path: '/history'),
-        AutoRoute(
-            page: ForgotPasswordScreenRoute.page, path: '/forgot-password'),
+            page: SplashWrapperRoute.page,
+            initial: true,
+            path: '/',
+            children: [
+              AutoRoute(
+                  page: SplashScreenRoute.page,
+                  initial: true,
+                  path: ''),
+              AutoRoute(page: LoginScreenRoute.page, path: 'login'),
+              AutoRoute(
+                  page: ListCoursesScreenRoute.page, path: 'list-courses'),
+              AutoRoute(
+                  page: DetailCourseScreenRoute.page, path: 'detail-course'),
+              AutoRoute(
+                  page: ListTeachersScreenRoute.page, path: 'list-teachers'),
+              AutoRoute(
+                  page: TeacherDetailScreenRoute.page, path: 'teacher-detail'),
+              AutoRoute(page: ScheduleScreenRoute.page, path: 'schedule'),
+              AutoRoute(page: HistoryScreenRoute.page, path: 'history'),
+              AutoRoute(
+                  page: ForgotPasswordScreenRoute.page,
+                  path: 'forgot-password'),
+            ]),
       ];
 }
