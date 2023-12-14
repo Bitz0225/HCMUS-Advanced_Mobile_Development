@@ -12,7 +12,7 @@ class SplashWrapper extends BaseWidget<SplashCubit, SplashState> {
   @override
   Widget buildWidget(BuildContext context) {
     return BlocProvider(
-        create: (context) => SplashCubit(), child: const AutoRouter());
+        create: (context) => SplashCubit()..init(), child: const AutoRouter());
   }
 
   @override

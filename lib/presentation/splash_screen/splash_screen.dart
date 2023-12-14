@@ -18,17 +18,13 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<SplashCubit>().handleScreenNavigate().then((_) {
-      final isLogin = context.read<SplashCubit>().state.isLogin;
-      if (isLogin == null) {
-        return;
-      }
-      if (isLogin) {
-        context.router.replace(const ListTeachersScreenRoute());
-      } else {
-        context.router.replace(const LoginScreenRoute());
-      }
-    });
+
+    final isLogin = context.read<SplashCubit>().state.isLogin;
+    if (isLogin ?? false) {
+      context.router.replace(const ListTeachersScreenRoute());
+    } else {
+      context.router.replace(const LoginScreenRoute());
+    }
   }
 
   @override

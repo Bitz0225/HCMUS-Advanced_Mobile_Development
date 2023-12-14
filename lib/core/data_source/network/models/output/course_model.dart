@@ -1,4 +1,6 @@
-class Course {
+import 'package:lettutor/core/data_source/network/models/base_model.dart';
+
+class Course extends BaseModel {
   final String? id;
   final String? name;
   final String? description;
@@ -13,8 +15,8 @@ class Course {
   final String? sectionType;
   final bool? visible;
   final String? displayOrder;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final TutorCourse? tutorCourse;
 
   Course({
@@ -52,8 +54,8 @@ class Course {
     String? sectionType,
     bool? visible,
     String? displayOrder,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    String? createdAt,
+    String? updatedAt,
     TutorCourse? tutorCourse,
   }) =>
       Course(
@@ -76,6 +78,7 @@ class Course {
         tutorCourse: tutorCourse ?? this.tutorCourse,
       );
 
+  @override
   factory Course.fromJson(Map<String, dynamic> json) {
     return Course(
       id: json['id'] as String?,
@@ -92,14 +95,15 @@ class Course {
       sectionType: json['sectionType'] as String?,
       visible: json['visible'] as bool?,
       displayOrder: json['displayOrder'] as String?,
-      createdAt: json['createdAt'] as DateTime?,
-      updatedAt: json['updatedAt'] as DateTime?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
       tutorCourse: json['tutorCourse'] == null
           ? null
           : TutorCourse.fromJson(json['tutorCourse'] as Map<String, dynamic>),
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -123,11 +127,11 @@ class Course {
   }
 }
 
-class TutorCourse {
+class TutorCourse extends BaseModel{
   final String? userId;
   final String? courseId;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
 
   TutorCourse({
     this.userId,
@@ -139,8 +143,8 @@ class TutorCourse {
   TutorCourse copyWith({
     String? userId,
     String? courseId,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    String? createdAt,
+    String? updatedAt,
   }) =>
       TutorCourse(
         userId: userId ?? this.userId,
@@ -149,15 +153,17 @@ class TutorCourse {
         updatedAt: updatedAt ?? this.updatedAt,
       );
 
+  @override
   factory TutorCourse.fromJson(Map<String, dynamic> json) {
     return TutorCourse(
       userId: json['userId'] as String?,
       courseId: json['courseId'] as String?,
-      createdAt: json['createdAt'] as DateTime?,
-      updatedAt: json['updatedAt'] as DateTime?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'userId': userId,

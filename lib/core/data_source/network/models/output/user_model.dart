@@ -1,6 +1,7 @@
+import 'package:lettutor/core/data_source/network/models/base_model.dart';
 import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
 
-class AuthOutput {
+class AuthOutput extends BaseModel{
   final User? user;
   final Tokens? tokens;
 
@@ -18,6 +19,7 @@ class AuthOutput {
         tokens: tokens ?? this.tokens,
       );
 
+  @override
   factory AuthOutput.fromJson(Map<String, dynamic> json) {
     return AuthOutput(
       user: json['user'] != null
@@ -29,6 +31,7 @@ class AuthOutput {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'user': user?.toJson(),
@@ -37,7 +40,7 @@ class AuthOutput {
   }
 }
 
-class Tokens {
+class Tokens extends BaseModel {
   final Access? access;
   final Access? refresh;
 
@@ -55,6 +58,7 @@ class Tokens {
         refresh: refresh ?? this.refresh,
       );
 
+  @override
   factory Tokens.fromJson(Map<String, dynamic> json) {
     return Tokens(
       access: json['access'] != null
@@ -66,6 +70,7 @@ class Tokens {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'access': access?.toJson(),
@@ -74,9 +79,9 @@ class Tokens {
   }
 }
 
-class Access {
+class Access extends BaseModel{
   final String? token;
-  final DateTime? expires;
+  final String? expires;
 
   Access({
     this.token,
@@ -85,31 +90,31 @@ class Access {
 
   Access copyWith({
     String? token,
-    DateTime? expires,
+    String? expires,
   }) =>
       Access(
         token: token ?? this.token,
         expires: expires ?? this.expires,
       );
 
+  @override
   factory Access.fromJson(Map<String, dynamic> json) {
     return Access(
       token: json['token'] as String?,
-      expires: json['expires'] != null
-          ? DateTime.tryParse(json['expires'] as String)
-          : null,
+      expires: json['expires'] as String?,
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'token': token,
-      'expires': expires?.toIso8601String(),
+      'expires': expires,
     };
   }
 }
 
-class User {
+class User extends BaseModel {
   final String? id;
   final String? email;
   final String? name;
@@ -118,7 +123,7 @@ class User {
   final String? phone;
   final List<String>? roles;
   final String? language;
-  final DateTime? birthday;
+  final String? birthday;
   final bool? isActivated;
   final TutorInfo? tutorInfo;
   final WalletInfo? walletInfo;
@@ -173,7 +178,7 @@ class User {
     String? phone,
     List<String>? roles,
     String? language,
-    DateTime? birthday,
+    String? birthday,
     bool? isActivated,
     TutorInfo? tutorInfo,
     WalletInfo? walletInfo,
@@ -219,6 +224,7 @@ class User {
         avgRating: avgRating ?? this.avgRating,
       );
 
+  @override
   factory User.fromJson(Map<String, dynamic> json) {
     return User(
       id: json['id'] as String?,
@@ -231,9 +237,7 @@ class User {
           ? (json['roles'] as List).map((e) => e as String).toList()
           : null,
       language: json['language'] as String?,
-      birthday: json['birthday'] != null
-          ? DateTime.tryParse(json['birthday'] as String)
-          : null,
+      birthday: json['birthday'] as String?,
       isActivated: json['isActivated'] as bool?,
       tutorInfo: json['tutorInfo'] != null
           ? TutorInfo.fromJson(json['tutorInfo'] as Map<String, dynamic>)
@@ -271,6 +275,7 @@ class User {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -281,7 +286,7 @@ class User {
       'phone': phone,
       'roles': roles,
       'language': language,
-      'birthday': birthday?.toIso8601String(),
+      'birthday': birthday,
       'isActivated': isActivated,
       'tutorInfo': tutorInfo?.toJson(),
       'walletInfo': walletInfo?.toJson(),
@@ -302,7 +307,7 @@ class User {
   }
 }
 
-class ReferralInfo {
+class ReferralInfo extends BaseModel {
   final String? referralCode;
   final ReferralPackInfo? referralPackInfo;
 
@@ -320,6 +325,7 @@ class ReferralInfo {
         referralPackInfo: referralPackInfo ?? this.referralPackInfo,
       );
 
+  @override
   factory ReferralInfo.fromJson(Map<String, dynamic> json) {
     return ReferralInfo(
       referralCode: json['referralCode'] as String?,
@@ -330,6 +336,7 @@ class ReferralInfo {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'referralCode': referralCode,
@@ -338,7 +345,7 @@ class ReferralInfo {
   }
 }
 
-class ReferralPackInfo {
+class ReferralPackInfo extends BaseModel {
   final int? earnPercent;
 
   ReferralPackInfo({
@@ -352,12 +359,14 @@ class ReferralPackInfo {
         earnPercent: earnPercent ?? this.earnPercent,
       );
 
+  @override
   factory ReferralPackInfo.fromJson(Map<String, dynamic> json) {
     return ReferralPackInfo(
       earnPercent: json['earnPercent'] as int?,
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'earnPercent': earnPercent,
@@ -365,7 +374,7 @@ class ReferralPackInfo {
   }
 }
 
-class TestPreparation {
+class TestPreparation extends BaseModel {
   final int? id;
   final String? key;
   final String? name;
@@ -387,6 +396,7 @@ class TestPreparation {
         name: name ?? this.name,
       );
 
+  @override
   factory TestPreparation.fromJson(Map<String, dynamic> json) {
     return TestPreparation(
       id: json['id'] as int?,
@@ -395,6 +405,7 @@ class TestPreparation {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -404,7 +415,7 @@ class TestPreparation {
   }
 }
 
-class TutorInfo {
+class TutorInfo extends BaseModel{
   final String? id;
   final String? video;
   final String? bio;
@@ -478,6 +489,7 @@ class TutorInfo {
         youtubeVideoId: youtubeVideoId ?? this.youtubeVideoId,
       );
 
+  @override
   factory TutorInfo.fromJson(Map<String, dynamic> json) {
     return TutorInfo(
       id: json['id'] as String?,
@@ -499,6 +511,7 @@ class TutorInfo {
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
@@ -521,13 +534,13 @@ class TutorInfo {
   }
 }
 
-class WalletInfo {
+class WalletInfo extends BaseModel {
   final String? id;
   final String? userId;
   final String? amount;
   final bool? isBlocked;
-  final DateTime? createdAt;
-  final DateTime? updatedAt;
+  final String? createdAt;
+  final String? updatedAt;
   final int? bonus;
 
   WalletInfo({
@@ -545,8 +558,8 @@ class WalletInfo {
     String? userId,
     String? amount,
     bool? isBlocked,
-    DateTime? createdAt,
-    DateTime? updatedAt,
+    String? createdAt,
+    String? updatedAt,
     int? bonus,
   }) =>
       WalletInfo(
@@ -559,30 +572,28 @@ class WalletInfo {
         bonus: bonus ?? this.bonus,
       );
 
+  @override
   factory WalletInfo.fromJson(Map<String, dynamic> json) {
     return WalletInfo(
       id: json['id'] as String?,
       userId: json['userId'] as String?,
       amount: json['amount'] as String?,
       isBlocked: json['isBlocked'] as bool?,
-      createdAt: json['createdAt'] != null
-          ? DateTime.tryParse(json['createdAt'] as String)
-          : null,
-      updatedAt: json['updatedAt'] != null
-          ? DateTime.tryParse(json['updatedAt'] as String)
-          : null,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
       bonus: json['bonus'] as int?,
     );
   }
 
+  @override
   Map<String, dynamic> toJson() {
     return {
       'id': id,
       'userId': userId,
       'amount': amount,
       'isBlocked': isBlocked,
-      'createdAt': createdAt?.toIso8601String(),
-      'updatedAt': updatedAt?.toIso8601String(),
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
       'bonus': bonus,
     };
   }

@@ -1,14 +1,18 @@
 import 'dart:async';
 
 import 'package:auto_route/auto_route.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/config/loading_event.dart';
 import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/core/base_widget/cubit/navigation_bloc.dart';
+import 'package:lettutor/core/logger/logger.dart';
 import 'package:lettutor/core/widget_cubit/widget_state.dart';
 
 typedef ParseJsonFunction<T> = T Function(Map<String, dynamic> jsonData);
+
+// typedef ApiCallerFunction<OutputType> = Future<OutputType?>? Function();
 
 abstract class WidgetCubit<State extends WidgetState> extends Cubit<State> {
   WidgetCubit({required State initialState, required this.parseJsonFunction})
@@ -47,43 +51,44 @@ abstract class WidgetCubit<State extends WidgetState> extends Cubit<State> {
 
   NavigationBloc? navigationController;
 
-  // Future<T?> getData<T extends BaseOutput>(ApiCallerFunction apiCallerFunction,
-  //     {bool showErrorToast = true,
-  //       bool showLoading = false,
-  //     }) async {
+  // Future<T?> getData<T>(
+  //   ApiCallerFunction apiCallerFunction, {
+  //   bool showErrorToast = true,
+  //   bool showLoading = false,
+  // }) async {
   //   if (showLoading) {
   //     this.showLoading();
   //   }
   //   return fetchApi(apiCallerFunction, showErrorToast: showErrorToast);
   // }
   //
-  // Future<T?> submitData<T extends BaseOutput>(
-  //     ApiCallerFunction? apiCallerFunction,
+  // Future<T?> submitData<T>(ApiCallerFunction? apiCallerFunction,
   //     {String? loadingMessage = 'Vui lòng chờ....',
-  //       bool showErrorToast = true}) async {
+  //     bool showErrorToast = true}) async {
   //   showLoading(message: loadingMessage);
   //   return fetchApi(apiCallerFunction, showErrorToast: showErrorToast);
   // }
   //
   // //port to listen error in background isolate
   //
-  // Future<T?> fetchApi<T extends BaseOutput>(
+  // Future<T?> fetchApi<T>(
   //     ApiCallerFunction? apiCallerFunction,
   //     {bool showErrorToast = true}) async {
   //   try {
-  //     final response = await apiCallerFunction!();
-  //     if (response is T) {
-  //       return response;
-  //     } else {
-  //       return parseJsonFunction(response);
-  //     }
-  //   } catch (e) {
-  //     if (showErrorToast) {
-  //       onApiError(e);
-  //     }
-  //     return null;
-  //   } finally {
+  //     final output = (await apiCallerFunction?.call()) as T?;
   //     hideLoading();
+  //
+  //     return output;
+  //   } catch (e) {
+  //     logger.e(e.toString());
+  //     hideLoading();
+  //     if (e is DioException) {
+  //       showSnackBar('Hệ thống đang lỗi. Vui lòng thử lại sau');
+  //     } else {
+  //       showSnackBar('Vui lòng thử lại');
+  //     }
+  //     onApiError(e);
+  //     return Future.value();
   //   }
   // }
 

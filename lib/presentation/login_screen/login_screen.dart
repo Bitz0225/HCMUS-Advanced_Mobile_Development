@@ -1,10 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/common/config/router.dart';
+import 'package:lettutor/common/ui/%20base_snack_bar/snack_bar_mixin.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
+import 'package:lettutor/presentation/login_screen/cubit/auth_cubit.dart';
+import 'package:lettutor/presentation/login_screen/cubit/auth_state.dart';
 import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
 import 'package:lettutor/presentation/splash_screen/cubit/splash_state.dart';
 import 'package:unicons/unicons.dart';
@@ -12,12 +16,17 @@ import 'package:unicons/unicons.dart';
 part 'components/icon.dart';
 
 @RoutePage()
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends BaseWidget<AuthCubit, AuthState> {
   const LoginScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget buildWidget(BuildContext context) {
     return const LoginWidget();
+  }
+
+  @override
+  AuthCubit? provideCubit(BuildContext context) {
+    return AuthCubit();
   }
 }
 
@@ -28,7 +37,7 @@ class LoginWidget extends StatefulWidget {
   State<LoginWidget> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginWidget> {
+class _LoginScreenState extends State<LoginWidget> with SnackBarMixin {
   bool _isLoginScreen = true;
   bool _showPassword = false;
 
@@ -37,7 +46,7 @@ class _LoginScreenState extends State<LoginWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SplashCubit, SplashState>(
+    return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         return Scaffold(
           extendBody: true,
@@ -93,8 +102,7 @@ class _LoginScreenState extends State<LoginWidget> {
                     visible: _isLoginScreen,
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pop(context);
-                        context.router.push(const ForgotPasswordScreenRoute());
+                        handleForgotPassword(context);
                       },
                       child: SizedBox(
                         width: double.infinity,
@@ -112,7 +120,9 @@ class _LoginScreenState extends State<LoginWidget> {
                   const SizedBox(height: 16),
                   GestureDetector(
                     onTap: () {
-
+                      _isLoginScreen
+                          ? handleLogin(context)
+                          : handleRegister(context);
                     },
                     child: Container(
                       height: 36,
@@ -136,8 +146,8 @@ class _LoginScreenState extends State<LoginWidget> {
                   const SizedBox(
                     height: 48,
                   ),
-                  const Text(
-                      'Or continue with', style: TextStyle(fontSize: 16)),
+                  const Text('Or continue with',
+                      style: TextStyle(fontSize: 16)),
                   const SizedBox(
                     height: 16,
                   ),
@@ -199,5 +209,39 @@ class _LoginScreenState extends State<LoginWidget> {
         );
       },
     );
+  }
+
+  void handleForgotPassword(BuildContext context) {
+    Navigator.pop(context);
+    context.router.push(const ForgotPasswordScreenRoute());
+  }
+
+  Future<void> handleLogin(BuildContext context) async {
+    await context.read<AuthCubit>().login(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+    final isSuccess = context.read<AuthCubit>().state.isLogin;
+    final message = context.read<AuthCubit>().state.message ?? '';
+    if (isSuccess) {
+      Navigator.pop(context);
+      context.router.push(const ListTeachersScreenRoute());
+    } else {
+      showSnackBar(context, message);
+    }
+  }
+
+  Future<void> handleRegister(BuildContext context) async {
+    await context.read<AuthCubit>().register(
+          email: _emailController.text,
+          password: _passwordController.text,
+        );
+    final isSuccess = context.read<AuthCubit>().state.isRegister;
+    final message = context.read<AuthCubit>().state.message ?? '';
+    if (isSuccess) {
+      showSnackBar(context, message, snackBarType: SnackBarType.success);
+    } else {
+      showSnackBar(context, message);
+    }
   }
 }

@@ -1,3 +1,4 @@
+import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
 import 'package:lettutor/core/widget_cubit/widget_state.dart';
 
 class SplashState extends WidgetState {
@@ -7,7 +8,7 @@ class SplashState extends WidgetState {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    isLogin
+    isLogin,
   ];
 
   @override

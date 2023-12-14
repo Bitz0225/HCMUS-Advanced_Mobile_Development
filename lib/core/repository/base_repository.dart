@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:lettutor/core/app_config/dependency.dart';
+import 'package:lettutor/core/data_source/network/data_state.dart';
 import 'package:lettutor/core/data_source/network/models/failure_model.dart';
 import 'package:lettutor/core/network/network_manager.dart';
 
@@ -18,49 +19,51 @@ class BaseRepository {
     _networkManager = getIt<NetworkManager>();
   }
 
-  Future<T> get<T>(
+  Future<DataState<T>> get<T>(
       {required String path,
         required ParseJsonFunction<T> parseJsonFunction,
         Map<String, dynamic>? queryParameters}) async {
-    final response = await _networkManager.get(serviceName + path,
-        queryParameters: queryParameters);
 
     try {
+      final response = await _networkManager.get(serviceName + path,
+          queryParameters: queryParameters);
       if (response.statusCode == 200) {
         final parser = ResultParser<T>(
             response.data as Map<String, dynamic>? ?? {}, parseJsonFunction);
-        return parser.parseInBackground();
+        final data = await parser.parseInBackground();
+        return DataSuccess<T>(data);
       } else {
         final parser = ResultParser<FailureModel>(
             response.data as Map<String, dynamic>? ?? {}, FailureModel.fromJson);
         throw Exception((await parser.parseInBackground()).message);
       }
     } on DioException catch (e) {
-      throw Exception(e.response?.data['message']);
+      return DataError(e);
     }
   }
 
-  Future<T> post<T>(
+  Future<DataState<T>> post<T>(
       {required String path,
         required ParseJsonFunction<T> parseJsonFunction,
         Map<String, dynamic>? queryParameters,
         Map<String, dynamic>? headers,
         Map<String, dynamic>? data}) async {
-    final response = await _networkManager.post(serviceName + path,
-        queryParameters: queryParameters, data: data);
 
     try {
+      final response = await _networkManager.post(serviceName + path,
+          queryParameters: queryParameters, data: data);
       if (response.statusCode == 200 || response.statusCode == 201) {
         final parser = ResultParser<T>(
             response.data as Map<String, dynamic>? ?? {}, parseJsonFunction);
-        return parser.parseInBackground();
+        final data = await parser.parseInBackground();
+        return DataSuccess<T>(data);
       } else {
         final parser = ResultParser<FailureModel>(
             response.data as Map<String, dynamic>? ?? {}, FailureModel.fromJson);
         throw Exception((await parser.parseInBackground()).message);
       }
     } on DioException catch (e) {
-      throw Exception(e.response?.data['message']);
+      return DataError(e);
     }
   }
 }

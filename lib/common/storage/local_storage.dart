@@ -24,6 +24,10 @@ class LocalStorage {
   String? getString({required StorageKey key}) {
     return _sharedPreferences?.getString(key.toString());
   }
+
+  Future<bool?> clear() async {
+    return _sharedPreferences?.clear();
+  }
 }
 
 enum StorageKey {
