@@ -20,6 +20,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
             parseJsonFunction: SplashState.fromJson);
 
 
+  final _userRepository = getIt.get<UserRepository>();
   final _localStorage = getIt.get<LocalStorage>();
   final _authRepository = getIt.get<AuthRepository>();
 
@@ -46,10 +47,13 @@ class SplashCubit extends WidgetCubit<SplashState> {
       key: StorageKey.accessToken,
     );
 
-    final userRepository = getIt.get<UserRepository>();
     if (accessToken != null) {
-      final user = await userRepository.getUser(accessToken);
-
+      final user = await _userRepository.getUser();
+      if (user is DataSuccess) {
+        emit(state.copyWith(user: user.data));
+      } else {
+        emit(state.copyWith(isLogin: false));
+      }
     }
 
   }

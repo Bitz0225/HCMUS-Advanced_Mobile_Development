@@ -7,7 +7,7 @@ import 'package:lettutor/core/repository/base_repository.dart';
 class UserRepository extends BaseRepository{
   UserRepository() : super('/user');
 
-  Future<DataState<User>> getUser(String token) {
+  Future<DataState<User>> getUser() {
     return get(
       path: '/info',
       parseJsonFunction: User.fromJson,

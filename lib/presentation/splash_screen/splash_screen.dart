@@ -20,6 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     super.initState();
 
     final isLogin = context.read<SplashCubit>().state.isLogin;
+    context.read<SplashCubit>().getUser();
     if (isLogin ?? false) {
       context.router.replace(const ListTeachersScreenRoute());
     } else {
