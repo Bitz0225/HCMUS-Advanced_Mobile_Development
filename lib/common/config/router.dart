@@ -7,6 +7,7 @@ import 'package:lettutor/presentation/list_courses_screen/view/list_courses_scre
 import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
 import 'package:lettutor/presentation/login_screen/login_screen.dart';
 import 'package:lettutor/presentation/schedule_screen/view/schedule_screen.dart';
+import 'package:lettutor/presentation/setting_screen/view/settings_screen.dart';
 import 'package:lettutor/presentation/splash_screen/splash_screen.dart';
 import 'package:lettutor/presentation/splash_screen/splash_wrapper.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
@@ -48,6 +49,7 @@ class AppRouter extends _$AppRouter {
               AutoRoute(
                   page: ForgotPasswordScreenRoute.page,
                   path: 'forgot-password'),
+              AutoRoute(page: SettingScreenRoute.page, path: 'setting'),
             ]),
       ];
 }

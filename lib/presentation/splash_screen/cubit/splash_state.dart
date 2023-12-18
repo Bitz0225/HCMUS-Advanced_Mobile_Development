@@ -4,7 +4,7 @@ import 'package:lettutor/core/widget_cubit/widget_state.dart';
 class SplashState extends WidgetState {
   final User? user;
   final bool? isLogin;
-  const SplashState({this.isLogin, this.user, });
+  const SplashState({this.isLogin, this.user});
 
   @override
   // TODO: implement props

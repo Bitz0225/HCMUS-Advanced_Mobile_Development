@@ -22,7 +22,6 @@ class SplashCubit extends WidgetCubit<SplashState> {
 
   final _userRepository = getIt.get<UserRepository>();
   final _localStorage = getIt.get<LocalStorage>();
-  final _authRepository = getIt.get<AuthRepository>();
 
   @override
   Future<void> init() async {
@@ -50,7 +49,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
     if (accessToken != null) {
       final user = await _userRepository.getUser();
       if (user is DataSuccess) {
-        emit(state.copyWith(user: user.data));
+        emit(state.copyWith(user: user.data?.user));
       } else {
         emit(state.copyWith(isLogin: false));
       }

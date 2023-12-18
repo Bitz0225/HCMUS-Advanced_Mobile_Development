@@ -201,6 +201,7 @@ class _DateTimePicker extends StatelessWidget {
     return Column(
       children: [
         BaseInputField(
+          keyboardType: TextInputType.none,
           controller: dateInput,
           hint: 'Select day',
           suffixIcon: const Icon(Icons.calendar_today),
@@ -224,6 +225,7 @@ class _DateTimePicker extends StatelessWidget {
           children: [
             Flexible(
               child: BaseInputField(
+                keyboardType: TextInputType.none,
                 controller: startTimeInput,
                 hint: 'Start time',
                 suffixIcon: const Icon(Icons.access_time),
@@ -244,6 +246,7 @@ class _DateTimePicker extends StatelessWidget {
             ),
             Flexible(
               child: BaseInputField(
+                keyboardType: TextInputType.none,
                 controller: endTimeInput,
                 hint: 'End time',
                 suffixIcon: const Icon(Icons.access_time),

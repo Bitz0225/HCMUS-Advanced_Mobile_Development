@@ -3,14 +3,17 @@ import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 
 class InputFormField extends StatelessWidget {
+  final TextInputType? keyboardType;
   final String? title;
   final String? hint;
   final bool? isPassword;
   final Widget? trailingIcon;
+  final bool? isReadOnly;
+  final Function()? onTap;
   final TextEditingController? controller;
 
   const InputFormField(
-      {super.key, this.title, this.hint, this.isPassword, this.trailingIcon, this.controller});
+      {super.key, this.keyboardType = TextInputType.text, this.title, this.hint, this.isPassword, this.trailingIcon, this.isReadOnly, this.controller, this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +35,11 @@ class InputFormField extends StatelessWidget {
         ),
         BaseInputField(
           controller: controller,
-          keyboardType: TextInputType.text,
+          keyboardType: keyboardType,
           hint: hint ?? '',
           isPassword: isPassword ?? false,
+          isReadOnly: isReadOnly ?? false,
+          onTap: onTap,
           suffixIcon: trailingIcon ?? const SizedBox.shrink(),
         ),
       ],

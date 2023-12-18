@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/config/router.dart';
@@ -17,6 +18,29 @@ class BaseDrawer extends StatelessWidget {
         return Drawer(
           child: ListView(
             children: [
+              ListTile(
+                leading: CircleAvatar(
+                  radius: 16,
+                  child: ClipOval(
+                    child: CachedNetworkImage(
+                      imageUrl: state.user?.avatar ?? '',
+                      fit: BoxFit.contain,
+                      placeholder: (context, url) => const Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) => const Icon(
+                        Icons.error,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+                ),
+                title: Text(state.user?.name ?? ''),
+                onTap: () {
+                  Navigator.pop(context);
+                  context.router.replace(const SettingScreenRoute());
+                },
+              ),
               ListTile(
                 leading: Icon(
                     Icons.calendar_today, color: AppColors.appBlue100),

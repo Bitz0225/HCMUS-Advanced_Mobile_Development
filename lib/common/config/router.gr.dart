@@ -66,6 +66,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ScheduleScreen(),
       );
     },
+    SettingScreenRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: SettingScreen(),
+      );
+    },
     SplashScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -226,6 +232,20 @@ class ScheduleScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ScheduleScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [SettingScreen]
+class SettingScreenRoute extends PageRouteInfo<void> {
+  const SettingScreenRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingScreenRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingScreenRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

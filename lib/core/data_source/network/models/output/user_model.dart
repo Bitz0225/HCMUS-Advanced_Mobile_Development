@@ -139,7 +139,7 @@ class User extends BaseModel {
   final bool? canSendMessage;
   final List<dynamic>? studentGroup;
   final String? studentInfo;
-  final int? avgRating;
+  final double? avgRating;
 
   User({
     this.id,
@@ -194,7 +194,7 @@ class User extends BaseModel {
     bool? canSendMessage,
     List<dynamic>? studentGroup,
     String? studentInfo,
-    int? avgRating,
+    double? avgRating,
   }) =>
       User(
         id: id ?? this.id,
@@ -271,7 +271,7 @@ class User extends BaseModel {
       canSendMessage: json['canSendMessage'] as bool?,
       studentGroup: json['studentGroup'] as List<dynamic>?,
       studentInfo: json['studentInfo'] as String?,
-      avgRating: json['avgRating'] as int?,
+      avgRating: json['avgRating'] as double?,
     );
   }
 
@@ -597,4 +597,36 @@ class WalletInfo extends BaseModel {
       'bonus': bonus,
     };
   }
+}
+
+class UserInfo extends BaseModel {
+  final User? user;
+
+  UserInfo({
+    this.user,
+  });
+
+  UserInfo copyWith({
+    User? user,
+  }) =>
+      UserInfo(
+        user: user ?? this.user,
+      );
+
+  @override
+  factory UserInfo.fromJson(Map<String, dynamic> json) {
+    return UserInfo(
+      user: json['user'] != null
+          ? User.fromJson(json['user'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'user': user?.toJson(),
+    };
+  }
+
 }
