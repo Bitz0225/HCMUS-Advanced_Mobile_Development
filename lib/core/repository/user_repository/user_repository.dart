@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/data_state.dart';
+import 'package:lettutor/core/data_source/network/models/input/update_profile_form.dart';
+import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
 import 'package:lettutor/core/repository/base_repository.dart';
 
@@ -13,4 +15,21 @@ class UserRepository extends BaseRepository{
       parseJsonFunction: UserInfo.fromJson,
     );
   }
+
+  Future<DataState<UserInfo>> updateProfile(UpdateProfileForm form) {
+    return put(
+      path: '/info',
+      parseJsonFunction: UserInfo.fromJson,
+      data: form.toJson(),
+    );
+  }
+
+  Future<DataState<Info>> uploadImage(FormData data) {
+    return requestFormData(
+      path: '/uploadAvatar',
+      parseJsonFunction: Info.fromJson,
+      data: data,
+    );
+  }
+
 }

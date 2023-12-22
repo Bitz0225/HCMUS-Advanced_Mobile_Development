@@ -5,9 +5,7 @@ enum Level {
   intermediate(value: 'INTERMEDIATE', tagName: 'B1 (Intermediate)'),
   upperIntermediate(value: 'UPPER_INTERMEDIATE', tagName: 'B2 (Upper Intermediate)'),
   advanced(value: 'ADVANCED', tagName: 'C1 (Advanced)'),
-  proficient(value: 'PROFICIENT', tagName: 'C2 (Proficient)'),
-  upperA1(value: 'UPPER_A1', tagName: 'A1 (High Beginner)'),
-  upperA2(value: 'UPPER_A2', tagName: 'A2 (Pre-Intermediate)');
+  proficiency(value: 'PROFICIENCY', tagName: 'C2 (Proficiency)');
 
   final String value;
   final String tagName;
@@ -19,9 +17,8 @@ enum Level {
   bool get isIntermediate => this == Level.intermediate;
   bool get isUpperIntermediate => this == Level.upperIntermediate;
   bool get isAdvanced => this == Level.advanced;
-  bool get isProficient => this == Level.proficient;
-  bool get isUpperA1 => this == Level.upperA1;
-  bool get isUpperA2 => this == Level.upperA2;
+  bool get isProficiency => this == Level.proficiency;
+
 }
 
 enum Subject {
@@ -39,26 +36,27 @@ enum Subject {
   bool get isConversationalEnglish => this == Subject.conversationalEnglish;
 }
 
-enum TestPreparation {
-  starters(value: 'starters', tagName: 'STARTERS'),
-  movers(value: 'movers', tagName: 'MOVERS'),
-  flyers(value: 'flyers', tagName: 'FLYERS'),
-  ket(value: 'ket', tagName: 'KET'),
-  pet(value: 'pet', tagName: 'PET'),
-  ielts(value: 'ielts', tagName: 'IELTS'),
-  toefl(value: 'toefl', tagName: 'TOEFL'),
-  toeic(value: 'toeic', tagName: 'TOEIC');
+enum Test {
+  starters(key: 1, value: 'starters', tagName: 'STARTERS'),
+  movers(key: 2, value: 'movers', tagName: 'MOVERS'),
+  flyers(key: 3, value: 'flyers', tagName: 'FLYERS'),
+  ket(key: 4, value: 'ket', tagName: 'KET'),
+  pet(key: 5, value: 'pet', tagName: 'PET'),
+  ielts(key: 6, value: 'ielts', tagName: 'IELTS'),
+  toefl(key: 7, value: 'toefl', tagName: 'TOEFL'),
+  toeic(key: 8, value: 'toeic', tagName: 'TOEIC');
 
   final String value;
   final String tagName;
-  const TestPreparation({required this.value, required this.tagName});
+  final int key;
+  const Test({required this.value, required this.tagName, required this.key});
 
-  bool get isStarters => this == TestPreparation.starters;
-  bool get isMovers => this == TestPreparation.movers;
-  bool get isFlyers => this == TestPreparation.flyers;
-  bool get isKet => this == TestPreparation.ket;
-  bool get isPet => this == TestPreparation.pet;
-  bool get isIelts => this == TestPreparation.ielts;
-  bool get isToefl => this == TestPreparation.toefl;
-  bool get isToeic => this == TestPreparation.toeic;
+  bool get isStarters => this == Test.starters;
+  bool get isMovers => this == Test.movers;
+  bool get isFlyers => this == Test.flyers;
+  bool get isKet => this == Test.ket;
+  bool get isPet => this == Test.pet;
+  bool get isIelts => this == Test.ielts;
+  bool get isToefl => this == Test.toefl;
+  bool get isToeic => this == Test.toeic;
 }

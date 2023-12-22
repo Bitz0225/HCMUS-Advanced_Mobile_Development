@@ -125,9 +125,31 @@ class Course extends BaseModel {
       'tutorCourse': tutorCourse?.toJson(),
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        name,
+        description,
+        imageUrl,
+        level,
+        reason,
+        purpose,
+        otherDetails,
+        defaultPrice,
+        coursePrice,
+        courseType,
+        sectionType,
+        visible,
+        displayOrder,
+        createdAt,
+        updatedAt,
+        tutorCourse,
+      ];
 }
 
-class TutorCourse extends BaseModel{
+class TutorCourse extends BaseModel {
   final String? userId;
   final String? courseId;
   final String? createdAt;
@@ -172,4 +194,13 @@ class TutorCourse extends BaseModel{
       'updatedAt': updatedAt,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        userId,
+        courseId,
+        createdAt,
+        updatedAt,
+      ];
 }

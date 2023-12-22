@@ -1,8 +1,10 @@
-class TutorList {
+import 'package:lettutor/core/data_source/network/models/base_model.dart';
+
+class TutorList extends BaseModel {
   final Tutors? tutors;
   final List<FavoriteTutor>? favoriteTutor;
 
-  TutorList({
+  const TutorList({
     this.tutors,
     this.favoriteTutor,
   });
@@ -15,9 +17,37 @@ class TutorList {
         tutors: tutors ?? this.tutors,
         favoriteTutor: favoriteTutor ?? this.favoriteTutor,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    tutors,
+    favoriteTutor
+  ];
+
+  factory TutorList.fromJson(Map<String, dynamic> json) {
+    return TutorList(
+      tutors: json['tutors'] != null
+          ? Tutors.fromJson(json['tutors'] as Map<String, dynamic>)
+          : null,
+      favoriteTutor: json['favoriteTutor'] != null
+          ? (json['favoriteTutor'] as List)
+          .map((e) => FavoriteTutor.fromJson(e as Map<String, dynamic>))
+          .toList()
+          : null,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'tutors': tutors?.toJson(),
+      'favoriteTutor': favoriteTutor?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
-class FavoriteTutor {
+class FavoriteTutor extends BaseModel {
   final String? id;
   final String? firstId;
   final String? secondId;
@@ -25,7 +55,7 @@ class FavoriteTutor {
   final String? updatedAt;
   final Info? secondInfo;
 
-  FavoriteTutor({
+  const FavoriteTutor({
     this.id,
     this.firstId,
     this.secondId,
@@ -50,9 +80,45 @@ class FavoriteTutor {
         updatedAt: updatedAt ?? this.updatedAt,
         secondInfo: secondInfo ?? this.secondInfo,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    firstId,
+    secondId,
+    createdAt,
+    updatedAt,
+    secondInfo,
+  ];
+
+  factory FavoriteTutor.fromJson(Map<String, dynamic> json) {
+    return FavoriteTutor(
+      id: json['id'] as String?,
+      firstId: json['firstId'] as String?,
+      secondId: json['secondId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      secondInfo: json['secondInfo'] != null
+          ? Info.fromJson(json['secondInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'firstId': firstId,
+      'secondId': secondId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'secondInfo': secondInfo?.toJson(),
+    };
+  }
 }
 
-class Info {
+class Info extends BaseModel {
   final String? id;
   final String? level;
   final String? email;
@@ -83,7 +149,7 @@ class Info {
   final String? studentGroupId;
   final TutorInfo? tutorInfo;
 
-  Info({
+  const Info({
     this.id,
     this.level,
     this.email,
@@ -177,9 +243,114 @@ class Info {
         studentGroupId: studentGroupId ?? this.studentGroupId,
         tutorInfo: tutorInfo ?? this.tutorInfo,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    level,
+    email,
+    google,
+    facebook,
+    apple,
+    avatar,
+    name,
+    country,
+    phone,
+    language,
+    birthday,
+    requestPassword,
+    isActivated,
+    isPhoneActivated,
+    requireNote,
+    timezone,
+    phoneAuth,
+    isPhoneAuthActivated,
+    studySchedule,
+    canSendMessage,
+    isPublicRecord,
+    caredByStaffId,
+    zaloUserId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    studentGroupId,
+    tutorInfo,
+  ];
+
+  factory Info.fromJson(Map<String, dynamic> json) {
+    return Info(
+      id: json['id'] as String?,
+      level: json['level'] as String?,
+      email: json['email'] as String?,
+      google: json['google'] as String?,
+      facebook: json['facebook'] as String?,
+      apple: json['apple'] as String?,
+      avatar: json['avatar'] as String?,
+      name: json['name'] as String?,
+      country: json['country'] as String?,
+      phone: json['phone'] as String?,
+      language: json['language'] as String?,
+      birthday: json['birthday'] as String?,
+      requestPassword: json['requestPassword'] as bool?,
+      isActivated: json['isActivated'] as bool?,
+      isPhoneActivated: json['isPhoneActivated'] as bool?,
+      requireNote: json['requireNote'] as String?,
+      timezone: json['timezone'] as int?,
+      phoneAuth: json['phoneAuth'] as dynamic,
+      isPhoneAuthActivated: json['isPhoneAuthActivated'] as bool?,
+      studySchedule: json['studySchedule'] as String?,
+      canSendMessage: json['canSendMessage'] as bool?,
+      isPublicRecord: json['isPublicRecord'] as bool?,
+      caredByStaffId: json['caredByStaffId'] as String?,
+      zaloUserId: json['zaloUserId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      deletedAt: json['deletedAt'] as String?,
+      studentGroupId: json['studentGroupId'] as String?,
+      tutorInfo: json['tutorInfo'] != null
+          ? TutorInfo.fromJson(json['tutorInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'level': level,
+      'email': email,
+      'google': google,
+      'facebook': facebook,
+      'apple': apple,
+      'avatar': avatar,
+      'name': name,
+      'country': country,
+      'phone': phone,
+      'language': language,
+      'birthday': birthday,
+      'requestPassword': requestPassword,
+      'isActivated': isActivated,
+      'isPhoneActivated': isPhoneActivated,
+      'requireNote': requireNote,
+      'timezone': timezone,
+      'phoneAuth': phoneAuth,
+      'isPhoneAuthActivated': isPhoneAuthActivated,
+      'studySchedule': studySchedule,
+      'canSendMessage': canSendMessage,
+      'isPublicRecord': isPublicRecord,
+      'caredByStaffId': caredByStaffId,
+      'zaloUserId': zaloUserId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
+      'studentGroupId': studentGroupId,
+      'tutorInfo': tutorInfo?.toJson(),
+    };
+  }
 }
 
-class TutorInfo {
+class TutorInfo extends BaseModel {
   final String? id;
   final String? userId;
   final String? video;
@@ -200,7 +371,7 @@ class TutorInfo {
   final String? createdAt;
   final String? updatedAt;
 
-  TutorInfo({
+  const TutorInfo({
     this.id,
     this.userId,
     this.video,
@@ -264,13 +435,86 @@ class TutorInfo {
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    userId,
+    video,
+    bio,
+    education,
+    experience,
+    profession,
+    accent,
+    targetStudent,
+    interests,
+    languages,
+    specialties,
+    resume,
+    rating,
+    isActivated,
+    isNative,
+    youtubeVideoId,
+    createdAt,
+    updatedAt,
+  ];
+
+  factory TutorInfo.fromJson(Map<String, dynamic> json) {
+    return TutorInfo(
+      id: json['id'] as String?,
+      userId: json['userId'] as String?,
+      video: json['video'] as String?,
+      bio: json['bio'] as String?,
+      education: json['education'] as String?,
+      experience: json['experience'] as String?,
+      profession: json['profession'] as String?,
+      accent: json['accent'] as String?,
+      targetStudent: json['targetStudent'] as String?,
+      interests: json['interests'] as String?,
+      languages: json['languages'] as String?,
+      specialties: json['specialties'] as String?,
+      resume: json['resume'] as String?,
+      rating: (json['rating'] as num?)?.toDouble(),
+      isActivated: json['isActivated'] as bool?,
+      isNative: json['isNative'] as bool?,
+      youtubeVideoId: json['youtubeVideoId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'userId': userId,
+      'video': video,
+      'bio': bio,
+      'education': education,
+      'experience': experience,
+      'profession': profession,
+      'accent': accent,
+      'targetStudent': targetStudent,
+      'interests': interests,
+      'languages': languages,
+      'specialties': specialties,
+      'resume': resume,
+      'rating': rating,
+      'isActivated': isActivated,
+      'isNative': isNative,
+      'youtubeVideoId': youtubeVideoId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
 }
 
-class Tutors {
+class Tutors extends BaseModel {
   final int? count;
   final List<Row>? rows;
 
-  Tutors({
+  const Tutors({
     this.count,
     this.rows,
   });
@@ -283,9 +527,35 @@ class Tutors {
         count: count ?? this.count,
         rows: rows ?? this.rows,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    count,
+    rows,
+  ];
+
+  factory Tutors.fromJson(Map<String, dynamic> json) {
+    return Tutors(
+      count: json['count'] as int?,
+      rows: json['rows'] != null
+          ? (json['rows'] as List)
+          .map((e) => Row.fromJson(e as Map<String, dynamic>))
+          .toList()
+          : null,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'count': count,
+      'rows': rows?.map((e) => e.toJson()).toList(),
+    };
+  }
 }
 
-class Row {
+class Row extends BaseModel{
   final String? level;
   final String? email;
   final String? google;
@@ -333,7 +603,7 @@ class Row {
   final int? price;
   final bool? isOnline;
 
-  Row({
+  const Row({
     this.level,
     this.email,
     this.google,
@@ -478,9 +748,167 @@ class Row {
         price: price ?? this.price,
         isOnline: isOnline ?? this.isOnline,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    level,
+    email,
+    google,
+    facebook,
+    apple,
+    avatar,
+    name,
+    country,
+    phone,
+    language,
+    birthday,
+    requestPassword,
+    isActivated,
+    isPhoneActivated,
+    requireNote,
+    timezone,
+    phoneAuth,
+    isPhoneAuthActivated,
+    studySchedule,
+    canSendMessage,
+    isPublicRecord,
+    caredByStaffId,
+    zaloUserId,
+    createdAt,
+    updatedAt,
+    deletedAt,
+    studentGroupId,
+    feedbacks,
+    id,
+    userId,
+    video,
+    bio,
+    education,
+    experience,
+    profession,
+    accent,
+    targetStudent,
+    interests,
+    languages,
+    specialties,
+    resume,
+    rating,
+    isNative,
+    youtubeVideoId,
+    price,
+    isOnline,
+  ];
+
+  factory Row.fromJson(Map<String, dynamic> json) {
+    return Row(
+      level: json['level'] as String?,
+      email: json['email'] as String?,
+      google: json['google'] as String?,
+      facebook: json['facebook'] as String?,
+      apple: json['apple'] as String?,
+      avatar: json['avatar'] as String?,
+      name: json['name'] as String?,
+      country: json['country'] as String?,
+      phone: json['phone'] as String?,
+      language: json['language'] as String?,
+      birthday: json['birthday'] as String?,
+      requestPassword: json['requestPassword'] as bool?,
+      isActivated: json['isActivated'] as bool?,
+      isPhoneActivated: json['isPhoneActivated'] as bool?,
+      requireNote: json['requireNote'] as String?,
+      timezone: json['timezone'] as int?,
+      phoneAuth: json['phoneAuth'] as dynamic,
+      isPhoneAuthActivated: json['isPhoneAuthActivated'] as bool?,
+      studySchedule: json['studySchedule'] as String?,
+      canSendMessage: json['canSendMessage'] as bool?,
+      isPublicRecord: json['isPublicRecord'] as bool?,
+      caredByStaffId: json['caredByStaffId'] as String?,
+      zaloUserId: json['zaloUserId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      deletedAt: json['deletedAt'] as String?,
+      studentGroupId: json['studentGroupId'] as String?,
+      feedbacks: json['feedbacks'] != null
+          ? (json['feedbacks'] as List)
+          .map((e) => Feedback.fromJson(e as Map<String, dynamic>))
+          .toList()
+          : null,
+      id: json['id'] as String?,
+      userId: json['userId'] as String?,
+      video: json['video'] as String?,
+      bio: json['bio'] as String?,
+      education: json['education'] as String?,
+      experience: json['experience'] as String?,
+      profession: json['profession'] as String?,
+      accent: json['accent'] as String?,
+      targetStudent: json['targetStudent'] as String?,
+      interests: json['interests'] as String?,
+      languages: json['languages'] as String?,
+      specialties: json['specialties'] as String?,
+      resume: json['resume'] as String?,
+      rating: (json['rating'] as num?)?.toDouble(),
+      isNative: json['isNative'] as bool?,
+      youtubeVideoId: json['youtubeVideoId'] as String?,
+      price: json['price'] as int?,
+      isOnline: json['isOnline'] as bool?,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'level': level,
+      'email': email,
+      'google': google,
+      'facebook': facebook,
+      'apple': apple,
+      'avatar': avatar,
+      'name': name,
+      'country': country,
+      'phone': phone,
+      'language': language,
+      'birthday': birthday,
+      'requestPassword': requestPassword,
+      'isActivated': isActivated,
+      'isPhoneActivated': isPhoneActivated,
+      'requireNote': requireNote,
+      'timezone': timezone,
+      'phoneAuth': phoneAuth,
+      'isPhoneAuthActivated': isPhoneAuthActivated,
+      'studySchedule': studySchedule,
+      'canSendMessage': canSendMessage,
+      'isPublicRecord': isPublicRecord,
+      'caredByStaffId': caredByStaffId,
+      'zaloUserId': zaloUserId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'deletedAt': deletedAt,
+      'studentGroupId': studentGroupId,
+      'feedbacks': feedbacks?.map((e) => e.toJson()).toList(),
+      'id': id,
+      'userId': userId,
+      'video': video,
+      'bio': bio,
+      'education': education,
+      'experience': experience,
+      'profession': profession,
+      'accent': accent,
+      'targetStudent': targetStudent,
+      'interests': interests,
+      'languages': languages,
+      'specialties': specialties,
+      'resume': resume,
+      'rating': rating,
+      'isNative': isNative,
+      'youtubeVideoId': youtubeVideoId,
+      'price': price,
+      'isOnline': isOnline,
+    };
+  }
 }
 
-class Feedback {
+class Feedback extends BaseModel {
   final String? id;
   final String? bookingId;
   final String? firstId;
@@ -491,7 +919,7 @@ class Feedback {
   final String? updatedAt;
   final Info? firstInfo;
 
-  Feedback({
+  const Feedback({
     this.id,
     this.bookingId,
     this.firstId,
@@ -525,4 +953,49 @@ class Feedback {
         updatedAt: updatedAt ?? this.updatedAt,
         firstInfo: firstInfo ?? this.firstInfo,
       );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    bookingId,
+    firstId,
+    secondId,
+    rating,
+    content,
+    createdAt,
+    updatedAt,
+    firstInfo,
+  ];
+
+  factory Feedback.fromJson(Map<String, dynamic> json) {
+    return Feedback(
+      id: json['id'] as String?,
+      bookingId: json['bookingId'] as String?,
+      firstId: json['firstId'] as String?,
+      secondId: json['secondId'] as String?,
+      rating: json['rating'] as int?,
+      content: json['content'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+      firstInfo: json['firstInfo'] != null
+          ? Info.fromJson(json['firstInfo'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'bookingId': bookingId,
+      'firstId': firstId,
+      'secondId': secondId,
+      'rating': rating,
+      'content': content,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+      'firstInfo': firstInfo?.toJson(),
+    };
+  }
 }

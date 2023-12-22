@@ -1,6 +1,8 @@
-abstract class BaseModel {
-  BaseModel();
+import 'package:equatable/equatable.dart';
 
-  BaseModel.fromJson(Map<String, dynamic> json);
+abstract class BaseModel extends Equatable {
+  const BaseModel();
+
+  const BaseModel.fromJson(Map<String, dynamic> json);
   Map<String, dynamic> toJson();
 }

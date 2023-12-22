@@ -19,12 +19,14 @@ class BaseDrawer extends StatelessWidget {
           child: ListView(
             children: [
               ListTile(
-                leading: CircleAvatar(
-                  radius: 16,
-                  child: ClipOval(
+                leading: SizedBox(
+                  width: 32,
+                  height: 32,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(16),
                     child: CachedNetworkImage(
                       imageUrl: state.user?.avatar ?? '',
-                      fit: BoxFit.contain,
+                      fit: BoxFit.fill,
                       placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(),
                       ),

@@ -38,6 +38,13 @@ class AuthOutput extends BaseModel{
       'tokens': tokens?.toJson(),
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    user,
+    tokens,
+  ];
 }
 
 class Tokens extends BaseModel {
@@ -77,6 +84,13 @@ class Tokens extends BaseModel {
       'refresh': refresh?.toJson(),
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    access,
+    refresh,
+  ];
 }
 
 class Access extends BaseModel{
@@ -112,6 +126,48 @@ class Access extends BaseModel{
       'expires': expires,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    token,
+    expires,
+  ];
+}
+
+class Message extends BaseModel {
+  final String? message;
+
+  Message({
+    this.message,
+  });
+
+  Message copyWith({
+    String? message,
+  }) =>
+      Message(
+        message: message ?? this.message,
+      );
+
+  @override
+  factory Message.fromJson(Map<String, dynamic> json) {
+    return Message(
+      message: json['message'] as String?,
+    );
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+    };
+  }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    message,
+  ];
 }
 
 class User extends BaseModel {
@@ -305,6 +361,36 @@ class User extends BaseModel {
       'avgRating': avgRating,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    email,
+    name,
+    avatar,
+    country,
+    phone,
+    roles,
+    language,
+    birthday,
+    isActivated,
+    tutorInfo,
+    walletInfo,
+    courses,
+    requireNote,
+    level,
+    learnTopics,
+    testPreparations,
+    isPhoneActivated,
+    timezone,
+    referralInfo,
+    studySchedule,
+    canSendMessage,
+    studentGroup,
+    studentInfo,
+    avgRating,
+  ];
 }
 
 class ReferralInfo extends BaseModel {
@@ -343,6 +429,13 @@ class ReferralInfo extends BaseModel {
       'referralPackInfo': referralPackInfo?.toJson(),
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    referralCode,
+    referralPackInfo,
+  ];
 }
 
 class ReferralPackInfo extends BaseModel {
@@ -372,6 +465,13 @@ class ReferralPackInfo extends BaseModel {
       'earnPercent': earnPercent,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    earnPercent,
+
+  ];
 }
 
 class TestPreparation extends BaseModel {
@@ -413,6 +513,14 @@ class TestPreparation extends BaseModel {
       'name': name,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    key,
+    name,
+  ];
 }
 
 class TutorInfo extends BaseModel{
@@ -532,6 +640,27 @@ class TutorInfo extends BaseModel{
       'youtubeVideoId': youtubeVideoId,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    video,
+    bio,
+    education,
+    experience,
+    profession,
+    accent,
+    targetStudent,
+    interests,
+    languages,
+    specialties,
+    resume,
+    rating,
+    isActivated,
+    isNative,
+    youtubeVideoId,
+  ];
 }
 
 class WalletInfo extends BaseModel {
@@ -597,6 +726,18 @@ class WalletInfo extends BaseModel {
       'bonus': bonus,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    userId,
+    amount,
+    isBlocked,
+    createdAt,
+    updatedAt,
+    bonus,
+  ];
 }
 
 class UserInfo extends BaseModel {
@@ -628,5 +769,11 @@ class UserInfo extends BaseModel {
       'user': user?.toJson(),
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    user,
+  ];
 
 }

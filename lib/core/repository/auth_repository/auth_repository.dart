@@ -1,5 +1,6 @@
 import 'package:lettutor/core/data_source/network/data_state.dart';
 import 'package:lettutor/core/data_source/network/models/input/auth_form.dart';
+import 'package:lettutor/core/data_source/network/models/input/update_password_form.dart';
 import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
 import 'package:lettutor/core/repository/base_repository.dart';
 
@@ -22,6 +23,14 @@ class AuthRepository extends BaseRepository {
         ...input.toJson(),
         ...{'source': 'https://www.google.com/'}
       },
+    );
+  }
+
+  Future<DataState<Message>> updatePassword(ChangePasswordForm input) async {
+    return post<Message>(
+      path: '/change-password',
+      parseJsonFunction: Message.fromJson,
+      data: input.toJson()
     );
   }
 }

@@ -21,9 +21,8 @@ class BaseRepository {
 
   Future<DataState<T>> get<T>(
       {required String path,
-        required ParseJsonFunction<T> parseJsonFunction,
-        Map<String, dynamic>? queryParameters}) async {
-
+      required ParseJsonFunction<T> parseJsonFunction,
+      Map<String, dynamic>? queryParameters}) async {
     try {
       final response = await _networkManager.get(serviceName + path,
           queryParameters: queryParameters);
@@ -34,7 +33,8 @@ class BaseRepository {
         return DataSuccess<T>(data);
       } else {
         final parser = ResultParser<FailureModel>(
-            response.data as Map<String, dynamic>? ?? {}, FailureModel.fromJson);
+            response.data as Map<String, dynamic>? ?? {},
+            FailureModel.fromJson);
         throw Exception((await parser.parseInBackground()).message);
       }
     } on DioException catch (e) {
@@ -44,11 +44,10 @@ class BaseRepository {
 
   Future<DataState<T>> post<T>(
       {required String path,
-        required ParseJsonFunction<T> parseJsonFunction,
-        Map<String, dynamic>? queryParameters,
-        Map<String, dynamic>? headers,
-        Map<String, dynamic>? data}) async {
-
+      required ParseJsonFunction<T> parseJsonFunction,
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers,
+      Map<String, dynamic>? data}) async {
     try {
       final response = await _networkManager.post(serviceName + path,
           queryParameters: queryParameters, data: data);
@@ -59,17 +58,72 @@ class BaseRepository {
         return DataSuccess<T>(data);
       } else {
         final parser = ResultParser<FailureModel>(
-            response.data as Map<String, dynamic>? ?? {}, FailureModel.fromJson);
+            response.data as Map<String, dynamic>? ?? {},
+            FailureModel.fromJson);
         throw Exception((await parser.parseInBackground()).message);
       }
     } on DioException catch (e) {
       return DataError(e);
     }
   }
+
+  Future<DataState<T>> put<T>(
+      {required String path,
+      required ParseJsonFunction<T> parseJsonFunction,
+      Map<String, dynamic>? queryParameters,
+      Map<String, dynamic>? headers,
+      Map<String, dynamic>? data}) async {
+    try {
+      final response = await _networkManager.put(serviceName + path,
+          queryParameters: queryParameters, data: data);
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final parser = ResultParser<T>(
+            response.data as Map<String, dynamic>? ?? {}, parseJsonFunction);
+        final data = await parser.parseInBackground();
+        return DataSuccess<T>(data);
+      } else {
+        final parser = ResultParser<FailureModel>(
+            response.data as Map<String, dynamic>? ?? {},
+            FailureModel.fromJson);
+        throw Exception((await parser.parseInBackground()).message);
+      }
+    } on DioException catch (e) {
+      return DataError(e);
+    }
+  }
+
+  Future<DataState<T>> requestFormData<T>({
+    required String path,
+    required ParseJsonFunction<T> parseJsonFunction,
+    FormData? data,
+    Map<String, dynamic>? headers,
+  }) async {
+    try {
+      final response = await _networkManager.requestFormData(
+        serviceName + path,
+        data: data,
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final parser = ResultParser<T>(
+            response.data as Map<String, dynamic>? ?? {}, parseJsonFunction);
+        final data = await parser.parseInBackground();
+        return DataSuccess<T>(data);
+      } else {
+        final parser = ResultParser<FailureModel>(
+            response.data as Map<String, dynamic>? ?? {},
+            FailureModel.fromJson);
+        throw Exception((await parser.parseInBackground()).message);
+      }
+    } on DioException catch (e) {
+      throw DataError(e);
+    }
+  }
 }
 
 class ResultParser<OutputType> {
   ResultParser(this.json, this.parseJsonFunction);
+
   final Map<String, dynamic> json;
   final ParseJsonFunction<OutputType> parseJsonFunction;
 

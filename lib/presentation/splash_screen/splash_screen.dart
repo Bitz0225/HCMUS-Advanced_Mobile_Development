@@ -18,14 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-
-    final isLogin = context.read<SplashCubit>().state.isLogin;
-    context.read<SplashCubit>().getUser();
-    if (isLogin ?? false) {
-      context.router.replace(const ListTeachersScreenRoute());
-    } else {
-      context.router.replace(const LoginScreenRoute());
-    }
+    getUser(context);
   }
 
   @override
@@ -35,5 +28,17 @@ class _SplashScreenState extends State<SplashScreen> {
       width: MediaQuery.sizeOf(context).width,
       color: Colors.white,
     );
+  }
+
+  Future<void> getUser(BuildContext context) async {
+    final isLogin = context.read<SplashCubit>().state.isLogin;
+
+    await context.read<SplashCubit>().getUser();
+
+    if ((isLogin ?? false) && context.read<SplashCubit>().state.user != null) {
+      context.router.replace(const ListTeachersScreenRoute());
+    } else {
+      context.router.replace(const LoginScreenRoute());
+    }
   }
 }

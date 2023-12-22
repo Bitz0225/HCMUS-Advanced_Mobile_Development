@@ -39,4 +39,12 @@ class FailureModel extends BaseModel {
       'internalCode': internalCode,
     };
   }
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        statusCode,
+        message,
+        internalCode,
+      ];
 }

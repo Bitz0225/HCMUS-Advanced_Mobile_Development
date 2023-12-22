@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/common/config/router.dart';
-import 'package:lettutor/common/ui/%20base_snack_bar/snack_bar_mixin.dart';
+import 'package:lettutor/common/ui/base_snack_bar/snack_bar_mixin.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
