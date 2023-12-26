@@ -3,6 +3,7 @@ import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/tag_item/tag_item.dart';
+import 'package:lettutor/common/values/fixed_enum.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/gen/assets.gen.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
@@ -10,10 +11,13 @@ import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_
 class ListTeachersItem extends StatelessWidget {
   final String? name;
   final String? nationality;
-  final int? ratings;
+  final double? ratings;
   final int? ratingsCount;
   final String? description;
+  final String? specialities;
   final String? avatarUrl;
+  final String? userId;
+  final bool? isFavoriteTutor;
 
   const ListTeachersItem(
       {super.key,
@@ -22,7 +26,10 @@ class ListTeachersItem extends StatelessWidget {
       this.ratings,
       this.ratingsCount,
       this.description,
-      this.avatarUrl});
+      this.avatarUrl,
+      this.userId,
+      this.specialities,
+      this.isFavoriteTutor});
 
   @override
   Widget build(BuildContext context) {
@@ -42,50 +49,29 @@ class ListTeachersItem extends StatelessWidget {
               nationality: nationality ?? '',
               description: description ?? '',
               avatarUrl: avatarUrl ?? '',
+              userId: userId ?? '',
+              isFavoriteTutor: isFavoriteTutor ?? false,
               showFavoriteButton: true,
             ),
             const SizedBox(
               height: 16,
             ),
             ExtendedWrap(
-              maxLines: 2,
               spacing: 8,
-              runSpacing: 16,
-              children: const [
-                TagItem(
-                  content: 'English for Business',
-                ),
-                TagItem(
-                  content: 'Conversational',
-                ),
-                TagItem(
-                  content: 'English for kids',
-                ),
-                TagItem(
-                  content: 'IELTS',
-                ),
-                TagItem(
-                  content: 'STARTERS',
-                ),
-                TagItem(
-                  content: 'MOVERS',
-                ),
-                TagItem(
-                  content: 'FLYERS',
-                ),
-                TagItem(
-                  content: 'KET',
-                ),
-                TagItem(
-                  content: 'PET',
-                ),
-                TagItem(
-                  content: 'TOEFL',
-                ),
-                TagItem(
-                  content: 'TOEIC',
-                ),
-              ],
+              runSpacing: 8,
+              maxLines: 4,
+              children: specialities
+                      ?.split(',')
+                      .map((e) => TagItem(
+                            content: Tags.values
+                                .firstWhere((element) =>
+                                    element.value == e, orElse: () => Tags.empty
+                                    )
+                                .tagName,
+
+                          ))
+                      .toList() ??
+                  [],
             ),
             const SizedBox(
               height: 32,

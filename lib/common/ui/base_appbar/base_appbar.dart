@@ -27,7 +27,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.router.replace(const ListTeachersScreenRoute());
+              context.router.replace(const ListTeachersWrapperRoute());
             },
             child: Container(
               // transform: Matrix4.translationValues(24, 0, 0),

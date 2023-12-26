@@ -41,7 +41,7 @@ class AppRouter extends _$AppRouter {
               AutoRoute(
                   page: DetailCourseScreenRoute.page, path: 'detail-course'),
               AutoRoute(
-                  page: ListTeachersScreenRoute.page, path: 'list-teachers'),
+                  page: ListTeachersWrapperRoute.page, path: 'list-teachers'),
               AutoRoute(
                   page: TeacherDetailScreenRoute.page, path: 'teacher-detail'),
               AutoRoute(page: ScheduleScreenRoute.page, path: 'schedule'),

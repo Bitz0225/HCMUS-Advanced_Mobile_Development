@@ -60,3 +60,35 @@ enum Test {
   bool get isToefl => this == Test.toefl;
   bool get isToeic => this == Test.toeic;
 }
+
+enum Tags {
+  englishForKids(key: 3, value: 'english-for-kids', tagName: 'English for Kids'),
+  businessEnglish(key: 4, value: 'business-english', tagName: 'Business English'),
+  conversationalEnglish(key: 5, value: 'conversational-english', tagName: 'Conversational English'),
+  starters(key: 1, value: 'starters', tagName: 'STARTERS'),
+  movers(key: 2, value: 'movers', tagName: 'MOVERS'),
+  flyers(key: 3, value: 'flyers', tagName: 'FLYERS'),
+  ket(key: 4, value: 'ket', tagName: 'KET'),
+  pet(key: 5, value: 'pet', tagName: 'PET'),
+  ielts(key: 6, value: 'ielts', tagName: 'IELTS'),
+  toefl(key: 7, value: 'toefl', tagName: 'TOEFL'),
+  toeic(key: 8, value: 'toeic', tagName: 'TOEIC'),
+  empty(key: 0, value: '', tagName: '');
+
+  final String value;
+  final String tagName;
+  final int key;
+  const Tags({required this.key, required this.value, required this.tagName});
+
+  bool get isStarters => this == Tags.starters;
+  bool get isMovers => this == Tags.movers;
+  bool get isFlyers => this == Tags.flyers;
+  bool get isKet => this == Tags.ket;
+  bool get isPet => this == Tags.pet;
+  bool get isIelts => this == Tags.ielts;
+  bool get isToefl => this == Tags.toefl;
+  bool get isToeic => this == Test.toeic;
+  bool get isEnglishForKids => this == Tags.englishForKids;
+  bool get isBusinessEnglish => this == Tags.businessEnglish;
+  bool get isConversationalEnglish => this == Tags.conversationalEnglish;
+}

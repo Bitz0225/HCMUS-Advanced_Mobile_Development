@@ -1,15 +1,38 @@
+import 'dart:ffi';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:choice/choice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
 import 'package:lettutor/common/ui/section/section.dart';
-import 'package:lettutor/common/ui/tag_item/tag_item.dart';
+import 'package:lettutor/common/values/fixed_enum.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/core/base_widget/base_widget.dart';
+import 'package:lettutor/core/data_source/network/models/input/search_tutor_form.dart';
+import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
+import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_state.dart';
 import 'package:lettutor/presentation/list_teachers_screen/widget/list_teachers_item.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 @RoutePage()
+class ListTeachersWrapper extends BaseWidget<TutorCubit, TutorState> {
+  const ListTeachersWrapper({super.key});
+
+  @override
+  Widget buildWidget(BuildContext context) {
+    return const ListTeachersScreen();
+  }
+
+  @override
+  TutorCubit? provideCubit(BuildContext context) {
+    return TutorCubit();
+  }
+}
+
 class ListTeachersScreen extends StatefulWidget {
   const ListTeachersScreen({super.key});
 
@@ -25,163 +48,217 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: const BaseAppBar(),
-        endDrawer: const BaseDrawer(),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Find a tutor',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 36,
-                      fontWeight: FontWeight.w900),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                BaseInputField(
-                  controller: _nameInput,
-                  hint: 'Enter tutor name',
-                  suffixIcon: const Icon(Icons.search),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Text(
-                  'Select available tutoring time:',
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                _DateTimePicker(
-                  dateInput: _dateInput,
-                  startTimeInput: _startTimeInput,
-                  endTimeInput: _endTimeInput,
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Wrap(
-                    spacing: 8,
-                    runSpacing: 16,
-                    children: [
-                      TagItem(
-                        content: 'English for Business',
-                      ),
-                      TagItem(
-                        content: 'Conversational',
-                      ),
-                      TagItem(
-                        content: 'English for kids',
-                      ),
-                      TagItem(
-                        content: 'IELTS',
-                      ),
-                      TagItem(
-                        content: 'STARTERS',
-                      ),
-                      TagItem(
-                        content: 'MOVERS',
-                      ),
-                      TagItem(
-                        content: 'FLYERS',
-                      ),
-                      TagItem(
-                        content: 'KET',
-                      ),
-                      TagItem(
-                        content: 'PET',
-                      ),
-                      TagItem(
-                        content: 'TOEFL',
-                      ),
-                      TagItem(
-                        content: 'TOEIC',
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                GestureDetector(
-                  onTap: () {
-                    _nameInput.clear();
-                    _dateInput.clear();
-                    _startTimeInput.clear();
-                    _endTimeInput.clear();
-                  },
-                  child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16, vertical: 8),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: AppColors.appBlue100),
-                      ),
-                      child: Text('Reset Filter',
-                          style: TextStyle(
-                            color: AppColors.appBlue100,
-                          ))),
-                ),
-                const SizedBox(
-                  height: 16,
-                ),
-                const Section(
-                  ignoreIndent: true,
-                  title: 'Recommended tutors',
-                  content: Column(children: [
-                    ListTeachersItem(
-                      name: 'Keegan',
-                      ratings: 4,
-                      ratingsCount: 58,
-                      nationality: 'France',
-                      description:
-                          'I am a French teacher with 5 years of experience.',
+    return BlocBuilder<TutorCubit, TutorState>(
+      builder: (context, state) {
+        return Scaffold(
+            appBar: const BaseAppBar(),
+            endDrawer: const BaseDrawer(),
+            body: SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Find a tutor',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 36,
+                          fontWeight: FontWeight.w900),
                     ),
-                    const SizedBox(height: 16),
-                    ListTeachersItem(
-                      name: 'Keegan',
-                      ratings: 4,
-                      ratingsCount: 58,
-                      nationality: 'France',
-                      description:
-                      'I am a French teacher with 5 years of experience.',
+                    const SizedBox(
+                      height: 16,
                     ),
-                    const SizedBox(height: 16),
-                    ListTeachersItem(
-                      name: 'Keegan',
-                      ratings: 4,
-                      ratingsCount: 58,
-                      nationality: 'France',
-                      description:
-                      'I am a French teacher with 5 years of experience.',
+                    BaseInputField(
+                      controller: _nameInput,
+                      onSubmitted: (value) {
+                        context
+                            .read<TutorCubit>()
+                            .getListTutorWithPagination(SearchTutorForm(
+                              search: _nameInput.text,
+                              page: context
+                                  .read<TutorCubit>()
+                                  .state
+                                  .currentPage
+                                  .toString(),
+                              perPage: state.perPage,
+                            ));
+                      },
+                      hint: 'Enter tutor name',
+                      suffixIcon: const Icon(Icons.search),
                     ),
-                    const SizedBox(height: 16),
-                    ListTeachersItem(
-                      name: 'Keegan',
-                      ratings: 4,
-                      ratingsCount: 58,
-                      nationality: 'France',
-                      description:
-                      'I am a French teacher with 5 years of experience.',
+                    const SizedBox(
+                      height: 16,
                     ),
+                    const Text(
+                      'Select available tutoring time:',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    _DateTimePicker(
+                      dateInput: _dateInput,
+                      startTimeInput: _startTimeInput,
+                      endTimeInput: _endTimeInput,
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Choice<Tags>.inline(
+                      clearable: true,
+                      itemCount: Tags.values.length - 1,
+                      itemBuilder: (choiceState, i) {
+                        return ChoiceChip(
+                          selected: state.tag == Tags.values[i].value,
+                          onSelected: (bool? value) async {
+                            choiceState.onSelected(Tags.values[i]);
+                            handlePickingTags(
+                                value: Tags.values[i].value, context: context);
+                          },
+                          label: Text(Tags.values[i].tagName),
+                        );
+                      },
+                      listBuilder: ChoiceList.createWrapped(
+                        padding: const EdgeInsets.all(8),
+                        spacing: 6,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        _nameInput.clear();
+                        _dateInput.clear();
+                        _startTimeInput.clear();
+                        _endTimeInput.clear();
+                      },
+                      child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 8),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: AppColors.appBlue100),
+                          ),
+                          child: Text('Reset Filter',
+                              style: TextStyle(
+                                color: AppColors.appBlue100,
+                              ))),
+                    ),
+                    const SizedBox(
+                      height: 16,
+                    ),
+                    Section(
+                      ignoreIndent: true,
+                      title: 'Recommended tutors',
+                      content: (context.read<TutorCubit>().state.tutorList ==
+                              null)
+                          ? const Center(child: CircularProgressIndicator())
+                          : ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount: context
+                                  .read<TutorCubit>()
+                                  .state
+                                  .currentPageAmount,
+                              itemBuilder: (listContext, index) {
+                                return Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: ListTeachersItem(
+                                      name: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .name,
+                                      nationality: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .country,
+                                      ratings: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .rating,
+                                      description: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .bio,
+                                      avatarUrl: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .avatar,
+                                      userId: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .id,
+                                      isFavoriteTutor: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .isFavoriteTutor,
+                                      specialities: context
+                                          .read<TutorCubit>()
+                                          .state
+                                          .tutorList?[index]
+                                          .specialities),
+                                );
+                              },
+                            ),
+                    ),
+                    NumberPaginator(
+                      numberPages:
+                          context.read<TutorCubit>().state.totalPages ?? 1,
+                      onPageChange: (int index) {
+                        context.read<TutorCubit>().updatePage(index + 1).then(
+                            (value) => context
+                                .read<TutorCubit>()
+                                .getListTutorWithPagination(
+                                  SearchTutorForm(
+                                    page: context
+                                        .read<TutorCubit>()
+                                        .state
+                                        .currentPage
+                                        .toString(),
+                                    perPage: context
+                                        .read<TutorCubit>()
+                                        .state
+                                        .perPage,
+                                  ),
+                                ));
+                      },
+                    )
+                  ],
+                ),
+              ),
+            ));
+      },
+    );
+  }
+
+  Future<void> handlePickingTags(
+      {required String value, required BuildContext context}) async {
+    context
+        .read<TutorCubit>()
+        .updateTags(context.read<TutorCubit>().state.tag == value ? '' : value)
+        .then((value) => context.read<TutorCubit>().updatePage(1).then(
+            (value) => context
+                .read<TutorCubit>()
+                .getListTutorWithPagination(SearchTutorForm(
+                  filters: Filter(specialities: [
+                    context.read<TutorCubit>().state.tag ?? ''
                   ]),
-                )
-              ],
-            ),
-          ),
-        ));
+                  page: context.read<TutorCubit>().state.currentPage.toString(),
+                  perPage: context.read<TutorCubit>().state.perPage,
+                ))));
   }
 }
 
@@ -209,7 +286,7 @@ class _DateTimePicker extends StatelessWidget {
             final date = await showDatePicker(
               context: context,
               initialDate: DateTime.now(),
-              firstDate: DateTime(DateTime.now().year - 3),
+              firstDate: DateTime.now(),
               lastDate: DateTime(DateTime.now().year + 3),
             );
             if (date != null) {

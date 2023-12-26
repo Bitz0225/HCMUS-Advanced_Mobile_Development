@@ -20,10 +20,7 @@ class TutorList extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
-    tutors,
-    favoriteTutor
-  ];
+  List<Object?> get props => [tutors, favoriteTutor];
 
   factory TutorList.fromJson(Map<String, dynamic> json) {
     return TutorList(
@@ -32,8 +29,8 @@ class TutorList extends BaseModel {
           : null,
       favoriteTutor: json['favoriteTutor'] != null
           ? (json['favoriteTutor'] as List)
-          .map((e) => FavoriteTutor.fromJson(e as Map<String, dynamic>))
-          .toList()
+              .map((e) => FavoriteTutor.fromJson(e as Map<String, dynamic>))
+              .toList()
           : null,
     );
   }
@@ -84,13 +81,13 @@ class FavoriteTutor extends BaseModel {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    id,
-    firstId,
-    secondId,
-    createdAt,
-    updatedAt,
-    secondInfo,
-  ];
+        id,
+        firstId,
+        secondId,
+        createdAt,
+        updatedAt,
+        secondInfo,
+      ];
 
   factory FavoriteTutor.fromJson(Map<String, dynamic> json) {
     return FavoriteTutor(
@@ -247,36 +244,36 @@ class Info extends BaseModel {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    id,
-    level,
-    email,
-    google,
-    facebook,
-    apple,
-    avatar,
-    name,
-    country,
-    phone,
-    language,
-    birthday,
-    requestPassword,
-    isActivated,
-    isPhoneActivated,
-    requireNote,
-    timezone,
-    phoneAuth,
-    isPhoneAuthActivated,
-    studySchedule,
-    canSendMessage,
-    isPublicRecord,
-    caredByStaffId,
-    zaloUserId,
-    createdAt,
-    updatedAt,
-    deletedAt,
-    studentGroupId,
-    tutorInfo,
-  ];
+        id,
+        level,
+        email,
+        google,
+        facebook,
+        apple,
+        avatar,
+        name,
+        country,
+        phone,
+        language,
+        birthday,
+        requestPassword,
+        isActivated,
+        isPhoneActivated,
+        requireNote,
+        timezone,
+        phoneAuth,
+        isPhoneAuthActivated,
+        studySchedule,
+        canSendMessage,
+        isPublicRecord,
+        caredByStaffId,
+        zaloUserId,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        studentGroupId,
+        tutorInfo,
+      ];
 
   factory Info.fromJson(Map<String, dynamic> json) {
     return Info(
@@ -439,26 +436,26 @@ class TutorInfo extends BaseModel {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    id,
-    userId,
-    video,
-    bio,
-    education,
-    experience,
-    profession,
-    accent,
-    targetStudent,
-    interests,
-    languages,
-    specialties,
-    resume,
-    rating,
-    isActivated,
-    isNative,
-    youtubeVideoId,
-    createdAt,
-    updatedAt,
-  ];
+        id,
+        userId,
+        video,
+        bio,
+        education,
+        experience,
+        profession,
+        accent,
+        targetStudent,
+        interests,
+        languages,
+        specialties,
+        resume,
+        rating,
+        isActivated,
+        isNative,
+        youtubeVideoId,
+        createdAt,
+        updatedAt,
+      ];
 
   factory TutorInfo.fromJson(Map<String, dynamic> json) {
     return TutorInfo(
@@ -531,17 +528,17 @@ class Tutors extends BaseModel {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    count,
-    rows,
-  ];
+        count,
+        rows,
+      ];
 
   factory Tutors.fromJson(Map<String, dynamic> json) {
     return Tutors(
       count: json['count'] as int?,
       rows: json['rows'] != null
           ? (json['rows'] as List)
-          .map((e) => Row.fromJson(e as Map<String, dynamic>))
-          .toList()
+              .map((e) => Row.fromJson(e as Map<String, dynamic>))
+              .toList()
           : null,
     );
   }
@@ -555,7 +552,7 @@ class Tutors extends BaseModel {
   }
 }
 
-class Row extends BaseModel{
+class Row extends BaseModel {
   final String? level;
   final String? email;
   final String? google;
@@ -752,53 +749,53 @@ class Row extends BaseModel{
   @override
   // TODO: implement props
   List<Object?> get props => [
-    level,
-    email,
-    google,
-    facebook,
-    apple,
-    avatar,
-    name,
-    country,
-    phone,
-    language,
-    birthday,
-    requestPassword,
-    isActivated,
-    isPhoneActivated,
-    requireNote,
-    timezone,
-    phoneAuth,
-    isPhoneAuthActivated,
-    studySchedule,
-    canSendMessage,
-    isPublicRecord,
-    caredByStaffId,
-    zaloUserId,
-    createdAt,
-    updatedAt,
-    deletedAt,
-    studentGroupId,
-    feedbacks,
-    id,
-    userId,
-    video,
-    bio,
-    education,
-    experience,
-    profession,
-    accent,
-    targetStudent,
-    interests,
-    languages,
-    specialties,
-    resume,
-    rating,
-    isNative,
-    youtubeVideoId,
-    price,
-    isOnline,
-  ];
+        level,
+        email,
+        google,
+        facebook,
+        apple,
+        avatar,
+        name,
+        country,
+        phone,
+        language,
+        birthday,
+        requestPassword,
+        isActivated,
+        isPhoneActivated,
+        requireNote,
+        timezone,
+        phoneAuth,
+        isPhoneAuthActivated,
+        studySchedule,
+        canSendMessage,
+        isPublicRecord,
+        caredByStaffId,
+        zaloUserId,
+        createdAt,
+        updatedAt,
+        deletedAt,
+        studentGroupId,
+        feedbacks,
+        id,
+        userId,
+        video,
+        bio,
+        education,
+        experience,
+        profession,
+        accent,
+        targetStudent,
+        interests,
+        languages,
+        specialties,
+        resume,
+        rating,
+        isNative,
+        youtubeVideoId,
+        price,
+        isOnline,
+      ];
 
   factory Row.fromJson(Map<String, dynamic> json) {
     return Row(
@@ -831,8 +828,8 @@ class Row extends BaseModel{
       studentGroupId: json['studentGroupId'] as String?,
       feedbacks: json['feedbacks'] != null
           ? (json['feedbacks'] as List)
-          .map((e) => Feedback.fromJson(e as Map<String, dynamic>))
-          .toList()
+              .map((e) => Feedback.fromJson(e as Map<String, dynamic>))
+              .toList()
           : null,
       id: json['id'] as String?,
       userId: json['userId'] as String?,
@@ -957,16 +954,16 @@ class Feedback extends BaseModel {
   @override
   // TODO: implement props
   List<Object?> get props => [
-    id,
-    bookingId,
-    firstId,
-    secondId,
-    rating,
-    content,
-    createdAt,
-    updatedAt,
-    firstInfo,
-  ];
+        id,
+        bookingId,
+        firstId,
+        secondId,
+        rating,
+        content,
+        createdAt,
+        updatedAt,
+        firstInfo,
+      ];
 
   factory Feedback.fromJson(Map<String, dynamic> json) {
     return Feedback(
@@ -998,4 +995,154 @@ class Feedback extends BaseModel {
       'firstInfo': firstInfo?.toJson(),
     };
   }
+}
+
+class TutorSearchOutput extends BaseModel {
+  final int? count;
+  final List<TutorSearchOutputItem>? rows;
+
+  const TutorSearchOutput({
+    this.count,
+    this.rows,
+  });
+
+  TutorSearchOutput copyWith({
+    int? count,
+    List<TutorSearchOutputItem>? rows,
+  }) =>
+      TutorSearchOutput(
+        count: count ?? this.count,
+        rows: rows ?? this.rows,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        count,
+        rows,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'count': count,
+      'rows': rows?.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  factory TutorSearchOutput.fromJson(Map<String, dynamic> json) {
+    return TutorSearchOutput(
+      count: json['count'] as int?,
+      rows: json['rows'] != null
+          ? (json['rows'] as List)
+              .map((e) => TutorSearchOutputItem.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : null,
+    );
+  }
+}
+
+class TutorSearchOutputItem extends BaseModel {
+  final String? avatar;
+  final String? bio;
+  final String? country;
+  final String? id;
+  final bool? isFavoriteTutor;
+  final bool? isNative;
+  final String? name;
+  final int? price;
+  final double? rating;
+  final int? scheduleTimes;
+  final String? specialities;
+
+  const TutorSearchOutputItem({
+    this.avatar,
+    this.bio,
+    this.country,
+    this.id,
+    this.isFavoriteTutor,
+    this.isNative,
+    this.name,
+    this.price,
+    this.rating,
+    this.scheduleTimes,
+    this.specialities,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        avatar,
+        bio,
+        country,
+        id,
+        isFavoriteTutor,
+        isNative,
+        name,
+        price,
+        rating,
+        scheduleTimes,
+        specialities,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'avatar': avatar,
+      'bio': bio,
+      'country': country,
+      'id': id,
+      'isFavoriteTutor': isFavoriteTutor,
+      'isNative': isNative,
+      'name': name,
+      'price': price,
+      'rating': rating,
+      'scheduleTimes': scheduleTimes,
+      'specialties': specialities,
+    };
+  }
+
+  factory TutorSearchOutputItem.fromJson(Map<String, dynamic> json) {
+    return TutorSearchOutputItem(
+      avatar: json['avatar'] as String?,
+      bio: json['bio'] as String?,
+      country: json['country'] as String?,
+      id: json['id'] as String?,
+      isFavoriteTutor: json['isFavoriteTutor'] as bool?,
+      isNative: json['isNative'] as bool?,
+      name: json['name'] as String?,
+      price: json['price'] as int?,
+      rating: json['rating'] as double?,
+      scheduleTimes: json['schedulesTimes'] as int?,
+      specialities: json['specialties'] as String?,
+    );
+  }
+
+  TutorSearchOutputItem copyWith({
+    String? avatar,
+    String? bio,
+    String? country,
+    String? id,
+    bool? isFavoriteTutor,
+    bool? isNative,
+    String? name,
+    int? price,
+    double? rating,
+    int? scheduleTimes,
+    String? specialities,
+    String? userId,
+  }) =>
+      TutorSearchOutputItem(
+        avatar: avatar ?? this.avatar,
+        bio: bio ?? this.bio,
+        country: country ?? this.country,
+        id: id ?? this.id,
+        isFavoriteTutor: isFavoriteTutor ?? this.isFavoriteTutor,
+        isNative: isNative ?? this.isNative,
+        name: name ?? this.name,
+        price: price ?? this.price,
+        rating: rating ?? this.rating,
+        scheduleTimes: scheduleTimes ?? this.scheduleTimes,
+        specialities: specialities ?? this.specialities,
+      );
 }

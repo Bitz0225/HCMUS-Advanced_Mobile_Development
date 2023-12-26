@@ -8,6 +8,7 @@ class BaseInputField extends StatefulWidget {
       this.height = 30,
       this.keyboardType,
       this.onChanged,
+      this.onSubmitted,
       this.controller,
       this.hint,
       this.onTap,
@@ -22,6 +23,7 @@ class BaseInputField extends StatefulWidget {
   final double height;
   final TextInputType? keyboardType;
   final Function(String)? onChanged;
+  final Function(String)? onSubmitted;
   final TextEditingController? controller;
   final Function()? onTap;
   final String? hint;
@@ -83,6 +85,7 @@ class _BaseInputFieldState extends State<BaseInputField> {
         onTapOutside: (_) {
           FocusScope.of(context).unfocus();
         },
+        onSubmitted: widget.onSubmitted,
         maxLines: widget.maxLines ?? 1,
       ),
     );

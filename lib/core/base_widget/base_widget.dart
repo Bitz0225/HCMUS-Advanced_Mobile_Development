@@ -148,16 +148,36 @@ abstract class BaseWidget<Cubit extends WidgetCubit<State>,
   Widget buildUi(BuildContext context) {
     return BlocBuilder<Cubit, State>(
       builder: (context, state) {
-        return StreamBuilder(
-            stream: context.read<Cubit>().loadingStream,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                if (snapshot.data?.isLoading ?? false) {
-                  return buildLoadingWidget(context, snapshot.data?.message);
-                }
-              }
-              return buildWidget(context);
-            });
+        return GestureDetector(
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              Positioned.fill(
+                child: buildWidget(context),
+              ),
+              StreamBuilder(
+                  stream: context.read<Cubit>().loadingStream,
+                  builder: (context, snapshot) {
+                    // This is the key part of the code that will display the loading widget
+                    if (snapshot.hasData) {
+                      if (snapshot.data?.isLoading ?? false) {
+                        return Positioned.fill(
+                            child: Container(
+                              height: MediaQuery.sizeOf(context).height,
+                              width: MediaQuery.sizeOf(context).width,
+                              color: Colors.black.withOpacity(0.2),
+                              child: Center(
+                                child: buildLoadingWidget(
+                                    context, snapshot.data?.message),
+                              ),
+                            ));
+                      }
+                    }
+                    return Container();
+                  })
+            ],
+          ),
+        );
       },
     );
   }

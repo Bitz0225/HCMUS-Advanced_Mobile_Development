@@ -48,10 +48,10 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ListCoursesScreen(),
       );
     },
-    ListTeachersScreenRoute.name: (routeData) {
+    ListTeachersWrapperRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const ListTeachersScreen(),
+        child: const ListTeachersWrapper(),
       );
     },
     LoginScreenRoute.name: (routeData) {
@@ -195,15 +195,15 @@ class ListCoursesScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [ListTeachersScreen]
-class ListTeachersScreenRoute extends PageRouteInfo<void> {
-  const ListTeachersScreenRoute({List<PageRouteInfo>? children})
+/// [ListTeachersWrapper]
+class ListTeachersWrapperRoute extends PageRouteInfo<void> {
+  const ListTeachersWrapperRoute({List<PageRouteInfo>? children})
       : super(
-          ListTeachersScreenRoute.name,
+          ListTeachersWrapperRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'ListTeachersScreenRoute';
+  static const String name = 'ListTeachersWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

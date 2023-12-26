@@ -36,7 +36,7 @@ class _SplashScreenState extends State<SplashScreen> {
     await context.read<SplashCubit>().getUser();
 
     if ((isLogin ?? false) && context.read<SplashCubit>().state.user != null) {
-      context.router.replace(const ListTeachersScreenRoute());
+      context.router.replace(const ListTeachersWrapperRoute());
     } else {
       context.router.replace(const LoginScreenRoute());
     }

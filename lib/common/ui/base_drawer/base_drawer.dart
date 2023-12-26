@@ -57,7 +57,7 @@ class BaseDrawer extends StatelessWidget {
                 title: const Text('Tutor'),
                 onTap: () {
                   Navigator.pop(context);
-                  context.router.replace(const ListTeachersScreenRoute());
+                  context.router.replace(const ListTeachersWrapperRoute());
                 },
               ),
               ListTile(

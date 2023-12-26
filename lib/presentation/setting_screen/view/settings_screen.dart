@@ -3,13 +3,13 @@ import 'dart:ffi';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:choice/choice.dart';
-import 'package:countries/countries.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/base_dialog/dialog_mixin.dart';
 import 'package:lettutor/common/ui/base_snack_bar/snack_bar_mixin.dart';
@@ -171,7 +171,7 @@ class DetailedInfoBlock extends StatefulWidget {
   State<DetailedInfoBlock> createState() => _DetailedInfoBlockState();
 }
 
-class _DetailedInfoBlockState extends State<DetailedInfoBlock> {
+class _DetailedInfoBlockState extends State<DetailedInfoBlock> with SnackBarMixin {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _countryController = TextEditingController();
@@ -392,7 +392,7 @@ class _DetailedInfoBlockState extends State<DetailedInfoBlock> {
     });
   }
 
-  void _handleSubmit() {
+  void _handleSubmit() async {
     final inputForm = const UpdateProfileForm().copyWith(
       name: _nameController.text,
       country: _countryController.text,
@@ -403,7 +403,10 @@ class _DetailedInfoBlockState extends State<DetailedInfoBlock> {
       learnTopics: context.read<SplashCubit>().state.user?.learnTopics?.map((e) => e.id.toString()).toList(),
       testPreparations: context.read<SplashCubit>().state.user?.testPreparations?.map((e) => e.id.toString()).toList(),
     );
-    context.read<SplashCubit>().updateProfile(inputForm);
+    await context.read<SplashCubit>().updateProfile(inputForm);
+    context.read<SplashCubit>().state.isProfileUpdateSuccess ?? false
+        ? showSnackBar(context, 'Update profile successfully', snackBarType: SnackBarType.success)
+        : showSnackBar(context, context.read<SplashCubit>().state.updateProfileFormMessage ?? '');
   }
 }
 

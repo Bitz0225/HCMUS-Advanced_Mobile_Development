@@ -63,6 +63,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
   }
 
   Future<void> updatePassword(String oldPassword, String newPassword) async {
+    showLoading();
     final _form = ChangePasswordForm()
         .copyWith(oldPassword: oldPassword, newPassword: newPassword);
     final response = await _authRepository.updatePassword(
@@ -75,6 +76,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
           passwordFormMessage:
               response.error?.response?.data['message'] as String? ?? ''));
     }
+    hideLoading();
   }
 
   Future<void> updateLearnTopics(Subject item) async {
@@ -110,6 +112,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
   }
 
   Future<void> updateProfile(UpdateProfileForm form) async {
+    showLoading();
     final response = await _userRepository.updateProfile(form);
     if (response is DataSuccess) {
       final _user = state.user?.copyWith(
@@ -119,12 +122,13 @@ class SplashCubit extends WidgetCubit<SplashState> {
           level: response.data?.user?.level,
           learnTopics: response.data?.user?.learnTopics,
           testPreparations: response.data?.user?.testPreparations);
-      emit(state.copyWith(user: _user));
+      emit(state.copyWith(user: _user, isProfileUpdateSuccess: true));
     } else {
       emit(state.copyWith(
           updateProfileFormMessage:
-              response.error?.response?.data['message'] as String? ?? ''));
+              response.error?.response?.data['message'] as String? ?? '', isProfileUpdateSuccess: false));
     }
+    hideLoading();
   }
 
   Future<void> updateLevel(Level level) async {
@@ -133,6 +137,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
   }
 
   Future<void> updateAvatar(String path) async {
+    showLoading();
     final formData = FormData.fromMap({
       'avatar': await MultipartFile.fromFile(path,
           contentType: MediaType('image', 'png')),
@@ -146,6 +151,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
       emit(state.copyWith(
           message: response.error?.response?.data['message'] as String? ?? ''));
     }
+    hideLoading();
   }
 
   Future<void> logout() async {

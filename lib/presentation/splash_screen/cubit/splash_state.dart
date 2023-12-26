@@ -7,7 +7,8 @@ class SplashState extends WidgetState {
   final String? message;
   final String? passwordFormMessage;
   final String? updateProfileFormMessage;
-  const SplashState({this.isLogin, this.message, this.user, this.passwordFormMessage, this.updateProfileFormMessage});
+  final bool? isProfileUpdateSuccess;
+  const SplashState({this.isLogin, this.message, this.user, this.passwordFormMessage, this.updateProfileFormMessage, this.isProfileUpdateSuccess});
 
   @override
   // TODO: implement props
@@ -17,6 +18,7 @@ class SplashState extends WidgetState {
     message,
     passwordFormMessage,
     updateProfileFormMessage,
+    isProfileUpdateSuccess,
   ];
 
   @override
@@ -33,6 +35,7 @@ class SplashState extends WidgetState {
       message: json['message'] as String?,
       passwordFormMessage: json['passwordFormMessage'] as String?,
       updateProfileFormMessage: json['updateProfileFormMessage'] as String?,
+      isProfileUpdateSuccess: json['isProfileUpdateSuccess'] as bool?,
     );
   }
 
@@ -42,6 +45,7 @@ class SplashState extends WidgetState {
     String? message,
     String? passwordFormMessage,
     String? updateProfileFormMessage,
+    bool? isProfileUpdateSuccess,
   }) {
     return SplashState(
       user: user ?? this.user,
@@ -49,6 +53,7 @@ class SplashState extends WidgetState {
       message: message ?? this.message,
       passwordFormMessage: passwordFormMessage ?? this.passwordFormMessage,
       updateProfileFormMessage: updateProfileFormMessage ?? this.updateProfileFormMessage,
+      isProfileUpdateSuccess: isProfileUpdateSuccess ?? this.isProfileUpdateSuccess,
     );
   }
 }

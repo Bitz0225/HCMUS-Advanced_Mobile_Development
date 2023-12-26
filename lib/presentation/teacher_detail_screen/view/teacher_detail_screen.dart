@@ -1,11 +1,14 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
 import 'package:lettutor/common/ui/section/section.dart';
 import 'package:lettutor/common/ui/tag_item/tag_item.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/gen/assets.gen.dart';
+import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
 import 'package:unicons/unicons.dart';
 
 @RoutePage()
@@ -16,16 +19,15 @@ class TeacherDetailScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: BaseAppBar(
-        leading: GestureDetector(
-          onTap: () {
-            context.router.back();
-          },
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Colors.black,
-          ),
-        )
-      ),
+          leading: GestureDetector(
+        onTap: () {
+          context.router.back();
+        },
+        child: const Icon(
+          Icons.arrow_back_ios,
+          color: Colors.black,
+        ),
+      )),
       endDrawer: const BaseDrawer(),
       // extendBody: true,
       // extendBodyBehindAppBar: true,
@@ -142,9 +144,11 @@ class TeacherDetailScreen extends StatelessWidget {
 class TeacherInfo extends StatelessWidget {
   final String? name;
   final String? avatarUrl;
-  final int? ratings;
+  final double? ratings;
   final int? ratingsCount;
   final String? nationality;
+  final String? userId;
+  final bool? isFavoriteTutor;
   final String? description;
   final bool? showFavoriteButton;
 
@@ -152,11 +156,13 @@ class TeacherInfo extends StatelessWidget {
       {super.key,
       this.name,
       this.ratings,
+      this.userId,
       this.ratingsCount,
       this.nationality,
       this.description,
       this.avatarUrl,
-      this.showFavoriteButton});
+      this.showFavoriteButton,
+      this.isFavoriteTutor});
 
   @override
   Widget build(BuildContext context) {
@@ -165,9 +171,23 @@ class TeacherInfo extends StatelessWidget {
         Stack(
           children: [
             Center(
-              child: CircleAvatar(
-                radius: 48,
-                backgroundImage: Assets.images.defaultAvatar.image().image,
+              child: SizedBox(
+                width: 72,
+                height: 72,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: CachedNetworkImage(
+                      imageUrl: avatarUrl ??
+                          'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                      fit: BoxFit.fill,
+                      placeholder: (context, url) => const Center(
+                            child: CircularProgressIndicator(),
+                          ),
+                      errorWidget: (context, url, error) => CachedNetworkImage(
+                          imageUrl:
+                              'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                          fit: BoxFit.fill)),
+                ),
               ),
             ),
             showFavoriteButton ?? false
@@ -175,12 +195,11 @@ class TeacherInfo extends StatelessWidget {
                     top: 0,
                     right: 0,
                     child: IconButton(
-                      onPressed: () {
-
-                      },
-                      icon: const Icon(
+                      onPressed: () {},
+                      icon: Icon(
                         Icons.favorite,
-                        color: Colors.red,
+                        color:
+                            isFavoriteTutor ?? false ? Colors.red : Colors.grey,
                       ),
                     ),
                   )
@@ -205,7 +224,7 @@ class TeacherInfo extends StatelessWidget {
             ),
             const SizedBox(width: 4),
             Text(
-              '$ratings ($ratingsCount)',
+              ratings != null ? ratings.toString() : 'No reviews yet',
               style: const TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
