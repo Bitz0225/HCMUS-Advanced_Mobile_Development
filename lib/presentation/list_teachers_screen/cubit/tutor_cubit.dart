@@ -1,7 +1,10 @@
 import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/data_state.dart';
 import 'package:lettutor/core/data_source/network/models/input/search_tutor_form.dart';
+import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
+import 'package:lettutor/core/repository/feedback_repository/feedback_repository.dart';
 import 'package:lettutor/core/repository/tutor_repository/tutor_repository.dart';
+import 'package:lettutor/core/repository/user_repository/user_repository.dart';
 import 'package:lettutor/core/widget_cubit/widget_cubit.dart';
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_state.dart';
 
@@ -41,6 +44,51 @@ class TutorCubit extends WidgetCubit<TutorState> {
 
   Future<void> updateTags(String tag) async {
     emit(state.copyWith(tag: tag));
-    print(state.tag);
+  }
+
+  Future<void> updateFavoriteState(String id) async {
+    final response = await getIt<UserRepository>().updateFavoriteTutor(id);
+    if (response is DataSuccess) {
+      final tutorList = state.tutorList;
+      if (tutorList != null) {
+        final index = tutorList.indexWhere((element) => element.id == id);
+        if (index != -1) {
+          final _tutor = tutorList[index].copyWith(
+              isFavoriteTutor: !(tutorList[index].isFavoriteTutor ?? false));
+          tutorList[index] = _tutor;
+          emit(state.copyWith(tutorList: tutorList));
+        }
+      }
+    } else {
+      showSnackBar('Error when trying to update favorite state!');
+    }
+  }
+
+  Future<void> getDetailTutor(String id) async {
+    showLoading();
+    final response = await getIt<TutorRepository>().getDetailTutor(id);
+    if (response is DataSuccess) {
+      final tutor = response.data;
+      if (tutor != null) {
+        emit(state.copyWith(currentDetailTutor: tutor));
+      }
+    } else {
+      showSnackBar('Error when trying to get detail tutor!');
+    }
+    hideLoading();
+  }
+
+  Future<void> getFeedback(String id, int index) async {
+    showLoading();
+    final response = await getIt<FeedbackRepository>().getFeedback(id, index);
+    if (response is DataSuccess) {
+      final feedback = response.data;
+      if (feedback != null) {
+        emit(state.copyWith(feedbackOutput: feedback));
+      }
+    } else {
+      showSnackBar('Error when trying to get feedback!');
+    }
+    hideLoading();
   }
 }

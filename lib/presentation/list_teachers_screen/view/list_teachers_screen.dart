@@ -19,20 +19,6 @@ import 'package:lettutor/presentation/list_teachers_screen/widget/list_teachers_
 import 'package:number_paginator/number_paginator.dart';
 
 @RoutePage()
-class ListTeachersWrapper extends BaseWidget<TutorCubit, TutorState> {
-  const ListTeachersWrapper({super.key});
-
-  @override
-  Widget buildWidget(BuildContext context) {
-    return const ListTeachersScreen();
-  }
-
-  @override
-  TutorCubit? provideCubit(BuildContext context) {
-    return TutorCubit();
-  }
-}
-
 class ListTeachersScreen extends StatefulWidget {
   const ListTeachersScreen({super.key});
 
@@ -136,6 +122,25 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                         _dateInput.clear();
                         _startTimeInput.clear();
                         _endTimeInput.clear();
+                        context.read<TutorCubit>().updateTags('').then(
+                            (value) => context
+                                .read<TutorCubit>()
+                                .updatePage(1)
+                                .then((value) => context
+                                    .read<TutorCubit>()
+                                    .getListTutorWithPagination(
+                                      SearchTutorForm(
+                                        page: context
+                                            .read<TutorCubit>()
+                                            .state
+                                            .currentPage
+                                            .toString(),
+                                        perPage: context
+                                            .read<TutorCubit>()
+                                            .state
+                                            .perPage,
+                                      ),
+                                    )));
                       },
                       child: Container(
                           padding: const EdgeInsets.symmetric(
@@ -170,46 +175,10 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   child: ListTeachersItem(
-                                      name: context
+                                      tutor: context
                                           .read<TutorCubit>()
                                           .state
-                                          .tutorList?[index]
-                                          .name,
-                                      nationality: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .country,
-                                      ratings: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .rating,
-                                      description: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .bio,
-                                      avatarUrl: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .avatar,
-                                      userId: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .id,
-                                      isFavoriteTutor: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .isFavoriteTutor,
-                                      specialities: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList?[index]
-                                          .specialities),
+                                          .tutorList![index]),
                                 );
                               },
                             ),

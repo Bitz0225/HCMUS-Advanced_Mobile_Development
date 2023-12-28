@@ -15,6 +15,12 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
+    BaseTeacherDetailWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const BaseTeacherDetailWrapper(),
+      );
+    },
     DetailCourseScreenRoute.name: (routeData) {
       final args = routeData.argsAs<DetailCourseScreenRouteArgs>(
           orElse: () => const DetailCourseScreenRouteArgs());
@@ -46,6 +52,12 @@ abstract class _$AppRouter extends RootStackRouter {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
         child: const ListCoursesScreen(),
+      );
+    },
+    ListTeachersScreenRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ListTeachersScreen(),
       );
     },
     ListTeachersWrapperRoute.name: (routeData) {
@@ -84,13 +96,21 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const SplashWrapper(),
       );
     },
-    TeacherDetailScreenRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const TeacherDetailScreen(),
-      );
-    },
   };
+}
+
+/// generated route for
+/// [BaseTeacherDetailWrapper]
+class BaseTeacherDetailWrapperRoute extends PageRouteInfo<void> {
+  const BaseTeacherDetailWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          BaseTeacherDetailWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'BaseTeacherDetailWrapperRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -195,6 +215,20 @@ class ListCoursesScreenRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ListTeachersScreen]
+class ListTeachersScreenRoute extends PageRouteInfo<void> {
+  const ListTeachersScreenRoute({List<PageRouteInfo>? children})
+      : super(
+          ListTeachersScreenRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ListTeachersScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [ListTeachersWrapper]
 class ListTeachersWrapperRoute extends PageRouteInfo<void> {
   const ListTeachersWrapperRoute({List<PageRouteInfo>? children})
@@ -274,20 +308,6 @@ class SplashWrapperRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'SplashWrapperRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
-}
-
-/// generated route for
-/// [TeacherDetailScreen]
-class TeacherDetailScreenRoute extends PageRouteInfo<void> {
-  const TeacherDetailScreenRoute({List<PageRouteInfo>? children})
-      : super(
-          TeacherDetailScreenRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'TeacherDetailScreenRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

@@ -509,7 +509,7 @@ class TutorInfo extends BaseModel {
 
 class Tutors extends BaseModel {
   final int? count;
-  final List<Row>? rows;
+  final List<Rows>? rows;
 
   const Tutors({
     this.count,
@@ -518,7 +518,7 @@ class Tutors extends BaseModel {
 
   Tutors copyWith({
     int? count,
-    List<Row>? rows,
+    List<Rows>? rows,
   }) =>
       Tutors(
         count: count ?? this.count,
@@ -537,7 +537,7 @@ class Tutors extends BaseModel {
       count: json['count'] as int?,
       rows: json['rows'] != null
           ? (json['rows'] as List)
-              .map((e) => Row.fromJson(e as Map<String, dynamic>))
+              .map((e) => Rows.fromJson(e as Map<String, dynamic>))
               .toList()
           : null,
     );
@@ -552,7 +552,7 @@ class Tutors extends BaseModel {
   }
 }
 
-class Row extends BaseModel {
+class Rows extends BaseModel {
   final String? level;
   final String? email;
   final String? google;
@@ -600,7 +600,7 @@ class Row extends BaseModel {
   final int? price;
   final bool? isOnline;
 
-  const Row({
+  const Rows({
     this.level,
     this.email,
     this.google,
@@ -649,7 +649,7 @@ class Row extends BaseModel {
     this.isOnline,
   });
 
-  Row copyWith({
+  Rows copyWith({
     String? level,
     String? email,
     String? google,
@@ -697,7 +697,7 @@ class Row extends BaseModel {
     int? price,
     bool? isOnline,
   }) =>
-      Row(
+      Rows(
         level: level ?? this.level,
         email: email ?? this.email,
         google: google ?? this.google,
@@ -797,8 +797,8 @@ class Row extends BaseModel {
         isOnline,
       ];
 
-  factory Row.fromJson(Map<String, dynamic> json) {
-    return Row(
+  factory Rows.fromJson(Map<String, dynamic> json) {
+    return Rows(
       level: json['level'] as String?,
       email: json['email'] as String?,
       google: json['google'] as String?,
@@ -1035,7 +1035,8 @@ class TutorSearchOutput extends BaseModel {
       count: json['count'] as int?,
       rows: json['rows'] != null
           ? (json['rows'] as List)
-              .map((e) => TutorSearchOutputItem.fromJson(e as Map<String, dynamic>))
+              .map((e) =>
+                  TutorSearchOutputItem.fromJson(e as Map<String, dynamic>))
               .toList()
           : null,
     );
@@ -1145,4 +1146,396 @@ class TutorSearchOutputItem extends BaseModel {
         scheduleTimes: scheduleTimes ?? this.scheduleTimes,
         specialities: specialities ?? this.specialities,
       );
+}
+
+class TutorFavoriteOutput extends BaseModel {
+  final String? message;
+  final int? result;
+
+  const TutorFavoriteOutput({
+    this.message,
+    this.result,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        message,
+        result,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'result': result,
+    };
+  }
+
+  factory TutorFavoriteOutput.fromJson(Map<String, dynamic> json) {
+    return TutorFavoriteOutput(
+      message: json['message'] as String?,
+      result: json['result'] is int ? 1 : 0,
+    );
+  }
+}
+
+class DetailTutor extends BaseModel {
+  final String? video;
+  final String? bio;
+  final String? education;
+  final String? experience;
+  final String? profession;
+  final String? accent;
+  final String? targetStudent;
+  final String? interests;
+  final String? languages;
+  final String? specialties;
+  final double? rating;
+  final bool? isNative;
+  final String? youtubeVideoId;
+  final TutorDetailUser? user;
+  final bool? isFavorite;
+  final double? avgRating;
+  final int? totalFeedback;
+
+  const DetailTutor({
+    this.video,
+    this.bio,
+    this.education,
+    this.experience,
+    this.profession,
+    this.accent,
+    this.targetStudent,
+    this.interests,
+    this.languages,
+    this.specialties,
+    this.rating,
+    this.isNative,
+    this.youtubeVideoId,
+    this.user,
+    this.isFavorite,
+    this.avgRating,
+    this.totalFeedback,
+  });
+
+  DetailTutor copyWith({
+    String? video,
+    String? bio,
+    String? education,
+    String? experience,
+    String? profession,
+    String? accent,
+    String? targetStudent,
+    String? interests,
+    String? languages,
+    String? specialties,
+    double? rating,
+    bool? isNative,
+    String? youtubeVideoId,
+    TutorDetailUser? user,
+    bool? isFavorite,
+    double? avgRating,
+    int? totalFeedback,
+  }) =>
+      DetailTutor(
+        video: video ?? this.video,
+        bio: bio ?? this.bio,
+        education: education ?? this.education,
+        experience: experience ?? this.experience,
+        profession: profession ?? this.profession,
+        accent: accent ?? this.accent,
+        targetStudent: targetStudent ?? this.targetStudent,
+        interests: interests ?? this.interests,
+        languages: languages ?? this.languages,
+        specialties: specialties ?? this.specialties,
+        rating: rating ?? this.rating,
+        isNative: isNative ?? this.isNative,
+        youtubeVideoId: youtubeVideoId ?? this.youtubeVideoId,
+        user: user ?? this.user,
+        isFavorite: isFavorite ?? this.isFavorite,
+        avgRating: avgRating ?? this.avgRating,
+        totalFeedback: totalFeedback ?? this.totalFeedback,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        video,
+        bio,
+        education,
+        experience,
+        profession,
+        accent,
+        targetStudent,
+        interests,
+        languages,
+        specialties,
+        rating,
+        isNative,
+        youtubeVideoId,
+        user,
+        isFavorite,
+        avgRating,
+        totalFeedback,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'video': video,
+      'bio': bio,
+      'education': education,
+      'experience': experience,
+      'profession': profession,
+      'accent': accent,
+      'targetStudent': targetStudent,
+      'interests': interests,
+      'languages': languages,
+      'specialties': specialties,
+      'rating': rating,
+      'isNative': isNative,
+      'youtubeVideoId': youtubeVideoId,
+      'User': user?.toJson(),
+      'isFavorite': isFavorite,
+      'avgRating': avgRating,
+      'totalFeedback': totalFeedback,
+    };
+  }
+
+  factory DetailTutor.fromJson(Map<String, dynamic> json) {
+    return DetailTutor(
+      video: json['video'] as String?,
+      bio: json['bio'] as String?,
+      education: json['education'] as String?,
+      experience: json['experience'] as String?,
+      profession: json['profession'] as String?,
+      accent: json['accent'] as String?,
+      targetStudent: json['targetStudent'] as String?,
+      interests: json['interests'] as String?,
+      languages: json['languages'] as String?,
+      specialties: json['specialties'] as String?,
+      rating: (json['rating'] as num?)?.toDouble(),
+      isNative: json['isNative'] as bool?,
+      youtubeVideoId: json['youtubeVideoId'] as String?,
+      user: json['User'] != null
+          ? TutorDetailUser.fromJson(json['User'] as Map<String, dynamic>)
+          : null,
+      isFavorite: json['isFavorite'] as bool?,
+      avgRating: (json['avgRating'] as num?)?.toDouble(),
+      totalFeedback: json['totalFeedback'] as int?,
+    );
+  }
+}
+
+class TutorDetailUser extends BaseModel {
+  final String? id;
+  final String? level;
+  final String? avatar;
+  final String? name;
+  final String? country;
+  final String? language;
+  final bool? isPublicRecord;
+  final String? caredByStaffId;
+  final String? zaloUserId;
+  final String? studentGroupId;
+  final List<TutorDetailCourse>? courses;
+
+  const TutorDetailUser({
+    this.id,
+    this.level,
+    this.avatar,
+    this.name,
+    this.country,
+    this.language,
+    this.isPublicRecord,
+    this.caredByStaffId,
+    this.zaloUserId,
+    this.studentGroupId,
+    this.courses,
+  });
+
+  TutorDetailUser copyWith({
+    String? id,
+    String? level,
+    String? avatar,
+    String? name,
+    String? country,
+    String? language,
+    bool? isPublicRecord,
+    String? caredByStaffId,
+    String? zaloUserId,
+    String? studentGroupId,
+    List<TutorDetailCourse>? courses,
+  }) =>
+      TutorDetailUser(
+        id: id ?? this.id,
+        level: level ?? this.level,
+        avatar: avatar ?? this.avatar,
+        name: name ?? this.name,
+        country: country ?? this.country,
+        language: language ?? this.language,
+        isPublicRecord: isPublicRecord ?? this.isPublicRecord,
+        caredByStaffId: caredByStaffId ?? this.caredByStaffId,
+        zaloUserId: zaloUserId ?? this.zaloUserId,
+        studentGroupId: studentGroupId ?? this.studentGroupId,
+        courses: courses ?? this.courses,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        level,
+        avatar,
+        name,
+        country,
+        language,
+        isPublicRecord,
+        caredByStaffId,
+        zaloUserId,
+        studentGroupId,
+        courses,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'level': level,
+      'avatar': avatar,
+      'name': name,
+      'country': country,
+      'language': language,
+      'isPublicRecord': isPublicRecord,
+      'caredByStaffId': caredByStaffId,
+      'zaloUserId': zaloUserId,
+      'studentGroupId': studentGroupId,
+      'courses': courses?.map((e) => e.toJson()).toList(),
+    };
+  }
+
+  factory TutorDetailUser.fromJson(Map<String, dynamic> json) {
+    return TutorDetailUser(
+      id: json['id'] as String?,
+      level: json['level'] as String?,
+      avatar: json['avatar'] as String?,
+      name: json['name'] as String?,
+      country: json['country'] as String?,
+      language: json['language'] as String?,
+      isPublicRecord: json['isPublicRecord'] as bool?,
+      caredByStaffId: json['caredByStaffId'] as String?,
+      zaloUserId: json['zaloUserId'] as String?,
+      studentGroupId: json['studentGroupId'] as String?,
+      courses: json['courses'] != null
+          ? (json['courses'] as List)
+              .map((e) => TutorDetailCourse.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : null,
+    );
+  }
+}
+
+class TutorDetailCourse extends BaseModel {
+  final String? id;
+  final String? name;
+  final TutorCourse? tutorCourse;
+
+  const TutorDetailCourse({
+    this.id,
+    this.name,
+    this.tutorCourse,
+  });
+
+  TutorDetailCourse copyWith({
+    String? id,
+    String? name,
+    TutorCourse? tutorCourse,
+  }) =>
+      TutorDetailCourse(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        tutorCourse: tutorCourse ?? this.tutorCourse,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        name,
+        tutorCourse,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'TutorCourse': tutorCourse?.toJson(),
+    };
+  }
+
+  factory TutorDetailCourse.fromJson(Map<String, dynamic> json) {
+    return TutorDetailCourse(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      tutorCourse: json['TutorCourse'] != null
+          ? TutorCourse.fromJson(json['TutorCourse'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class TutorCourse extends BaseModel {
+  final String? userId;
+  final String? courseId;
+  final String? createdAt;
+  final String? updatedAt;
+
+  const TutorCourse({
+    this.userId,
+    this.courseId,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  TutorCourse copyWith({
+    String? userId,
+    String? courseId,
+    String? createdAt,
+    String? updatedAt,
+  }) =>
+      TutorCourse(
+        userId: userId ?? this.userId,
+        courseId: courseId ?? this.courseId,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  @override
+  List<Object?> get props => [
+        userId,
+        courseId,
+        createdAt,
+        updatedAt,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'UserId': userId,
+      'CourseId': courseId,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
+
+  factory TutorCourse.fromJson(Map<String, dynamic> json) {
+    return TutorCourse(
+      userId: json['UserId'] as String?,
+      courseId: json['CourseId'] as String?,
+      createdAt: json['createdAt'] as String?,
+      updatedAt: json['updatedAt'] as String?,
+    );
+  }
 }

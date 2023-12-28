@@ -32,4 +32,12 @@ class UserRepository extends BaseRepository{
     );
   }
 
+  Future<DataState<TutorFavoriteOutput>> updateFavoriteTutor(
+      String tutorId) async {
+    return post<TutorFavoriteOutput>(
+      path: '/manageFavoriteTutor',
+      parseJsonFunction: TutorFavoriteOutput.fromJson,
+      data: {'tutorId': tutorId},
+    );
+  }
 }

@@ -1,9 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/presentation/detail_course_screen/view/detail_course_screen.dart';
 import 'package:lettutor/presentation/forgot_password_screen/view/forgot_password_screen.dart';
 import 'package:lettutor/presentation/history_screen/view/history_screen.dart';
 import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
+import 'package:lettutor/presentation/list_teachers_screen/view/list_teacher_wrapper.dart';
 import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
 import 'package:lettutor/presentation/login_screen/login_screen.dart';
 import 'package:lettutor/presentation/schedule_screen/view/schedule_screen.dart';
@@ -41,9 +43,16 @@ class AppRouter extends _$AppRouter {
               AutoRoute(
                   page: DetailCourseScreenRoute.page, path: 'detail-course'),
               AutoRoute(
-                  page: ListTeachersWrapperRoute.page, path: 'list-teachers'),
-              AutoRoute(
-                  page: TeacherDetailScreenRoute.page, path: 'teacher-detail'),
+                  page: ListTeachersWrapperRoute.page, path: 'list-teachers', children: [
+                AutoRoute(
+                    page: ListTeachersScreenRoute.page,
+                    initial: true,
+                    path: ''),
+                AutoRoute(
+                    page: BaseTeacherDetailWrapperRoute.page,
+                    path: 'teacher-detail'),
+
+              ]),
               AutoRoute(page: ScheduleScreenRoute.page, path: 'schedule'),
               AutoRoute(page: HistoryScreenRoute.page, path: 'history'),
               AutoRoute(

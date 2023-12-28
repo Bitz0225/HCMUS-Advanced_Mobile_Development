@@ -233,6 +233,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.1.1"
+  country:
+    dependency: transitive
+    description:
+      name: country
+      sha256: ab50fc42c2477ba410972ed618cfb7236ea89328bdf505a69933e73a2a2a8623
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.1.0"
   country_code_picker:
     dependency: "direct main"
     description:
@@ -289,6 +297,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.4.0"
+  easy_debounce:
+    dependency: "direct main"
+    description:
+      name: easy_debounce
+      sha256: f082609cfb8f37defb9e37fc28bc978c6712dedf08d4c5a26f820fa10165a236
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.3"
   equatable:
     dependency: "direct main"
     description:
@@ -390,6 +406,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.3.1"
+  flutter_country:
+    dependency: "direct main"
+    description:
+      path: flutter_country
+      ref: HEAD
+      resolved-ref: "207d1757ee31bef68aec9c3b6d98e5a75b84aa90"
+      url: "https://github.com/aaassseee/country.git"
+    source: git
+    version: "4.0.0"
   flutter_gen_core:
     dependency: transitive
     description:

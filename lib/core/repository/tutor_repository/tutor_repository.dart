@@ -6,11 +6,19 @@ import 'package:lettutor/core/repository/base_repository.dart';
 class TutorRepository extends BaseRepository {
   TutorRepository() : super('/tutor');
 
-  Future<DataState<TutorSearchOutput>> searchTutor(SearchTutorForm input) async {
+  Future<DataState<TutorSearchOutput>> searchTutor(
+      SearchTutorForm input) async {
     return post<TutorSearchOutput>(
       path: '/search',
       parseJsonFunction: TutorSearchOutput.fromJson,
       data: input.toJson(),
+    );
+  }
+
+  Future<DataState<DetailTutor>> getDetailTutor(String id) async {
+    return get<DetailTutor>(
+      parseJsonFunction: DetailTutor.fromJson,
+      path: '/$id',
     );
   }
 }

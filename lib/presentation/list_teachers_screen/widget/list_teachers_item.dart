@@ -1,35 +1,20 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:extended_wrap/extended_wrap.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/tag_item/tag_item.dart';
 import 'package:lettutor/common/values/fixed_enum.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/gen/assets.gen.dart';
+import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
 
 class ListTeachersItem extends StatelessWidget {
-  final String? name;
-  final String? nationality;
-  final double? ratings;
-  final int? ratingsCount;
-  final String? description;
-  final String? specialities;
-  final String? avatarUrl;
-  final String? userId;
-  final bool? isFavoriteTutor;
+  final TutorSearchOutputItem? tutor;
 
-  const ListTeachersItem(
-      {super.key,
-      this.name,
-      this.nationality,
-      this.ratings,
-      this.ratingsCount,
-      this.description,
-      this.avatarUrl,
-      this.userId,
-      this.specialities,
-      this.isFavoriteTutor});
+  const ListTeachersItem({super.key, this.tutor});
 
   @override
   Widget build(BuildContext context) {
@@ -43,14 +28,7 @@ class ListTeachersItem extends StatelessWidget {
         child: Column(
           children: [
             TeacherInfo(
-              name: name ?? '',
-              ratings: ratings ?? 0,
-              ratingsCount: ratingsCount ?? 0,
-              nationality: nationality ?? '',
-              description: description ?? '',
-              avatarUrl: avatarUrl ?? '',
-              userId: userId ?? '',
-              isFavoriteTutor: isFavoriteTutor ?? false,
+              tutor: tutor,
               showFavoriteButton: true,
             ),
             const SizedBox(
@@ -60,15 +38,13 @@ class ListTeachersItem extends StatelessWidget {
               spacing: 8,
               runSpacing: 8,
               maxLines: 4,
-              children: specialities
+              children: tutor?.specialities
                       ?.split(',')
                       .map((e) => TagItem(
                             content: Tags.values
-                                .firstWhere((element) =>
-                                    element.value == e, orElse: () => Tags.empty
-                                    )
+                                .firstWhere((element) => element.value == e,
+                                    orElse: () => Tags.empty)
                                 .tagName,
-
                           ))
                       .toList() ??
                   [],
@@ -78,10 +54,10 @@ class ListTeachersItem extends StatelessWidget {
             ),
             Row(
               children: [
-                Spacer(),
+                const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    context.router.push(const TeacherDetailScreenRoute());
+                    handleRedirectToDetail(context);
                   },
                   child: Container(
                       padding: const EdgeInsets.symmetric(
@@ -106,5 +82,11 @@ class ListTeachersItem extends StatelessWidget {
             )
           ],
         ));
+  }
+
+  Future<void> handleRedirectToDetail(BuildContext context) async {
+    await context.read<TutorCubit>().getDetailTutor(tutor?.id ?? '');
+    await context.read<TutorCubit>().getFeedback(tutor?.id ?? '', 1);
+    context.router.push(const BaseTeacherDetailWrapperRoute());
   }
 }
