@@ -175,10 +175,12 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   child: ListTeachersItem(
-                                      tutor: context
-                                          .read<TutorCubit>()
-                                          .state
-                                          .tutorList![index]),
+                                    tutor: context
+                                        .read<TutorCubit>()
+                                        .state
+                                        .tutorList![index],
+                                    index: index,
+                                  ),
                                 );
                               },
                             ),

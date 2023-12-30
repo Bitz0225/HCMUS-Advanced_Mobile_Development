@@ -77,6 +77,12 @@ class SplashCubit extends WidgetCubit<SplashState> {
               response.error?.response?.data['message'] as String? ?? ''));
     }
     hideLoading();
+    showSnackBar(
+      state.passwordFormMessage ?? '',
+      snackBarType: (state.passwordFormMessage?.contains('success') ?? false)
+          ? SnackBarType.success
+          : SnackBarType.error,
+    );
   }
 
   Future<void> updateLearnTopics(Subject item) async {

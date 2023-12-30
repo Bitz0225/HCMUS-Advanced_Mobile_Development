@@ -4,6 +4,7 @@ import 'package:lettutor/common/storage/local_storage.dart';
 import 'package:lettutor/core/network/network_manager.dart';
 import 'package:lettutor/core/repository/auth_repository/auth_repository.dart';
 import 'package:lettutor/core/repository/feedback_repository/feedback_repository.dart';
+import 'package:lettutor/core/repository/report_repository/report_repository.dart';
 import 'package:lettutor/core/repository/tutor_repository/tutor_repository.dart';
 import 'package:lettutor/core/repository/user_repository/user_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -17,5 +18,6 @@ Future<void> initializeDependency() async {
     ..registerLazySingleton<AuthRepository>(AuthRepository.new)
     ..registerLazySingleton<TutorRepository>(TutorRepository.new)
     ..registerLazySingleton<UserRepository>(UserRepository.new)
-    ..registerLazySingleton<FeedbackRepository>(FeedbackRepository.new);
+    ..registerLazySingleton<FeedbackRepository>(FeedbackRepository.new)
+    ..registerLazySingleton<ReportRepository>(ReportRepository.new);
 }

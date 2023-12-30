@@ -60,6 +60,9 @@ dependencies:
     git:
       url: https://github.com/aaassseee/country.git
       path: flutter_country
+  country: ^4.1.0
+  sealed_countries: ^1.0.0
+  animated_rating_stars: ^1.0.1
 
 dev_dependencies:
   flutter_test:

@@ -4,6 +4,9 @@ import 'package:lettutor/core/widget_cubit/widget_state.dart';
 
 class TutorState extends WidgetState {
   final int? totalPages;
+  final int? totalFeedbackPages;
+  final int? currentFeedbackPage;
+  final int? currentFeedbackPageAmount;
   final int? currentPageAmount;
   final int perPage;
   final int? currentPage;
@@ -17,6 +20,9 @@ class TutorState extends WidgetState {
       {this.totalPages,
       this.feedbackOutput,
       this.currentPageAmount,
+      this.currentFeedbackPage,
+      this.currentFeedbackPageAmount,
+      this.totalFeedbackPages,
       this.currentPage = 1,
       this.perPage = 9,
       this.tag,
@@ -30,6 +36,9 @@ class TutorState extends WidgetState {
         tag,
         currentPage,
         currentPageAmount,
+        currentFeedbackPage,
+        currentFeedbackPageAmount,
+        totalFeedbackPages,
         perPage,
         tutorList,
         feedbackOutput,
@@ -47,6 +56,9 @@ class TutorState extends WidgetState {
       totalPages: json['totalPages'] as int?,
       currentPage: json['currentPage'] as int?,
       currentPageAmount: json['currentPageAmount'] as int?,
+      currentFeedbackPage: json['currentFeedbackPage'] as int?,
+      currentFeedbackPageAmount: json['currentFeedbackPageAmount'] as int?,
+      totalFeedbackPages: json['totalFeedbackPages'] as int?,
       perPage: json['perPage'] as int,
       tag: json['tag'] as String?,
       currentDetailTutor: json['currentDetailTutor'] != null
@@ -72,6 +84,9 @@ class TutorState extends WidgetState {
     int? currentPage,
     int? perPage,
     int? currentPageAmount,
+    int? currentFeedbackPage,
+    int? currentFeedbackPageAmount,
+    int? totalFeedbackPages,
     String? tag,
     FeedbackOutput? feedbackOutput,
     DetailTutor? currentDetailTutor,
@@ -82,6 +97,10 @@ class TutorState extends WidgetState {
       totalPages: totalPages ?? this.totalPages,
       currentPage: currentPage ?? this.currentPage,
       currentPageAmount: currentPageAmount ?? this.currentPageAmount,
+      currentFeedbackPage: currentFeedbackPage ?? this.currentFeedbackPage,
+      currentFeedbackPageAmount:
+          currentFeedbackPageAmount ?? this.currentFeedbackPageAmount,
+      totalFeedbackPages: totalFeedbackPages ?? this.totalFeedbackPages,
       perPage: perPage ?? this.perPage,
       tag: tag ?? this.tag,
       feedbackOutput: feedbackOutput ?? this.feedbackOutput,

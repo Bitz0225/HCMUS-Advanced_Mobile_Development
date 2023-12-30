@@ -17,6 +17,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.2.0"
+  animated_rating_stars:
+    dependency: "direct main"
+    description:
+      name: animated_rating_stars
+      sha256: "0d64350a874be1fe5ce88ff87d36e035c7c7bd867106b6439995a21d7a0fac55"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   archive:
     dependency: transitive
     description:
@@ -234,7 +242,7 @@ packages:
     source: hosted
     version: "3.1.1"
   country:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: country
       sha256: ab50fc42c2477ba410972ed618cfb7236ea89328bdf505a69933e73a2a2a8623
@@ -849,6 +857,30 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  sealed_countries:
+    dependency: "direct main"
+    description:
+      name: sealed_countries
+      sha256: "8c8ab46bea67d936a31ee6dd241997ef59de4d3766143dc4e2a68b7e7de81339"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  sealed_currencies:
+    dependency: transitive
+    description:
+      name: sealed_currencies
+      sha256: b4362d9bb4aa35061de44a7f8951146070fd2b120a1cfc00210810d336c8198e
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  sealed_languages:
+    dependency: transitive
+    description:
+      name: sealed_languages
+      sha256: "88c19b9aa4d8a6045d1ea9b7642378188bd1da14b45eeb6075c680a03ca7ee80"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
   shared_preferences:
     dependency: "direct main"
     description:

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:lettutor/core/data_source/network/models/base_model.dart';
 
 class TutorList extends BaseModel {
@@ -29,8 +30,8 @@ class TutorList extends BaseModel {
           : null,
       favoriteTutor: json['favoriteTutor'] != null
           ? (json['favoriteTutor'] as List)
-              .map((e) => FavoriteTutor.fromJson(e as Map<String, dynamic>))
-              .toList()
+          .map((e) => FavoriteTutor.fromJson(e as Map<String, dynamic>))
+          .toList()
           : null,
     );
   }
@@ -80,7 +81,8 @@ class FavoriteTutor extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         firstId,
         secondId,
@@ -243,7 +245,8 @@ class Info extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         level,
         email,
@@ -435,7 +438,8 @@ class TutorInfo extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         userId,
         video,
@@ -527,7 +531,8 @@ class Tutors extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         count,
         rows,
       ];
@@ -537,8 +542,8 @@ class Tutors extends BaseModel {
       count: json['count'] as int?,
       rows: json['rows'] != null
           ? (json['rows'] as List)
-              .map((e) => Rows.fromJson(e as Map<String, dynamic>))
-              .toList()
+          .map((e) => Rows.fromJson(e as Map<String, dynamic>))
+          .toList()
           : null,
     );
   }
@@ -748,7 +753,8 @@ class Rows extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         level,
         email,
         google,
@@ -828,8 +834,8 @@ class Rows extends BaseModel {
       studentGroupId: json['studentGroupId'] as String?,
       feedbacks: json['feedbacks'] != null
           ? (json['feedbacks'] as List)
-              .map((e) => Feedback.fromJson(e as Map<String, dynamic>))
-              .toList()
+          .map((e) => Feedback.fromJson(e as Map<String, dynamic>))
+          .toList()
           : null,
       id: json['id'] as String?,
       userId: json['userId'] as String?,
@@ -953,7 +959,8 @@ class Feedback extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         bookingId,
         firstId,
@@ -1017,7 +1024,8 @@ class TutorSearchOutput extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         count,
         rows,
       ];
@@ -1035,9 +1043,9 @@ class TutorSearchOutput extends BaseModel {
       count: json['count'] as int?,
       rows: json['rows'] != null
           ? (json['rows'] as List)
-              .map((e) =>
-                  TutorSearchOutputItem.fromJson(e as Map<String, dynamic>))
-              .toList()
+          .map((e) =>
+          TutorSearchOutputItem.fromJson(e as Map<String, dynamic>))
+          .toList()
           : null,
     );
   }
@@ -1072,7 +1080,8 @@ class TutorSearchOutputItem extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         avatar,
         bio,
         country,
@@ -1159,7 +1168,8 @@ class TutorFavoriteOutput extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         message,
         result,
       ];
@@ -1260,7 +1270,8 @@ class DetailTutor extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         video,
         bio,
         education,
@@ -1384,7 +1395,8 @@ class TutorDetailUser extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         level,
         avatar,
@@ -1429,8 +1441,8 @@ class TutorDetailUser extends BaseModel {
       studentGroupId: json['studentGroupId'] as String?,
       courses: json['courses'] != null
           ? (json['courses'] as List)
-              .map((e) => TutorDetailCourse.fromJson(e as Map<String, dynamic>))
-              .toList()
+          .map((e) => TutorDetailCourse.fromJson(e as Map<String, dynamic>))
+          .toList()
           : null,
     );
   }
@@ -1460,7 +1472,8 @@ class TutorDetailCourse extends BaseModel {
 
   @override
   // TODO: implement props
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         id,
         name,
         tutorCourse,
@@ -1513,7 +1526,8 @@ class TutorCourse extends BaseModel {
       );
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         userId,
         courseId,
         createdAt,
@@ -1538,4 +1552,118 @@ class TutorCourse extends BaseModel {
       updatedAt: json['updatedAt'] as String?,
     );
   }
+}
+
+class ReportOutput extends BaseModel {
+  final ReportOutputData? data;
+  final String? message;
+
+  const ReportOutput({
+    this.data,
+    this.message,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    data,
+    message,
+  ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'data': data?.toJson(),
+      'message': message,
+    };
+  }
+
+  factory ReportOutput.fromJson(Map<String, dynamic> json) {
+    return ReportOutput(
+      data: json['data'] != null
+          ? ReportOutputData.fromJson(json['data'] as Map<String, dynamic>)
+          : null,
+      message: json['message'] as String?,
+    );
+  }
+
+  ReportOutput copyWith({
+    ReportOutputData? data,
+    String? message,
+  }) =>
+      ReportOutput(
+        data: data ?? this.data,
+        message: message ?? this.message,
+      );
+
+}
+
+class ReportOutputData extends BaseModel {
+  final String? content;
+  final String? createdAt;
+  final String? id;
+  final String? tutorId;
+  final String? updateAt;
+  final String? userId;
+
+  const ReportOutputData({
+    this.content,
+    this.createdAt,
+    this.id,
+    this.tutorId,
+    this.updateAt,
+    this.userId,
+  });
+
+  ReportOutputData copyWith({
+    String? content,
+    String? createdAt,
+    String? id,
+    String? tutorId,
+    String? updateAt,
+    String? userId,
+  }) =>
+      ReportOutputData(
+        content: content ?? this.content,
+        createdAt: createdAt ?? this.createdAt,
+        id: id ?? this.id,
+        tutorId: tutorId ?? this.tutorId,
+        updateAt: updateAt ?? this.updateAt,
+        userId: userId ?? this.userId,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    content,
+    createdAt,
+    id,
+    tutorId,
+    updateAt,
+    userId,
+  ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'content': content,
+      'createdAt': createdAt,
+      'id': id,
+      'tutorId': tutorId,
+      'updateAt': updateAt,
+      'userId': userId,
+    };
+  }
+
+  factory ReportOutputData.fromJson(Map<String, dynamic> json) {
+    return ReportOutputData(
+      content: json['content'] as String?,
+      createdAt: json['createdAt'] as String?,
+      id: json['id'] as String?,
+      tutorId: json['tutorId'] as String?,
+      updateAt: json['updateAt'] as String?,
+      userId: json['userId'] as String?,
+    );
+  }
+
 }

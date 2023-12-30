@@ -9,12 +9,13 @@ import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/gen/assets.gen.dart';
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
-import 'package:lettutor/presentation/teacher_detail_screen/view/teacher_detail_screen.dart';
+import 'package:lettutor/presentation/teacher_detail_screen/widget/teacher_info.dart';
 
 class ListTeachersItem extends StatelessWidget {
   final TutorSearchOutputItem? tutor;
+  final int index;
 
-  const ListTeachersItem({super.key, this.tutor});
+  const ListTeachersItem({required this.index, super.key, this.tutor});
 
   @override
   Widget build(BuildContext context) {
@@ -29,6 +30,9 @@ class ListTeachersItem extends StatelessWidget {
           children: [
             TeacherInfo(
               tutor: tutor,
+              index: index,
+              handleRedirect:
+                handleRedirectToDetail,
               showFavoriteButton: true,
             ),
             const SizedBox(

@@ -190,6 +190,8 @@ class _LoginScreenState extends State<LoginWidget> with SnackBarMixin {
                         onTap: () {
                           setState(() {
                             _isLoginScreen = !_isLoginScreen;
+                            _emailController.clear();
+                            _passwordController.clear();
                           });
                         },
                         child: Text(

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/gen/assets.gen.dart';
+import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget? title;
@@ -27,7 +28,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
         children: [
           GestureDetector(
             onTap: () {
-              context.router.replace(const ListTeachersWrapperRoute());
+              context.router.replace(const ListTeachersScreenRoute());
             },
             child: Container(
               // transform: Matrix4.translationValues(24, 0, 0),

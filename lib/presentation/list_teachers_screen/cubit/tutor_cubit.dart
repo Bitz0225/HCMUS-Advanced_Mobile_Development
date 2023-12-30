@@ -1,8 +1,11 @@
+import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/data_state.dart';
+import 'package:lettutor/core/data_source/network/models/input/report_form_input.dart';
 import 'package:lettutor/core/data_source/network/models/input/search_tutor_form.dart';
 import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/core/repository/feedback_repository/feedback_repository.dart';
+import 'package:lettutor/core/repository/report_repository/report_repository.dart';
 import 'package:lettutor/core/repository/tutor_repository/tutor_repository.dart';
 import 'package:lettutor/core/repository/user_repository/user_repository.dart';
 import 'package:lettutor/core/widget_cubit/widget_cubit.dart';
@@ -57,6 +60,8 @@ class TutorCubit extends WidgetCubit<TutorState> {
               isFavoriteTutor: !(tutorList[index].isFavoriteTutor ?? false));
           tutorList[index] = _tutor;
           emit(state.copyWith(tutorList: tutorList));
+          showSnackBar('Update favorite teacher successfully!',
+              snackBarType: SnackBarType.success);
         }
       }
     } else {
@@ -84,11 +89,35 @@ class TutorCubit extends WidgetCubit<TutorState> {
     if (response is DataSuccess) {
       final feedback = response.data;
       if (feedback != null) {
-        emit(state.copyWith(feedbackOutput: feedback));
+        final totalFeedbackPage =
+            ((feedback.data?.count ?? 0) / state.perPage).ceil();
+        final currentFeedbackPageAmount = feedback.data?.rows?.length;
+        final currentFeedbackPage = index;
+        emit(state.copyWith(
+            feedbackOutput: feedback,
+            totalFeedbackPages: totalFeedbackPage,
+            currentFeedbackPageAmount: currentFeedbackPageAmount,
+            currentFeedbackPage: currentFeedbackPage));
       }
     } else {
       showSnackBar('Error when trying to get feedback!');
     }
     hideLoading();
+  }
+
+  Future<void> updateFeedbackPage(int index) async {
+    emit(state.copyWith(currentFeedbackPage: index));
+  }
+
+  Future<void> reportTutor({required String content, required String tutorId}) async {
+    showLoading();
+    final formInput = ReportFormInput(content: content, id: tutorId);
+    final response = await getIt<ReportRepository>().sendReport(formInput);
+    hideLoading();
+    if (response is DataSuccess) {
+      showSnackBar('Report successfully!', snackBarType: SnackBarType.success);
+    } else {
+      showSnackBar('Error when trying to report!');
+    }
   }
 }

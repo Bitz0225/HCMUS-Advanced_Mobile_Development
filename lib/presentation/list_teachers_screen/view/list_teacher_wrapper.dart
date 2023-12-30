@@ -11,12 +11,11 @@ class ListTeachersWrapper extends BaseWidget<TutorCubit, TutorState> {
 
   @override
   Widget buildWidget(BuildContext context) {
-    return BlocProvider(
-        create: (context) => TutorCubit()..init(), child: const AutoRouter());
+    return const AutoRouter();
   }
 
   @override
   TutorCubit? provideCubit(BuildContext context) {
-    return null;
+    return TutorCubit()..init();
   }
 }
