@@ -1,3 +1,5 @@
+import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
+
 enum Level {
   beginner(value: 'BEGINNER', tagName: 'Pre A1 (Beginner)'),
   higherBeginner(value: 'HIGHER_BEGINNER', tagName: 'A1 (Higher Beginner)'),
@@ -18,7 +20,6 @@ enum Level {
   bool get isUpperIntermediate => this == Level.upperIntermediate;
   bool get isAdvanced => this == Level.advanced;
   bool get isProficiency => this == Level.proficiency;
-
 }
 
 enum Subject {
@@ -91,4 +92,29 @@ enum Tags {
   bool get isEnglishForKids => this == Tags.englishForKids;
   bool get isBusinessEnglish => this == Tags.businessEnglish;
   bool get isConversationalEnglish => this == Tags.conversationalEnglish;
+}
+
+enum CourseLevel {
+  anyLevel(key: 0, value: 'ANY_LEVEL', tagName: 'Any Level'),
+  beginner(key: 1, value: 'BEGINNER', tagName: 'Beginner'),
+  upperBeginner(key: 2, value: 'UPPER_BEGINNER', tagName: 'Upper-Beginner'),
+  preIntermediate(key: 3, value: 'PRE_INTERMEDIATE', tagName: 'Pre-Intermediate'),
+  intermediate(key: 4, value: 'INTERMEDIATE', tagName: 'Intermediate'),
+  upperIntermediate(key: 5, value: 'UPPER_INTERMEDIATE', tagName: 'Upper-Intermediate'),
+  preAdvanced(key: 6, value: 'PRE_ADVANCED', tagName: 'Pre-Advanced'),
+  advanced(key: 7, value: 'ADVANCED', tagName: 'Advanced');
+
+  final int key;
+  final String value;
+  final String tagName;
+  const CourseLevel({required this.key, required this.value, required this.tagName});
+
+  bool get isAnyLevel => this == CourseLevel.anyLevel;
+  bool get isBeginner => this == CourseLevel.beginner;
+  bool get isUpperBeginner => this == CourseLevel.upperBeginner;
+  bool get isPreIntermediate => this == CourseLevel.preIntermediate;
+  bool get isIntermediate => this == CourseLevel.intermediate;
+  bool get isUpperIntermediate => this == CourseLevel.upperIntermediate;
+  bool get isPreAdvanced => this == CourseLevel.preAdvanced;
+  bool get isAdvanced => this == CourseLevel.advanced;
 }

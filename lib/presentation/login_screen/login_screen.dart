@@ -226,9 +226,8 @@ class _LoginScreenState extends State<LoginWidget> with SnackBarMixin {
     final isSuccess = context.read<AuthCubit>().state.isLogin;
     final message = context.read<AuthCubit>().state.message ?? '';
     if (isSuccess) {
-      Navigator.pop(context);
-      context.read<SplashCubit>().getUser();
-      context.router.push(const ListTeachersWrapperRoute());
+      await context.read<SplashCubit>().getUser();
+      context.router.replace(const ListTeachersWrapperRoute());
     } else {
       showSnackBar(context, message);
     }

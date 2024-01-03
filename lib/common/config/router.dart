@@ -5,6 +5,7 @@ import 'package:lettutor/presentation/detail_course_screen/view/detail_course_sc
 import 'package:lettutor/presentation/forgot_password_screen/view/forgot_password_screen.dart';
 import 'package:lettutor/presentation/history_screen/view/history_screen.dart';
 import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
+import 'package:lettutor/presentation/list_courses_screen/view/list_courses_wrapper.dart';
 import 'package:lettutor/presentation/list_teachers_screen/view/list_teacher_wrapper.dart';
 import 'package:lettutor/presentation/list_teachers_screen/view/list_teachers_screen.dart';
 import 'package:lettutor/presentation/login_screen/login_screen.dart';
@@ -33,26 +34,32 @@ class AppRouter extends _$AppRouter {
             initial: true,
             path: '/',
             children: [
-              AutoRoute(
-                  page: SplashScreenRoute.page,
-                  initial: true,
-                  path: ''),
+              AutoRoute(page: SplashScreenRoute.page, initial: true, path: ''),
               AutoRoute(page: LoginScreenRoute.page, path: 'login'),
               AutoRoute(
-                  page: ListCoursesScreenRoute.page, path: 'list-courses'),
+                  page: ListCoursesWrapperRoute.page,
+                  path: 'list-courses',
+                  children: [
+                    AutoRoute(
+                        page: ListCoursesScreenRoute.page,
+                        initial: true,
+                        path: ''),
+                    AutoRoute(
+                        page: DetailCourseScreenRoute.page,
+                        path: 'detail-course'),
+                  ]),
               AutoRoute(
-                  page: DetailCourseScreenRoute.page, path: 'detail-course'),
-              AutoRoute(
-                  page: ListTeachersWrapperRoute.page, path: 'list-teachers', children: [
-                AutoRoute(
-                    page: ListTeachersScreenRoute.page,
-                    initial: true,
-                    path: ''),
-                AutoRoute(
-                    page: BaseTeacherDetailWrapperRoute.page,
-                    path: 'teacher-detail'),
-
-              ]),
+                  page: ListTeachersWrapperRoute.page,
+                  path: 'list-teachers',
+                  children: [
+                    AutoRoute(
+                        page: ListTeachersScreenRoute.page,
+                        initial: true,
+                        path: ''),
+                    AutoRoute(
+                        page: BaseTeacherDetailWrapperRoute.page,
+                        path: 'teacher-detail'),
+                  ]),
               AutoRoute(page: ScheduleScreenRoute.page, path: 'schedule'),
               AutoRoute(page: HistoryScreenRoute.page, path: 'history'),
               AutoRoute(

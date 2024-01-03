@@ -2,23 +2,17 @@ import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/config/router.dart';
+import 'package:lettutor/common/values/fixed_enum.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
 
 class CourseOverview extends StatelessWidget {
   const CourseOverview(
       {super.key,
-      this.title,
-      this.description,
-      this.imageUrl,
-      this.difficulty,
-      this.numberOfLessons,
+      this.course,
       this.showButton = false});
 
-  final String? title;
-  final String? description;
-  final String? imageUrl;
-  final String? difficulty;
-  final int? numberOfLessons;
+  final CourseDataRow? course;
   final bool showButton;
 
   @override
@@ -27,11 +21,11 @@ class CourseOverview extends StatelessWidget {
       onTap: () {
         if (!showButton) {
           context.router.push(DetailCourseScreenRoute(
-              title: title ?? '',
-              description: description ?? '',
-              imageUrl: imageUrl ?? '',
-              difficulty: difficulty ?? '',
-              numberOfLessons: numberOfLessons ?? 0));
+              title: course?.name ?? '',
+              description: course?.description ?? '',
+              imageUrl: course?.imageUrl ?? '',
+              difficulty: CourseLevel.values.firstWhere((element) => element.key == int.tryParse(course?.level ?? '0')).tagName,
+              numberOfLessons: course?.topics?.length ?? 0));
         }
       },
       child: Container(
@@ -52,9 +46,9 @@ class CourseOverview extends StatelessWidget {
           children: [
             Container(
                 height: MediaQuery.sizeOf(context).height * 0.2,
-                child: imageUrl != null
+                child: course?.imageUrl != null
                     ? CachedNetworkImage(
-                        imageUrl: imageUrl ?? '',
+                        imageUrl: course?.imageUrl ?? '',
                         fit: BoxFit.contain,
                         placeholder: (context, url) => const Center(
                           child: CircularProgressIndicator(),
@@ -71,14 +65,14 @@ class CourseOverview extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(title ?? '',
+                        Text(course?.name ?? '',
                             style: const TextStyle(
                               fontSize: 16,
                               fontWeight: FontWeight.bold,
                             )),
                         const SizedBox(height: 8),
                         Text(
-                          description ?? '',
+                          course?.description ?? '',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w300,
@@ -87,7 +81,7 @@ class CourseOverview extends StatelessWidget {
                         const SizedBox(height: 24),
                         RichText(
                           text: TextSpan(
-                            text: difficulty ?? '',
+                            text: CourseLevel.values.firstWhere((element) => element.key == int.tryParse(course?.level ?? '0')).tagName,
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -95,8 +89,8 @@ class CourseOverview extends StatelessWidget {
                             ),
                             children: [
                               TextSpan(
-                                text: numberOfLessons != null
-                                    ? ' • $numberOfLessons lessons'
+                                text: (course?.topics?.isNotEmpty ?? false)
+                                    ? ' • ${course?.topics?.length ?? 0} lessons'
                                     : '',
                               )
                             ],

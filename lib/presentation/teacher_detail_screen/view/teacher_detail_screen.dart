@@ -1,6 +1,7 @@
 import 'package:animated_rating_stars/animated_rating_stars.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:chewie/chewie.dart';
 import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:country/country.dart';
@@ -24,6 +25,7 @@ import 'package:lettutor/presentation/teacher_detail_screen/widget/teacher_info.
 import 'package:number_paginator/number_paginator.dart';
 import 'package:sealed_countries/sealed_countries.dart';
 import 'package:unicons/unicons.dart';
+import 'package:video_player/video_player.dart';
 
 @RoutePage()
 class BaseTeacherDetailWrapper extends BaseWidget<TutorCubit, TutorState> {
@@ -51,6 +53,8 @@ class TeacherDetailScreen extends StatefulWidget {
 class _TeacherDetailScreenState extends State<TeacherDetailScreen>
     with DialogMixin {
   bool isFavoriteTutor = false;
+  late VideoPlayerController _videoController;
+  late ChewieController _chewieController;
 
   @override
   void initState() {
@@ -58,6 +62,20 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
     isFavoriteTutor =
         context.read<TutorCubit>().state.currentDetailTutor?.isFavorite ??
             false;
+    _videoController = VideoPlayerController.networkUrl(Uri.parse(
+        context.read<TutorCubit>().state.currentDetailTutor?.video ?? ''))
+      ..initialize().then((_) {
+        // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
+        setState(() {});
+      });
+    _chewieController = ChewieController(
+      videoPlayerController: _videoController,
+      autoInitialize: true,
+      allowFullScreen: false,
+      placeholder: Container(
+        color: Colors.black,
+      ),
+    );
   }
 
   @override
@@ -98,6 +116,21 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                       specialities: tutorInfo?.specialties,
                     ),
                     showFavoriteButton: false,
+                  ),
+                  const SizedBox(height: 16),
+                  Center(
+                    child: _videoController.value.isInitialized
+                        ? Stack(
+                            children: [
+                              AspectRatio(
+                                aspectRatio: 16.0/9.0,
+                                child: Chewie(
+                                  controller: _chewieController,
+                                )
+                              ),
+                            ],
+                          )
+                        : Container(),
                   ),
                   const SizedBox(height: 16),
                   Row(
@@ -155,7 +188,10 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                                 value: context.read<TutorCubit>(),
                                 child: ReportForm(
                                   onSubmit: (value) {
-                                    handleSubmitReport(context: context, content: value, tutorId: tutorInfo?.user?.id ?? '');
+                                    handleSubmitReport(
+                                        context: context,
+                                        content: value,
+                                        tutorId: tutorInfo?.user?.id ?? '');
                                   },
                                 ),
                               ));
@@ -182,7 +218,10 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                                   value: context.read<TutorCubit>(),
                                   child: ReportForm(
                                     onSubmit: (value) {
-                                      handleSubmitReport(context: context, content: value, tutorId: tutorInfo?.user?.id ?? '');
+                                      handleSubmitReport(
+                                          context: context,
+                                          content: value,
+                                          tutorId: tutorInfo?.user?.id ?? '');
                                     },
                                   ),
                                 ));
@@ -235,12 +274,32 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                               physics: const NeverScrollableScrollPhysics(),
                               itemCount: tutorInfo?.user?.courses?.length ?? 0,
                               itemBuilder: (context, index) {
-                                return Text(
-                                    tutorInfo?.user?.courses?[index].name ??
-                                        '',
-                                  style: const TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.bold,
+                                return Padding(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 8),
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        tutorInfo?.user?.courses?[index].name ??
+                                            '',
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 4),
+                                      GestureDetector(
+                                        onTap: () {},
+                                        child: Text(
+                                          'Link',
+                                          style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: AppColors.appBlue100,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
                                 );
                               }))

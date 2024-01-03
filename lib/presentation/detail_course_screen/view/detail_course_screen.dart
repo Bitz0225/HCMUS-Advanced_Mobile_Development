@@ -43,12 +43,12 @@ class DetailCourseScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              CourseOverview(
-                title: title,
-                description: description,
-                imageUrl: imageUrl,
-                showButton: true,
-              ),
+              // CourseOverview(
+              //   title: title,
+              //   description: description,
+              //   imageUrl: imageUrl,
+              //   showButton: true,
+              // ),
               const SizedBox(height: 32),
               const Section(
                 title: 'Overview',

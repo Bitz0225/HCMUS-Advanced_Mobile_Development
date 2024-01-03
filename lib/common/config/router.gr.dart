@@ -54,6 +54,12 @@ abstract class _$AppRouter extends RootStackRouter {
         child: const ListCoursesScreen(),
       );
     },
+    ListCoursesWrapperRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ListCoursesWrapper(),
+      );
+    },
     ListTeachersScreenRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
@@ -210,6 +216,20 @@ class ListCoursesScreenRoute extends PageRouteInfo<void> {
         );
 
   static const String name = 'ListCoursesScreenRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [ListCoursesWrapper]
+class ListCoursesWrapperRoute extends PageRouteInfo<void> {
+  const ListCoursesWrapperRoute({List<PageRouteInfo>? children})
+      : super(
+          ListCoursesWrapperRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ListCoursesWrapperRoute';
 
   static const PageInfo<void> page = PageInfo<void>(name);
 }

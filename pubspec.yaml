@@ -63,6 +63,8 @@ dependencies:
   country: ^4.1.0
   sealed_countries: ^1.0.0
   animated_rating_stars: ^1.0.1
+  video_player: ^2.8.1
+  chewie: ^1.7.4
 
 dev_dependencies:
   flutter_test:
