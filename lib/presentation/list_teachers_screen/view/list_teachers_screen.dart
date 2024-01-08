@@ -62,11 +62,7 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                             .read<TutorCubit>()
                             .getListTutorWithPagination(SearchTutorForm(
                               search: _nameInput.text,
-                              page: context
-                                  .read<TutorCubit>()
-                                  .state
-                                  .currentPage
-                                  .toString(),
+                              page: '1',
                               perPage: state.perPage,
                             ));
                       },
@@ -161,8 +157,14 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                       ignoreIndent: true,
                       title: 'Recommended tutors',
                       content: (context.read<TutorCubit>().state.tutorList ==
-                              null)
-                          ? const Center(child: CircularProgressIndicator())
+                                  null ||
+                              (context
+                                      .read<TutorCubit>()
+                                      .state
+                                      .tutorList
+                                      ?.isEmpty ??
+                                  true))
+                          ? const Center(child: Text('No tutors found'))
                           : ListView.builder(
                               shrinkWrap: true,
                               physics: const NeverScrollableScrollPhysics(),
@@ -185,28 +187,39 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                               },
                             ),
                     ),
-                    NumberPaginator(
-                      numberPages:
-                          context.read<TutorCubit>().state.totalPages ?? 1,
-                      onPageChange: (int index) {
-                        context.read<TutorCubit>().updatePage(index + 1).then(
-                            (value) => context
-                                .read<TutorCubit>()
-                                .getListTutorWithPagination(
-                                  SearchTutorForm(
-                                    page: context
-                                        .read<TutorCubit>()
-                                        .state
-                                        .currentPage
-                                        .toString(),
-                                    perPage: context
-                                        .read<TutorCubit>()
-                                        .state
-                                        .perPage,
-                                  ),
-                                ));
-                      },
-                    )
+                    (context.read<TutorCubit>().state.tutorList == null ||
+                            (context
+                                    .read<TutorCubit>()
+                                    .state
+                                    .tutorList
+                                    ?.isEmpty ??
+                                true))
+                        ? const SizedBox.shrink()
+                        : NumberPaginator(
+                            numberPages:
+                                context.read<TutorCubit>().state.totalPages ??
+                                    1,
+                            onPageChange: (int index) {
+                              context
+                                  .read<TutorCubit>()
+                                  .updatePage(index + 1)
+                                  .then((value) => context
+                                      .read<TutorCubit>()
+                                      .getListTutorWithPagination(
+                                        SearchTutorForm(
+                                          page: context
+                                              .read<TutorCubit>()
+                                              .state
+                                              .currentPage
+                                              .toString(),
+                                          perPage: context
+                                              .read<TutorCubit>()
+                                              .state
+                                              .perPage,
+                                        ),
+                                      ));
+                            },
+                          )
                   ],
                 ),
               ),

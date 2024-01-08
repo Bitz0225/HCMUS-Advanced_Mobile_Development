@@ -25,6 +25,7 @@ class AuthCubit extends WidgetCubit<AuthState> {
   }
 
   Future<void> login({String? email, String? password}) async {
+    showLoading();
     final _form = AuthForm().copyWith(email: email, password: password);
     final result = await _authRepository.login(_form);
     if (result is DataSuccess) {
@@ -39,6 +40,7 @@ class AuthCubit extends WidgetCubit<AuthState> {
     } else {
       emit(state.copyWith(isLogin: false, message: result.error?.response?.data['message'] as String? ?? ''));
     }
+    hideLoading();
   }
 
   Future<void> register({String? email, String? password}) async {

@@ -277,29 +277,13 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                                 return Padding(
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8),
-                                  child: Row(
-                                    children: [
-                                      Text(
-                                        tutorInfo?.user?.courses?[index].name ??
-                                            '',
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                        ),
-                                      ),
-                                      const SizedBox(width: 4),
-                                      GestureDetector(
-                                        onTap: () {},
-                                        child: Text(
-                                          'Link',
-                                          style: TextStyle(
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.bold,
-                                            color: AppColors.appBlue100,
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                                  child: Text(
+                                    tutorInfo?.user?.courses?[index].name ??
+                                        '',
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
                                 );
                               }))

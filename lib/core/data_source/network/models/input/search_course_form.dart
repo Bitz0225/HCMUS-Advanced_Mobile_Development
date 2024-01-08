@@ -1,14 +1,14 @@
 class SearchCourseForm {
   final int? page;
-  final int? perPage;
+  final int? size;
   final String? query;
 
-  SearchCourseForm({this.page, this.perPage, this.query});
+  SearchCourseForm({this.page, this.size, this.query});
 
   factory SearchCourseForm.fromJson(Map<String, dynamic> json) {
     return SearchCourseForm(
       page: json['page'] as int?,
-      perPage: json['perPage'] as int?,
+      size: json['size'] as int?,
       query: json['query'] as String?,
     );
   }
@@ -16,19 +16,19 @@ class SearchCourseForm {
   Map<String, dynamic> toJson() {
     return {
       'page': page,
-      'perPage': perPage,
+      'size': size,
       'q': query,
     };
   }
 
   SearchCourseForm copyWith({
     int? page,
-    int? perPage,
+    int? size,
     String? query,
   }) {
     return SearchCourseForm(
       page: page ?? this.page,
-      perPage: perPage ?? this.perPage,
+      size: size ?? this.size,
       query: query ?? this.query,
     );
   }

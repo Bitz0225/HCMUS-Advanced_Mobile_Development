@@ -1,6 +1,7 @@
 import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/data_state.dart';
 import 'package:lettutor/core/data_source/network/models/input/search_course_form.dart';
+import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
 import 'package:lettutor/core/repository/content_category_repository/content_category_repository.dart';
 import 'package:lettutor/core/repository/course_repository/course_repository.dart';
 import 'package:lettutor/core/repository/ebook_repository/ebook_repository.dart';
@@ -17,7 +18,7 @@ class CourseCubit extends WidgetCubit<CourseState> {
   Future<void> init() async {
     await getListCourses(SearchCourseForm(
       page: 1,
-      perPage: 100,
+      size: 100,
     ));
     await getListCategories();
   }
@@ -55,12 +56,33 @@ class CourseCubit extends WidgetCubit<CourseState> {
       final ebookList = response.data?.data?.rows;
       emit(state.copyWith(
           listEbooks: ebookList,
-          currentEbookPage: ebookList?.length ?? 0,
-          totalEbookPage: ((response.data?.data?.count ?? 0) / (input.perPage ?? 1)).ceil(),
-          perPageEbook: input.perPage));
+          currentEbookPage: input.page,
+          totalEbookPage:
+              ((response.data?.data?.count ?? 0) / (input.size ?? 1)).ceil(),
+          perPageEbook: input.size));
     } else if (response is DataError) {
       emit(state.copyWith(isEmpty: true));
     }
     hideLoading();
+  }
+
+  Future<void> getDetailCourse(String id) async {
+    showLoading();
+    final response = await getIt<CourseRepository>().getDetailCourse(id);
+    if (response is DataSuccess) {
+      final course = response.data?.data;
+      emit(state.copyWith(detailCourse: course));
+    } else if (response is DataError) {
+      emit(state.copyWith(isEmpty: true));
+    }
+    hideLoading();
+  }
+
+  Future<void> updatePage(int page) async {
+    emit(state.copyWith(currentEbookPage: page));
+  }
+
+  Future<void> updateTopic(Topic? topic) async {
+    emit(state.copyWith(currentTopic: topic));
   }
 }

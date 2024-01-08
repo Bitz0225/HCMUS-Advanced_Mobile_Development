@@ -22,18 +22,15 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     DetailCourseScreenRoute.name: (routeData) {
-      final args = routeData.argsAs<DetailCourseScreenRouteArgs>(
-          orElse: () => const DetailCourseScreenRouteArgs());
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: DetailCourseScreen(
-          key: args.key,
-          title: args.title,
-          description: args.description,
-          imageUrl: args.imageUrl,
-          difficulty: args.difficulty,
-          numberOfLessons: args.numberOfLessons,
-        ),
+        child: const DetailCourseScreen(),
+      );
+    },
+    DetailTopicScreenRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const DetailTopicScreen(),
       );
     },
     ForgotPasswordScreenRoute.name: (routeData) {
@@ -121,61 +118,30 @@ class BaseTeacherDetailWrapperRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [DetailCourseScreen]
-class DetailCourseScreenRoute
-    extends PageRouteInfo<DetailCourseScreenRouteArgs> {
-  DetailCourseScreenRoute({
-    Key? key,
-    String? title,
-    String? description,
-    String? imageUrl,
-    String? difficulty,
-    int? numberOfLessons,
-    List<PageRouteInfo>? children,
-  }) : super(
+class DetailCourseScreenRoute extends PageRouteInfo<void> {
+  const DetailCourseScreenRoute({List<PageRouteInfo>? children})
+      : super(
           DetailCourseScreenRoute.name,
-          args: DetailCourseScreenRouteArgs(
-            key: key,
-            title: title,
-            description: description,
-            imageUrl: imageUrl,
-            difficulty: difficulty,
-            numberOfLessons: numberOfLessons,
-          ),
           initialChildren: children,
         );
 
   static const String name = 'DetailCourseScreenRoute';
 
-  static const PageInfo<DetailCourseScreenRouteArgs> page =
-      PageInfo<DetailCourseScreenRouteArgs>(name);
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
-class DetailCourseScreenRouteArgs {
-  const DetailCourseScreenRouteArgs({
-    this.key,
-    this.title,
-    this.description,
-    this.imageUrl,
-    this.difficulty,
-    this.numberOfLessons,
-  });
+/// generated route for
+/// [DetailTopicScreen]
+class DetailTopicScreenRoute extends PageRouteInfo<void> {
+  const DetailTopicScreenRoute({List<PageRouteInfo>? children})
+      : super(
+          DetailTopicScreenRoute.name,
+          initialChildren: children,
+        );
 
-  final Key? key;
+  static const String name = 'DetailTopicScreenRoute';
 
-  final String? title;
-
-  final String? description;
-
-  final String? imageUrl;
-
-  final String? difficulty;
-
-  final int? numberOfLessons;
-
-  @override
-  String toString() {
-    return 'DetailCourseScreenRouteArgs{key: $key, title: $title, description: $description, imageUrl: $imageUrl, difficulty: $difficulty, numberOfLessons: $numberOfLessons}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for

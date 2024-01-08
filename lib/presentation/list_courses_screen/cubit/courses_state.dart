@@ -5,6 +5,8 @@ class CourseState extends WidgetState {
   final List<CourseDataRow>? listCourses;
   final List<CourseCategory>? listCategories;
   final List<EbookRow>? listEbooks;
+  final DetailCourseData? detailCourse;
+  final Topic? currentTopic;
   final int? currentEbookPage;
   final int? totalEbookPage;
   final int? perPageEbook;
@@ -14,6 +16,8 @@ class CourseState extends WidgetState {
     this.listCourses,
     this.listCategories,
     this.listEbooks,
+    this.detailCourse,
+    this.currentTopic,
     this.currentEbookPage,
     this.totalEbookPage,
     this.perPageEbook,
@@ -25,6 +29,8 @@ class CourseState extends WidgetState {
     listCourses,
     listCategories,
     listEbooks,
+    detailCourse,
+    currentTopic,
     currentEbookPage,
     totalEbookPage,
     perPageEbook,
@@ -36,6 +42,8 @@ class CourseState extends WidgetState {
       'listCourses': listCourses,
       'listCategories': listCategories,
       'listEbooks': listEbooks,
+      'detailCourse': detailCourse,
+      'currentTopic': currentTopic,
       'currentEbookPage': currentEbookPage,
       'totalEbookPage': totalEbookPage,
       'perPageEbook': perPageEbook,
@@ -60,6 +68,13 @@ class CourseState extends WidgetState {
           : (json['listEbooks'] as List<dynamic>)
               .map((e) => EbookRow.fromJson(e as Map<String, dynamic>))
               .toList(),
+      detailCourse: json['detailCourse'] == null
+          ? null
+          : DetailCourseData.fromJson(
+              json['detailCourse'] as Map<String, dynamic>),
+      currentTopic: json['currentTopic'] == null
+          ? null
+          : Topic.fromJson(json['currentTopic'] as Map<String, dynamic>),
       currentEbookPage: json['currentEbookPage'] as int?,
       totalEbookPage: json['totalEbookPage'] as int?,
       perPageEbook: json['perPageEbook'] as int?,
@@ -71,6 +86,8 @@ class CourseState extends WidgetState {
     List<CourseDataRow>? listCourses,
     List<CourseCategory>? listCategories,
     List<EbookRow>? listEbooks,
+    DetailCourseData? detailCourse,
+    Topic? currentTopic,
     int? currentEbookPage,
     int? totalEbookPage,
     int? perPageEbook,
@@ -80,6 +97,8 @@ class CourseState extends WidgetState {
       listCourses: listCourses ?? this.listCourses,
       listCategories: listCategories ?? this.listCategories,
       listEbooks: listEbooks ?? this.listEbooks,
+      detailCourse: detailCourse ?? this.detailCourse,
+      currentTopic: currentTopic ?? this.currentTopic,
       currentEbookPage: currentEbookPage ?? this.currentEbookPage,
       totalEbookPage: totalEbookPage ?? this.totalEbookPage,
       perPageEbook: perPageEbook ?? this.perPageEbook,

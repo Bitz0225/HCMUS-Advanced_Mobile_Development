@@ -1,10 +1,12 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:choice/choice.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
+import 'package:lettutor/common/values/fixed_enum.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/data_source/network/models/input/search_course_form.dart';
 import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
@@ -12,6 +14,9 @@ import 'package:lettutor/gen/assets.gen.dart';
 import 'package:lettutor/presentation/list_courses_screen/cubit/course_cubit.dart';
 import 'package:lettutor/presentation/list_courses_screen/cubit/courses_state.dart';
 import 'package:lettutor/presentation/list_courses_screen/widget/course_overview.dart';
+import 'package:lettutor/presentation/list_courses_screen/widget/ebook_overview.dart';
+import 'package:multi_dropdown/multiselect_dropdown.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 enum CourseType { courses, ebook, interactive }
 
@@ -26,6 +31,7 @@ class ListCoursesScreen extends StatefulWidget {
 class _ListCoursesScreenState extends State<ListCoursesScreen> {
   CourseType? _selectedCourseType;
   final _courseTextController = TextEditingController();
+  final _multiSelectController = MultiSelectController();
 
   @override
   void initState() {
@@ -65,16 +71,27 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                       ],
                     ),
                     const SizedBox(height: 16),
-                    const Text(
-                        'LiveTutor has built the most quality, methodical and scientific courses in the fields of life for those who are in need of improving their knowledge of the fields.',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400)),
-                    const SizedBox(height: 16),
                     BaseInputField(
                       controller: _courseTextController,
-                      onSubmitted: (value) {},
+                      onSubmitted: (value) {
+                        _selectedCourseType == CourseType.courses
+                            ? context
+                                .read<CourseCubit>()
+                                .getListCourses(SearchCourseForm(
+                                  page: 1,
+                                  size: 100,
+                                  query: value,
+                                ))
+                            : _selectedCourseType == CourseType.ebook
+                                ? context
+                                    .read<CourseCubit>()
+                                    .getListEbook(SearchCourseForm(
+                                      page: 1,
+                                      size: 10,
+                                      query: value,
+                                    ))
+                                : null;
+                      },
                       hint: _selectedCourseType == CourseType.courses
                           ? 'Search for courses'
                           : _selectedCourseType == CourseType.ebook
@@ -82,6 +99,7 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                               : 'Search for interactive ebooks',
                       suffixIcon: const Icon(Icons.search),
                     ),
+
                     const SizedBox(height: 16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -90,13 +108,14 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                             onTap: () {
                               setState(() {
                                 _selectedCourseType = CourseType.courses;
-                                context
-                                    .read<CourseCubit>()
-                                    .getListCourses(SearchCourseForm(
-                                  page: 1,
-                                  perPage: 100,
-                                ));
+                                _courseTextController.clear();
                               });
+                              context
+                                  .read<CourseCubit>()
+                                  .getListCourses(SearchCourseForm(
+                                page: 1,
+                                size: 100,
+                              ));
                             },
                             title: 'Courses',
                             isActive:
@@ -105,12 +124,14 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                             onTap: () {
                               setState(() {
                                 _selectedCourseType = CourseType.ebook;
+                                _courseTextController.clear();
                               });
-                              context.read<CourseCubit>().getListEbook(SearchCourseForm(
-                                  page: 1,
-                                  perPage: 10,
-                                )
-                              );
+                              context
+                                  .read<CourseCubit>()
+                                  .getListEbook(SearchCourseForm(
+                                    page: 1,
+                                    size: 10,
+                                  ));
                             },
                             title: 'E-book',
                             isActive: _selectedCourseType == CourseType.ebook),
@@ -129,7 +150,7 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                     _selectedCourseType == CourseType.courses
                         ? const CoursesList()
                         : _selectedCourseType == CourseType.ebook
-                            ? const Text('Ebook')
+                            ? const EbookList()
                             : const Text('Interactive Ebook')
                   ],
                 ),
@@ -242,6 +263,57 @@ class CoursesListByCategory extends StatelessWidget {
                 })
             : const Center(child: Text('No courses found'));
       },
+    );
+  }
+}
+
+class EbookList extends StatelessWidget {
+  const EbookList({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<CourseCubit, CourseState>(
+      builder: (context, state) {
+        return (state.listEbooks?.isNotEmpty ?? false)
+            ? Column(
+              children: [
+                ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: state.listEbooks?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8),
+                      child: EbookOverview(
+                        ebook: state.listEbooks?[index],
+                      ));
+                }),
+                const SizedBox(height: 16),
+                NumberPaginator(
+                  numberPages:
+                  context.read<CourseCubit>().state.totalEbookPage ?? 1,
+                  onPageChange: (int index) {
+                    context.read<CourseCubit>().updatePage(index + 1).then(
+                            (value) => context
+                            .read<CourseCubit>()
+                            .getListEbook(
+                          SearchCourseForm(
+                            page: context
+                                .read<CourseCubit>()
+                                .state
+                                .currentEbookPage ?? 1,
+                            size: context
+                                .read<CourseCubit>()
+                                .state
+                                .perPageEbook ?? 10,
+                          ),
+                        ));
+                  },
+                )
+              ],
+            )
+            : const Center(child: Text('No ebooks found'));
+      }
     );
   }
 }

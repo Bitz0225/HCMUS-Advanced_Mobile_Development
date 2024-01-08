@@ -39,7 +39,6 @@ class BaseDrawer extends StatelessWidget {
                 ),
                 title: Text(state.user?.name ?? ''),
                 onTap: () {
-                  Navigator.pop(context);
                   context.router.replace(const SettingScreenRoute());
                 },
               ),
@@ -48,7 +47,6 @@ class BaseDrawer extends StatelessWidget {
                     Icons.calendar_today, color: AppColors.appBlue100),
                 title: const Text('Schedule'),
                 onTap: () {
-                  Navigator.pop(context);
                   context.router.replace(const ScheduleScreenRoute());
                 },
               ),
@@ -56,7 +54,6 @@ class BaseDrawer extends StatelessWidget {
                 leading: Icon(Icons.people, color: AppColors.appBlue100,),
                 title: const Text('Tutor'),
                 onTap: () {
-                  Navigator.pop(context);
                   context.router.replace(const ListTeachersWrapperRoute());
                 },
               ),
@@ -64,7 +61,6 @@ class BaseDrawer extends StatelessWidget {
                 leading: Icon(UniconsLine.history, color: AppColors.appBlue100),
                 title: const Text('History'),
                 onTap: () {
-                  Navigator.pop(context);
                   context.router.replace(const HistoryScreenRoute());
                 },
               ),
@@ -73,7 +69,6 @@ class BaseDrawer extends StatelessWidget {
                   UniconsLine.graduation_cap, color: AppColors.appBlue100,),
                 title: const Text('Courses'),
                 onTap: () {
-                  Navigator.pop(context);
                   context.router.replace(const ListCoursesWrapperRoute());
                 },
               ),
@@ -83,7 +78,6 @@ class BaseDrawer extends StatelessWidget {
                 title: const Text('Logout'),
                 onTap: () {
                   context.read<SplashCubit>().logout();
-                  Navigator.pop(context);
                   context.router.replace(const LoginScreenRoute());
                 },
               )

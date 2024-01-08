@@ -13,4 +13,11 @@ class CourseRepository extends BaseRepository {
       queryParameters: input.toJson(),
     );
   }
+
+  Future<DataState<DetailCourseOutput>> getDetailCourse(String id) async {
+    return get<DetailCourseOutput>(
+      path: '/$id',
+      parseJsonFunction: DetailCourseOutput.fromJson,
+    );
+  }
 }

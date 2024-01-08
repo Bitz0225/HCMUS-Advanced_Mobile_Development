@@ -1,7 +1,9 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
 import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/presentation/detail_course_screen/view/detail_course_screen.dart';
+import 'package:lettutor/presentation/detail_topic_screen/view/detail_topic_screen.dart';
 import 'package:lettutor/presentation/forgot_password_screen/view/forgot_password_screen.dart';
 import 'package:lettutor/presentation/history_screen/view/history_screen.dart';
 import 'package:lettutor/presentation/list_courses_screen/view/list_courses_screen.dart';
@@ -47,6 +49,10 @@ class AppRouter extends _$AppRouter {
                     AutoRoute(
                         page: DetailCourseScreenRoute.page,
                         path: 'detail-course'),
+                    AutoRoute(
+                      page: DetailTopicScreenRoute.page,
+                      path: 'detail-topic',
+                    )
                   ]),
               AutoRoute(
                   page: ListTeachersWrapperRoute.page,

@@ -1,16 +1,15 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/values/fixed_enum.dart';
 import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/data_source/network/models/output/course_model.dart';
+import 'package:lettutor/presentation/list_courses_screen/cubit/course_cubit.dart';
 
 class CourseOverview extends StatelessWidget {
-  const CourseOverview(
-      {super.key,
-      this.course,
-      this.showButton = false});
+  const CourseOverview({super.key, this.course, this.showButton = false});
 
   final CourseDataRow? course;
   final bool showButton;
@@ -20,12 +19,8 @@ class CourseOverview extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         if (!showButton) {
-          context.router.push(DetailCourseScreenRoute(
-              title: course?.name ?? '',
-              description: course?.description ?? '',
-              imageUrl: course?.imageUrl ?? '',
-              difficulty: CourseLevel.values.firstWhere((element) => element.key == int.tryParse(course?.level ?? '0')).tagName,
-              numberOfLessons: course?.topics?.length ?? 0));
+          context.read<CourseCubit>().getDetailCourse(course?.id ?? '');
+          context.router.push(const DetailCourseScreenRoute());
         }
       },
       child: Container(
@@ -57,6 +52,7 @@ class CourseOverview extends StatelessWidget {
                             const Icon(Icons.error),
                       )
                     : const SizedBox.shrink()),
+            const SizedBox(height: 4),
             Row(
               children: [
                 Expanded(
@@ -81,7 +77,11 @@ class CourseOverview extends StatelessWidget {
                         const SizedBox(height: 24),
                         RichText(
                           text: TextSpan(
-                            text: CourseLevel.values.firstWhere((element) => element.key == int.tryParse(course?.level ?? '0')).tagName,
+                            text: CourseLevel.values
+                                .firstWhere((element) =>
+                                    element.key ==
+                                    int.tryParse(course?.level ?? '0'))
+                                .tagName,
                             style: const TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
