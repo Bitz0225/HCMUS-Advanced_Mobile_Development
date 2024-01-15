@@ -91,6 +91,7 @@ class ListTeachersItem extends StatelessWidget {
   Future<void> handleRedirectToDetail(BuildContext context) async {
     await context.read<TutorCubit>().getDetailTutor(tutor?.id ?? '');
     await context.read<TutorCubit>().getFeedback(tutor?.id ?? '', 1);
+    await context.read<TutorCubit>().getSchedule(tutorId: tutor?.id ?? '');
     context.router.push(const BaseTeacherDetailWrapperRoute());
   }
 }

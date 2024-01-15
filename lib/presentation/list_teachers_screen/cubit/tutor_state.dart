@@ -1,6 +1,8 @@
 import 'package:lettutor/core/data_source/network/models/output/feedback_model.dart';
+import 'package:lettutor/core/data_source/network/models/output/schedule_model.dart';
 import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/core/widget_cubit/widget_state.dart';
+import 'package:time_planner/time_planner.dart';
 
 class TutorState extends WidgetState {
   final int? totalPages;
@@ -8,6 +10,10 @@ class TutorState extends WidgetState {
   final int? currentFeedbackPage;
   final int? currentFeedbackPageAmount;
   final int? currentPageAmount;
+  final int? currentTimeTablePage;
+  final List<ScheduleOfTutor>? scheduleOfTutor;
+  final int? startTime;
+  final int? endTime;
   final int perPage;
   final int? currentPage;
   final bool? isEmpty;
@@ -20,8 +26,12 @@ class TutorState extends WidgetState {
       {this.totalPages,
       this.feedbackOutput,
       this.currentPageAmount,
-      this.currentFeedbackPage,
+      this.currentFeedbackPage = 0,
       this.currentFeedbackPageAmount,
+      this.currentTimeTablePage = 0,
+      this.scheduleOfTutor,
+        this.startTime = 0,
+        this.endTime = 23,
       this.totalFeedbackPages,
       this.currentPage = 1,
       this.perPage = 9,
@@ -38,7 +48,11 @@ class TutorState extends WidgetState {
         currentPageAmount,
         currentFeedbackPage,
         currentFeedbackPageAmount,
+        currentTimeTablePage,
         totalFeedbackPages,
+        scheduleOfTutor,
+        startTime,
+        endTime,
         perPage,
         tutorList,
         feedbackOutput,
@@ -58,6 +72,14 @@ class TutorState extends WidgetState {
       currentPageAmount: json['currentPageAmount'] as int?,
       currentFeedbackPage: json['currentFeedbackPage'] as int?,
       currentFeedbackPageAmount: json['currentFeedbackPageAmount'] as int?,
+      currentTimeTablePage: json['currentTimeTablePage'] as int?,
+      scheduleOfTutor: json['scheduleOfTutor'] != null
+          ? (json['scheduleOfTutor'] as List)
+              .map((e) => ScheduleOfTutor.fromJson(e as Map<String, dynamic>))
+              .toList()
+          : null,
+      startTime: json['startTime'] as int?,
+      endTime: json['endTime'] as int?,
       totalFeedbackPages: json['totalFeedbackPages'] as int?,
       perPage: json['perPage'] as int,
       tag: json['tag'] as String?,
@@ -84,8 +106,12 @@ class TutorState extends WidgetState {
     int? currentPage,
     int? perPage,
     int? currentPageAmount,
-    int? currentFeedbackPage,
     int? currentFeedbackPageAmount,
+    int? currentFeedbackPage,
+    int? currentTimeTablePage,
+    List<ScheduleOfTutor>? scheduleOfTutor,
+    int? startTime,
+    int? endTime,
     int? totalFeedbackPages,
     String? tag,
     FeedbackOutput? feedbackOutput,
@@ -100,6 +126,10 @@ class TutorState extends WidgetState {
       currentFeedbackPage: currentFeedbackPage ?? this.currentFeedbackPage,
       currentFeedbackPageAmount:
           currentFeedbackPageAmount ?? this.currentFeedbackPageAmount,
+      currentTimeTablePage: currentTimeTablePage ?? this.currentTimeTablePage,
+      scheduleOfTutor: scheduleOfTutor ?? this.scheduleOfTutor,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
       totalFeedbackPages: totalFeedbackPages ?? this.totalFeedbackPages,
       perPage: perPage ?? this.perPage,
       tag: tag ?? this.tag,

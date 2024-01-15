@@ -530,18 +530,18 @@ class TutorInfo extends BaseModel{
   final String? education;
   final String? experience;
   final String? profession;
-  final dynamic accent;
+  final String? accent;
   final String? targetStudent;
   final String? interests;
   final String? languages;
   final String? specialties;
-  final dynamic resume;
+  final String? resume;
   final double? rating;
   final bool? isActivated;
   final bool? isNative;
   final String? youtubeVideoId;
 
-  TutorInfo({
+  const TutorInfo({
     this.id,
     this.video,
     this.bio,
@@ -567,12 +567,12 @@ class TutorInfo extends BaseModel{
     String? education,
     String? experience,
     String? profession,
-    dynamic accent,
+    String? accent,
     String? targetStudent,
     String? interests,
     String? languages,
     String? specialties,
-    dynamic resume,
+    String? resume,
     double? rating,
     bool? isActivated,
     bool? isNative,
@@ -606,12 +606,12 @@ class TutorInfo extends BaseModel{
       education: json['education'] as String?,
       experience: json['experience'] as String?,
       profession: json['profession'] as String?,
-      accent: json['accent'] as dynamic,
+      accent: json['accent'] as String?,
       targetStudent: json['targetStudent'] as String?,
       interests: json['interests'] as String?,
       languages: json['languages'] as String?,
       specialties: json['specialties'] as String?,
-      resume: json['resume'] as dynamic,
+      resume: json['resume'] as String?,
       rating: json['rating'] as double?,
       isActivated: json['isActivated'] as bool?,
       isNative: json['isNative'] as bool?,
@@ -672,7 +672,7 @@ class WalletInfo extends BaseModel {
   final String? updatedAt;
   final int? bonus;
 
-  WalletInfo({
+  const WalletInfo({
     this.id,
     this.userId,
     this.amount,
@@ -743,7 +743,7 @@ class WalletInfo extends BaseModel {
 class UserInfo extends BaseModel {
   final User? user;
 
-  UserInfo({
+  const UserInfo({
     this.user,
   });
 

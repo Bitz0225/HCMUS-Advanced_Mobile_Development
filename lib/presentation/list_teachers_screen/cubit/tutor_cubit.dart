@@ -1,11 +1,14 @@
 import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/data_state.dart';
+import 'package:lettutor/core/data_source/network/models/input/booking_form.dart';
 import 'package:lettutor/core/data_source/network/models/input/report_form_input.dart';
 import 'package:lettutor/core/data_source/network/models/input/search_tutor_form.dart';
 import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
+import 'package:lettutor/core/repository/booking_repository/booking_repository.dart';
 import 'package:lettutor/core/repository/feedback_repository/feedback_repository.dart';
 import 'package:lettutor/core/repository/report_repository/report_repository.dart';
+import 'package:lettutor/core/repository/schedule_repository/schedule_repository.dart';
 import 'package:lettutor/core/repository/tutor_repository/tutor_repository.dart';
 import 'package:lettutor/core/repository/user_repository/user_repository.dart';
 import 'package:lettutor/core/widget_cubit/widget_cubit.dart';
@@ -109,6 +112,10 @@ class TutorCubit extends WidgetCubit<TutorState> {
     emit(state.copyWith(currentFeedbackPage: index));
   }
 
+  Future<void> updateTimeTablePage(int index) async {
+    emit(state.copyWith(currentTimeTablePage: index));
+  }
+
   Future<void> reportTutor({required String content, required String tutorId}) async {
     showLoading();
     final formInput = ReportFormInput(content: content, id: tutorId);
@@ -119,5 +126,34 @@ class TutorCubit extends WidgetCubit<TutorState> {
     } else {
       showSnackBar('Error when trying to report!');
     }
+  }
+
+  int daysBetween(DateTime from, DateTime to) {
+    from = DateTime(from.year, from.month, from.day);
+    to = DateTime(to.year, to.month, to.day);
+    return (to.difference(from).inHours / 24).round();
+  }
+
+  Future<void> getSchedule({required String tutorId, int page = 0}) async {
+    showLoading();
+    final response = await getIt<ScheduleRepository>().getScheduleOfTutor(tutorId, page);
+    if(response is DataSuccess) {
+      emit(state.copyWith(scheduleOfTutor: response.data?.scheduleOfTutor));
+    } else {
+      showSnackBar('Error when trying to get schedule!');
+    }
+    hideLoading();
+  }
+
+  Future<void> bookSchedule(String note, String scheduleId) async {
+    showLoading();
+    final input = BookingInputForm(note: note, scheduleDetailIds: [scheduleId]);
+    final response = await getIt<BookingRepository>().bookSchedule(input);
+    if(response is DataSuccess) {
+      showSnackBar('Book schedule successfully!', snackBarType: SnackBarType.success);
+    } else {
+      showSnackBar('Error when trying to book schedule!');
+    }
+    hideLoading();
   }
 }

@@ -188,6 +188,7 @@ class _ReportFormState extends State<ReportForm> {
                     _reportController.text.isNotEmpty
                         ? widget.onSubmit(_reportController.text)
                         : null;
+                    Navigator.pop(context);
                   },
                   child: Container(
                     padding:

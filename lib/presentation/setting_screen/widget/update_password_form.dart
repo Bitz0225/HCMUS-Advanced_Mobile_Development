@@ -156,5 +156,6 @@ class _UpdatePasswordFormState extends State<UpdatePasswordForm> {
     }
 
     widget.onSubmit(_oldPasswordController.text, _newPasswordController.text);
+    Navigator.pop(context);
   }
 }

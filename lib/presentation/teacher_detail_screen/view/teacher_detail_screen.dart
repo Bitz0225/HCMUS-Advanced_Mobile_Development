@@ -6,6 +6,7 @@ import 'package:easy_debounce/easy_debounce.dart';
 import 'package:flutter/material.dart';
 import 'package:country/country.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_dialog/dialog_mixin.dart';
@@ -20,10 +21,14 @@ import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart
 import 'package:lettutor/gen/assets.gen.dart';
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_state.dart';
+import 'package:lettutor/presentation/list_teachers_screen/widget/booking_form.dart';
+import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/widget/report_form.dart';
 import 'package:lettutor/presentation/teacher_detail_screen/widget/teacher_info.dart';
 import 'package:number_paginator/number_paginator.dart';
 import 'package:sealed_countries/sealed_countries.dart';
+import 'package:syncfusion_flutter_calendar/calendar.dart';
+import 'package:time_planner/time_planner.dart';
 import 'package:unicons/unicons.dart';
 import 'package:video_player/video_player.dart';
 
@@ -123,11 +128,10 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                         ? Stack(
                             children: [
                               AspectRatio(
-                                aspectRatio: 16.0/9.0,
-                                child: Chewie(
-                                  controller: _chewieController,
-                                )
-                              ),
+                                  aspectRatio: 16.0 / 9.0,
+                                  child: Chewie(
+                                    controller: _chewieController,
+                                  )),
                             ],
                           )
                         : Container(),
@@ -183,7 +187,6 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                               barrierDismissible: false,
                               title: 'Report ' + (tutorInfo?.user?.name ?? ''),
                               showBottomButton: false,
-                              // onDismiss: () {},
                               child: BlocProvider.value(
                                 value: context.read<TutorCubit>(),
                                 child: ReportForm(
@@ -278,8 +281,7 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 8),
                                   child: Text(
-                                    tutorInfo?.user?.courses?[index].name ??
-                                        '',
+                                    tutorInfo?.user?.courses?[index].name ?? '',
                                     style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
@@ -300,7 +302,29 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
                   Section(
                     title: 'Other reviews',
                     content: ReviewSection(context),
-                  )
+                  ),
+                  const SizedBox(height: 16),
+                  NumberPaginator(
+                      numberPages: 1000,
+                      config: const NumberPaginatorUIConfig(
+                          mode: ContentDisplayMode.hidden),
+                      onPageChange: (int index) {
+                        context
+                            .read<TutorCubit>()
+                            .updateTimeTablePage(index + 1);
+                        context.read<TutorCubit>().getSchedule(
+                            tutorId: tutorInfo?.user?.id ?? '', page: index);
+                      }),
+                  SizedBox(
+                    width: MediaQuery.sizeOf(context).width,
+                    height: MediaQuery.sizeOf(context).height,
+                    child: TimePlanner(
+                        startHour: state.startTime ?? 0,
+                        endHour: state.endTime ?? 23,
+                        headers: buildListDate(
+                            (state.currentTimeTablePage ?? 1) - 1),
+                        tasks: buildListTask(context)),
+                  ),
                 ],
               ),
             ),
@@ -308,6 +332,105 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
         );
       },
     );
+  }
+
+  List<TimePlannerTitle> buildListDate(int page) {
+    final listDate = <TimePlannerTitle>[];
+    for (var i = 0; i < 7; i++) {
+      if (page < 0) {
+        listDate.add(TimePlannerTitle(
+            title: DateFormat('dd/MM/yyyy')
+                .format(DateTime.now().add(Duration(days: i)))));
+      } else {
+        listDate.add(TimePlannerTitle(
+            title: DateFormat('dd/MM/yyyy')
+                .format(DateTime.now().add(Duration(days: i + page * 7)))));
+      }
+    }
+    return listDate;
+  }
+
+  List<TimePlannerTask> buildListTask(BuildContext context) {
+    final listTask = <TimePlannerTask>[];
+    final listSchedule = context.read<TutorCubit>().state.scheduleOfTutor;
+    final userId = context.read<SplashCubit>().state.user?.id;
+    for (var i = 0; i < (listSchedule?.length ?? 0); i++) {
+      listTask.add(
+        TimePlannerTask(
+            dateTime: TimePlannerDateTime(
+                day: context.read<TutorCubit>().daysBetween(
+                    DateTime.now(),
+                    DateTime.fromMillisecondsSinceEpoch(
+                        listSchedule?[i].startTimestamp ?? 0)),
+                hour: DateTime.fromMillisecondsSinceEpoch(
+                        listSchedule?[i].startTimestamp ?? 0)
+                    .hour,
+                minutes: DateTime.fromMillisecondsSinceEpoch(
+                        listSchedule?[i].startTimestamp ?? 0)
+                    .minute),
+            minutesDuration: 25,
+            color: (listSchedule?[i].isBooked ?? false)
+                ? Colors.transparent
+                : DateTime.fromMillisecondsSinceEpoch(
+                            listSchedule?[i].startTimestamp ?? 0)
+                        .isBefore(DateTime.now())
+                    ? Colors.grey.shade200
+                    : AppColors.appBlue100,
+            child: (listSchedule?[i].isBooked ?? false)
+                ? Text(
+                    listSchedule?[i].scheduleDetails?[0].bookingInfo?[0].userId == userId
+                        ? 'Booked'
+                        : 'Reserved',
+                    style: const TextStyle(
+                      color: Colors.green,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ))
+                : Text("Book",
+                    style: TextStyle(
+                      color: DateTime.fromMillisecondsSinceEpoch(
+                                  listSchedule?[i].startTimestamp ?? 0)
+                              .isBefore(DateTime.now())
+                          ? Colors.grey
+                          : Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    )),
+            onTap: () {
+              if (listSchedule?[i].isBooked ?? false) {
+                return;
+              }
+              if (DateTime.fromMillisecondsSinceEpoch(
+                      listSchedule?[i].startTimestamp ?? 0)
+                  .isBefore(DateTime.now())) {
+                return;
+              }
+              showBasicDialog(
+                  context: context,
+                  title: 'Booking Details',
+                  showBottomButton: false,
+                  child: BlocProvider.value(
+                    value: context.read<TutorCubit>(),
+                    child: BookingForm(
+                        onSubmit: (String value) async {
+                          await context
+                              .read<TutorCubit>()
+                              .bookSchedule(value, listSchedule?[i].scheduleDetails?[0].id ?? '');
+                          await context.read<TutorCubit>().getSchedule(tutorId: context.read<TutorCubit>().state.currentDetailTutor?.user?.id ?? '');
+                        },
+                        from: DateTime.fromMillisecondsSinceEpoch(
+                            listSchedule?[i].startTimestamp ?? 0),
+                        to: DateTime.fromMillisecondsSinceEpoch(
+                            listSchedule?[i].endTimestamp ?? 0),
+                        scheduleId:
+                            listSchedule?[i].scheduleDetails?[0].id ?? ''),
+                  )
+              );
+            }),
+      );
+    }
+
+    return listTask;
   }
 
   Widget ReviewSection(BuildContext context) {
