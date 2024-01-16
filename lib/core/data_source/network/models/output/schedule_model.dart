@@ -1041,3 +1041,35 @@ class BookedScheduleTutorInfo extends BaseModel {
         studentGroupId,
       ];
 }
+
+class BookedScheduleMessage extends BaseModel {
+  final String? message;
+
+  const BookedScheduleMessage({
+    this.message,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        message,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+    };
+  }
+
+  factory BookedScheduleMessage.fromJson(Map<String, dynamic> json) => BookedScheduleMessage(
+    message: json['message'] as String?,
+  );
+
+  BookedScheduleMessage copyWith({
+    String? message,
+  }) =>
+      BookedScheduleMessage(
+        message: message ?? this.message,
+      );
+}

@@ -38,6 +38,7 @@ class _CancelFormState extends State<CancelForm> {
   final TextEditingController _cancelReasonController = TextEditingController();
   final TextEditingController _cancelReasonOtherController =
       TextEditingController();
+  final TextEditingController _messageController = TextEditingController();
   CancelReason? _cancelReason;
 
   @override
@@ -73,6 +74,7 @@ class _CancelFormState extends State<CancelForm> {
               onSelected: (value) {
                 setState(() {
                   _cancelReason = value;
+                  _messageController.text = '';
                 });
               },
               dropdownMenuEntries: CancelReason.values
@@ -82,6 +84,14 @@ class _CancelFormState extends State<CancelForm> {
                             label: e.value,
                           ))
                   .toList(),
+            ),
+            Text(
+             _messageController.text,
+              style: const TextStyle(
+                color: Colors.red,
+                fontSize: 14,
+                fontWeight: FontWeight.w400,
+              ),
             ),
             InputFormField(
               controller: _cancelReasonOtherController,
@@ -93,7 +103,7 @@ class _CancelFormState extends State<CancelForm> {
               children: [
                 GestureDetector(
                   onTap: () {
-
+                    Navigator.pop(context);
                   },
                   child: Container(
                     padding:
@@ -113,7 +123,20 @@ class _CancelFormState extends State<CancelForm> {
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-
+                    if (_cancelReason == null) {
+                      setState(() {
+                        _messageController.text = 'Please select a reason';
+                      });
+                      return;
+                    }
+                    context.read<ScheduleCubit>().cancelBookedSchedule(
+                      cancelReasonId: _cancelReason?.id ?? 0,
+                      data: state.currentBookedSchedule,
+                      note: _cancelReasonOtherController.text,
+                        ).then(
+                              (_) =>
+                            Navigator.pop(context)
+                          );
                   },
                   child: Container(
                     padding:

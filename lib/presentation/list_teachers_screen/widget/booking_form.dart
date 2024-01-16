@@ -8,7 +8,7 @@ import 'package:lettutor/presentation/login_screen/components/input_form_field.d
 import 'package:unicons/unicons.dart';
 
 class BookingForm extends StatefulWidget {
-  final Function(String reportContent) onSubmit;
+  final Future<void> Function(String reportContent) onSubmit;
   final DateTime? from;
   final DateTime? to;
   final String? scheduleId;
@@ -50,8 +50,7 @@ class _BookingFormState extends State<BookingForm> {
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    widget.onSubmit(_noteController.text);
-                    Navigator.pop(context);
+                    widget.onSubmit(_noteController.text).then((_) => Navigator.pop(context));
                   },
                   child: Container(
                     padding:

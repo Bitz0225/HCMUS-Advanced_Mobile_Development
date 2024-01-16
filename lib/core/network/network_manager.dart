@@ -144,11 +144,30 @@ class NetworkManager {
     String path, {
     Map<String, dynamic>? queryParameters,
     FormData? data,
-        Map<String, dynamic>? headers,
+    Map<String, dynamic>? headers,
   }) async {
     return _dio.post(path,
-        options: Options(headers: {..._dio.options.headers, ...{'Content-Type': ''}, ...headers ?? {}}),
+        options: Options(headers: {
+          ..._dio.options.headers,
+          ...{'Content-Type': ''},
+          ...headers ?? {}
+        }),
         queryParameters: queryParameters,
         data: data);
+  }
+
+  Future<Response> delete(
+    String path, {
+    dynamic data,
+    Map<String, dynamic>? queryParameters,
+    Options? options,
+    Map<String, dynamic>? headers,
+  }) async {
+    return _dio.delete(
+      path,
+      data: data,
+      queryParameters: queryParameters,
+      options: Options(headers: {..._dio.options.headers, ...headers ?? {}}),
+    );
   }
 }

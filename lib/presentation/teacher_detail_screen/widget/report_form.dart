@@ -186,9 +186,8 @@ class _ReportFormState extends State<ReportForm> {
                 GestureDetector(
                   onTap: () {
                     _reportController.text.isNotEmpty
-                        ? widget.onSubmit(_reportController.text)
-                        : null;
-                    Navigator.pop(context);
+                        ? widget.onSubmit(_reportController.text).then((_) => Navigator.pop(context))
+                        : Navigator.pop(context);
                   },
                   child: Container(
                     padding:

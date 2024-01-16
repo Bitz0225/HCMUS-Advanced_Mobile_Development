@@ -119,6 +119,35 @@ class BaseRepository {
       throw DataError(e);
     }
   }
+
+  Future<DataState<T>> delete<T>({
+    required String path,
+    required ParseJsonFunction<T> parseJsonFunction,
+    Map<String, dynamic>? queryParameters,
+    Map<String, dynamic>? headers,
+    Map<String, dynamic>? data,
+  }) async {
+    try {
+      final response = await _networkManager.delete(
+        serviceName + path,
+        queryParameters: queryParameters,
+        data: data,
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        final parser = ResultParser<T>(
+            response.data as Map<String, dynamic>? ?? {}, parseJsonFunction);
+        final data = await parser.parseInBackground();
+        return DataSuccess<T>(data);
+      } else {
+        final parser = ResultParser<FailureModel>(
+            response.data as Map<String, dynamic>? ?? {},
+            FailureModel.fromJson);
+        throw Exception((await parser.parseInBackground()).message);
+      }
+    } on DioException catch (e) {
+      throw DataError(e);
+    }
+  }
 }
 
 class ResultParser<OutputType> {
