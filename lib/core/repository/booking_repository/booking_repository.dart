@@ -16,16 +16,16 @@ class BookingRepository extends BaseRepository {
     );
   }
 
-  Future<DataState<BookedScheduleOutput>> getBookedSchedule(int page) async {
+  Future<DataState<BookedScheduleOutput>> getBookedSchedule({required int page, bool? isFuture = true, bool? isAsc = true}) async {
     return get<BookedScheduleOutput>(
       path: '/list/student',
       parseJsonFunction: BookedScheduleOutput.fromJson,
       queryParameters: {
         'page': page,
-        'perPage': 20,
-        'inFuture': 1,
+        'perPage': 15,
+        'inFuture': (isFuture ?? true) ? 1 : 0,
         'orderBy': 'meeting',
-        'sortBy': 'asc',
+        'sortBy': (isAsc ?? true) ? 'asc' : 'desc'
       },
     );
   }

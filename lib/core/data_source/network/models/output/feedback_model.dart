@@ -201,3 +201,123 @@ class FirstInfo extends BaseModel{
     avatar: json['avatar'] as String?,
   );
 }
+
+class FeedbackTutorOutput extends BaseModel {
+  final String? message;
+  final FeedbackTutorData? data;
+
+  const FeedbackTutorOutput({
+    this.message,
+    this.data,
+  });
+
+  FeedbackTutorOutput copyWith({
+    String? message,
+    FeedbackTutorData? data,
+  }) =>
+      FeedbackTutorOutput(
+        message: message ?? this.message,
+        data: data ?? this.data,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [message, data];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'data': data?.toJson(),
+    };
+  }
+
+  factory FeedbackTutorOutput.fromJson(Map<String, dynamic> json) => FeedbackTutorOutput(
+    message: json['message'] as String?,
+    data: json['data'] == null
+        ? null
+        : FeedbackTutorData.fromJson(json['data'] as Map<String, dynamic>),
+  );
+}
+
+class FeedbackTutorData extends BaseModel {
+  final String? id;
+  final String? bookingId;
+  final String? firstId;
+  final String? secondId;
+  final String? content;
+  final int? rating;
+  final String? updatedAt;
+  final String? createdAt;
+
+  const FeedbackTutorData({
+    this.id,
+    this.bookingId,
+    this.firstId,
+    this.secondId,
+    this.content,
+    this.rating,
+    this.updatedAt,
+    this.createdAt,
+  });
+
+  FeedbackTutorData copyWith({
+    String? id,
+    String? bookingId,
+    String? firstId,
+    String? secondId,
+    String? content,
+    int? rating,
+    String? updatedAt,
+    String? createdAt,
+  }) =>
+      FeedbackTutorData(
+        id: id ?? this.id,
+        bookingId: bookingId ?? this.bookingId,
+        firstId: firstId ?? this.firstId,
+        secondId: secondId ?? this.secondId,
+        content: content ?? this.content,
+        rating: rating ?? this.rating,
+        updatedAt: updatedAt ?? this.updatedAt,
+        createdAt: createdAt ?? this.createdAt,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+    id,
+    bookingId,
+    firstId,
+    secondId,
+    content,
+    rating,
+    updatedAt,
+    createdAt,
+  ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'bookingId': bookingId,
+      'firstId': firstId,
+      'secondId': secondId,
+      'content': content,
+      'rating': rating,
+      'updatedAt': updatedAt,
+      'createdAt': createdAt,
+    };
+  }
+
+  factory FeedbackTutorData.fromJson(Map<String, dynamic> json) => FeedbackTutorData(
+    id: json['id'] as String?,
+    bookingId: json['bookingId'] as String?,
+    firstId: json['firstId'] as String?,
+    secondId: json['secondId'] as String?,
+    content: json['content'] as String?,
+    rating: json['rating'] as int?,
+    updatedAt: json['updatedAt'] as String?,
+    createdAt: json['createdAt'] as String?,
+  );
+}
+

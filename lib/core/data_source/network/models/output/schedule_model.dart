@@ -424,11 +424,11 @@ class BookedScheduleRow extends BaseModel {
   final bool? isTrial;
   final int? convertedLesson;
   final BookedScheduleDetailInfo? scheduleDetailInfo;
-  final String? classReview;
+  final ClassReview? classReview;
   final String? trialBookingReview;
   final bool? showRecordUrl;
   final List<String>? studentMaterials;
-  final List<String>? feedbacks;
+  final List<BookingFeedback>? feedbacks;
 
   const BookedScheduleRow({
     this.createdAtTimeStamp,
@@ -552,14 +552,16 @@ class BookedScheduleRow extends BaseModel {
             ? null
             : BookedScheduleDetailInfo.fromJson(
                 json['scheduleDetailInfo'] as Map<String, dynamic>),
-        classReview: json['classReview'] as String?,
+        classReview: json['classReview'] == null
+            ? null
+            : ClassReview.fromJson(json['classReview'] as Map<String, dynamic>),
         trialBookingReview: json['trialBookingReview'] as String?,
         showRecordUrl: json['showRecordUrl'] as bool?,
         studentMaterials: (json['studentMaterials'] as List<dynamic>?)
             ?.map((e) => e as String)
             .toList(),
         feedbacks: (json['feedbacks'] as List<dynamic>?)
-            ?.map((e) => e as String)
+            ?.map((e) => BookingFeedback.fromJson(e as Map<String, dynamic>))
             .toList(),
       );
 
@@ -586,11 +588,11 @@ class BookedScheduleRow extends BaseModel {
     bool? isTrial,
     int? convertedLesson,
     BookedScheduleDetailInfo? scheduleDetailInfo,
-    String? classReview,
+    ClassReview? classReview,
     String? trialBookingReview,
     bool? showRecordUrl,
     List<String>? studentMaterials,
-    List<String>? feedbacks,
+    List<BookingFeedback>? feedbacks,
   }) =>
       BookedScheduleRow(
         createdAtTimeStamp: createdAtTimeStamp ?? this.createdAtTimeStamp,
@@ -622,6 +624,295 @@ class BookedScheduleRow extends BaseModel {
         feedbacks: feedbacks ?? this.feedbacks,
       );
 }
+
+class BookingFeedback extends BaseModel {
+  final String? id;
+  final String? bookingId;
+  final String? firstId;
+  final String? secondId;
+  final int? rating;
+  final String? content;
+  final String? createdAt;
+  final String? updatedAt;
+
+  const BookingFeedback({
+    this.id,
+    this.bookingId,
+    this.firstId,
+    this.secondId,
+    this.rating,
+    this.content,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  BookingFeedback copyWith({
+    String? id,
+    String? bookingId,
+    String? firstId,
+    String? secondId,
+    int? rating,
+    String? content,
+    String? createdAt,
+    String? updatedAt,
+  }) =>
+      BookingFeedback(
+        id: id ?? this.id,
+        bookingId: bookingId ?? this.bookingId,
+        firstId: firstId ?? this.firstId,
+        secondId: secondId ?? this.secondId,
+        rating: rating ?? this.rating,
+        content: content ?? this.content,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        bookingId,
+        firstId,
+        secondId,
+        rating,
+        content,
+        createdAt,
+        updatedAt,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'bookingId': bookingId,
+      'firstId': firstId,
+      'secondId': secondId,
+      'rating': rating,
+      'content': content,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
+
+  factory BookingFeedback.fromJson(Map<String, dynamic> json) => BookingFeedback(
+        id: json['id'] as String?,
+        bookingId: json['bookingId'] as String?,
+        firstId: json['firstId'] as String?,
+        secondId: json['secondId'] as String?,
+        rating: json['rating'] as int?,
+        content: json['content'] as String?,
+        createdAt: json['createdAt'] as String?,
+        updatedAt: json['updatedAt'] as String?,
+      );
+}
+
+class ClassReview extends BaseModel {
+  final String? bookingId;
+  final int? lessonStatusId;
+  final String? book;
+  final String? unit;
+  final String? lesson;
+  final int? page;
+  final String? lessonProgress;
+  final int? behaviorRating;
+  final String? behaviorComment;
+  final int? listeningRating;
+  final String? listeningComment;
+  final int? speakingRating;
+  final String? speakingComment;
+  final int? vocabularyRating;
+  final String? vocabularyComment;
+  final String? homeworkComment;
+  final String? overallComment;
+  final LessonStatus? lessonStatus;
+
+  const ClassReview({
+    this.bookingId,
+    this.lessonStatusId,
+    this.book,
+    this.unit,
+    this.lesson,
+    this.page,
+    this.lessonProgress,
+    this.behaviorRating,
+    this.behaviorComment,
+    this.listeningRating,
+    this.listeningComment,
+    this.speakingRating,
+    this.speakingComment,
+    this.vocabularyRating,
+    this.vocabularyComment,
+    this.homeworkComment,
+    this.overallComment,
+    this.lessonStatus,
+  });
+
+  ClassReview copyWith({
+    String? bookingId,
+    int? lessonStatusId,
+    String? book,
+    String? unit,
+    String? lesson,
+    int? page,
+    String? lessonProgress,
+    int? behaviorRating,
+    String? behaviorComment,
+    int? listeningRating,
+    String? listeningComment,
+    int? speakingRating,
+    String? speakingComment,
+    int? vocabularyRating,
+    String? vocabularyComment,
+    String? homeworkComment,
+    String? overallComment,
+    LessonStatus? lessonStatus,
+  }) =>
+      ClassReview(
+        bookingId: bookingId ?? this.bookingId,
+        lessonStatusId: lessonStatusId ?? this.lessonStatusId,
+        book: book ?? this.book,
+        unit: unit ?? this.unit,
+        lesson: lesson ?? this.lesson,
+        page: page ?? this.page,
+        lessonProgress: lessonProgress ?? this.lessonProgress,
+        behaviorRating: behaviorRating ?? this.behaviorRating,
+        behaviorComment: behaviorComment ?? this.behaviorComment,
+        listeningRating: listeningRating ?? this.listeningRating,
+        listeningComment: listeningComment ?? this.listeningComment,
+        speakingRating: speakingRating ?? this.speakingRating,
+        speakingComment: speakingComment ?? this.speakingComment,
+        vocabularyRating: vocabularyRating ?? this.vocabularyRating,
+        vocabularyComment: vocabularyComment ?? this.vocabularyComment,
+        homeworkComment: homeworkComment ?? this.homeworkComment,
+        overallComment: overallComment ?? this.overallComment,
+        lessonStatus: lessonStatus ?? this.lessonStatus,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        bookingId,
+        lessonStatusId,
+        book,
+        unit,
+        lesson,
+        page,
+        lessonProgress,
+        behaviorRating,
+        behaviorComment,
+        listeningRating,
+        listeningComment,
+        speakingRating,
+        speakingComment,
+        vocabularyRating,
+        vocabularyComment,
+        homeworkComment,
+        overallComment,
+        lessonStatus,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'bookingId': bookingId,
+      'lessonStatusId': lessonStatusId,
+      'book': book,
+      'unit': unit,
+      'lesson': lesson,
+      'page': page,
+      'lessonProgress': lessonProgress,
+      'behaviorRating': behaviorRating,
+      'behaviorComment': behaviorComment,
+      'listeningRating': listeningRating,
+      'listeningComment': listeningComment,
+      'speakingRating': speakingRating,
+      'speakingComment': speakingComment,
+      'vocabularyRating': vocabularyRating,
+      'vocabularyComment': vocabularyComment,
+      'homeworkComment': homeworkComment,
+      'overallComment': overallComment,
+      'lessonStatus': lessonStatus,
+    };
+  }
+
+  factory ClassReview.fromJson(Map<String, dynamic> json) => ClassReview(
+        bookingId: json['bookingId'] as String?,
+        lessonStatusId: json['lessonStatusId'] as int?,
+        book: json['book'] as String?,
+        unit: json['unit'] as String?,
+        lesson: json['lesson'] as String?,
+        page: json['page'] as int?,
+        lessonProgress: json['lessonProgress'] as String?,
+        behaviorRating: json['behaviorRating'] as int?,
+        behaviorComment: json['behaviorComment'] as String?,
+        listeningRating: json['listeningRating'] as int?,
+        listeningComment: json['listeningComment'] as String?,
+        speakingRating: json['speakingRating'] as int?,
+        speakingComment: json['speakingComment'] as String?,
+        vocabularyRating: json['vocabularyRating'] as int?,
+        vocabularyComment: json['vocabularyComment'] as String?,
+        homeworkComment: json['homeworkComment'] as String?,
+        overallComment: json['overallComment'] as String?,
+        lessonStatus: json['lessonStatus'] == null
+            ? null
+            : LessonStatus.fromJson(
+                json['lessonStatus'] as Map<String, dynamic>),
+      );
+}
+
+class LessonStatus extends BaseModel {
+  final int? id;
+  final String? status;
+  final String? createdAt;
+  final String? updatedAt;
+
+  const LessonStatus({
+    this.id,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  LessonStatus copyWith({
+    int? id,
+    String? status,
+    String? createdAt,
+    String? updatedAt,
+  }) =>
+      LessonStatus(
+        id: id ?? this.id,
+        status: status ?? this.status,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        id,
+        status,
+        createdAt,
+        updatedAt,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'status': status,
+      'createdAt': createdAt,
+      'updatedAt': updatedAt,
+    };
+  }
+
+  factory LessonStatus.fromJson(Map<String, dynamic> json) => LessonStatus(
+        id: json['id'] as int?,
+        status: json['status'] as String?,
+        createdAt: json['createdAt'] as String?,
+        updatedAt: json['updatedAt'] as String?,
+      );
+}
+
 
 class BookedScheduleDetailInfo extends BaseModel {
   final int? startPeriodTimestamp;
@@ -1072,4 +1363,36 @@ class BookedScheduleMessage extends BaseModel {
       BookedScheduleMessage(
         message: message ?? this.message,
       );
+}
+
+class ReportHistoryOutput extends BaseModel {
+  final String? message;
+
+  const ReportHistoryOutput({
+    this.message
+  });
+
+  ReportHistoryOutput copyWith({
+    String? message
+  }) =>
+      ReportHistoryOutput(
+        message: message ?? this.message,
+      );
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        message,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+    };
+  }
+
+  factory ReportHistoryOutput.fromJson(Map<String, dynamic> json) => ReportHistoryOutput(
+    message: json['message'] as String?,
+  );
 }

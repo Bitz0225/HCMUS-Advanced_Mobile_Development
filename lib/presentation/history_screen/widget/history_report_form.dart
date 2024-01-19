@@ -6,41 +6,43 @@ import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
 import 'package:lettutor/presentation/schedule_screen/cubit/schedule_cubit.dart';
 import 'package:lettutor/presentation/schedule_screen/cubit/schedule_state.dart';
+import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
 
-enum CancelReason {
-  rescheduleAtAnotherTime(id: 1, value: 'Reschedule at another time'),
-  busyAtThatTime(id: 2, value: 'Busy at that time'),
-  askedByTheTutor(id: 3, value: 'Asked by the tutor'),
+enum ReportReason {
+  tutorWasLate(id: 1, value: 'Tutor was late'),
+  tutorWasAbsent(id: 2, value: 'Tutor was absent'),
+  networkUnstable(id: 3, value: 'Network unstable'),
   other(id: 4, value: 'Other');
 
   final int id;
   final String value;
 
-  const CancelReason({required this.id, required this.value});
+  const ReportReason({required this.id, required this.value});
 
-  bool get isRescheduleAtAnotherTime =>
-      this == CancelReason.rescheduleAtAnotherTime;
+  bool get isTutorWasLate => this == ReportReason.tutorWasLate;
 
-  bool get isBusyAtThatTime => this == CancelReason.busyAtThatTime;
+  bool get isTutorWasAbsent => this == ReportReason.tutorWasAbsent;
 
-  bool get isAskedByTheTutor => this == CancelReason.askedByTheTutor;
+  bool get isNetworkUnstable => this == ReportReason.networkUnstable;
 
-  bool get isOther => this == CancelReason.other;
+  bool get isOther => this == ReportReason.other;
 }
 
-class CancelForm extends StatefulWidget {
-  const CancelForm({super.key});
+class HistoryReportForm extends StatefulWidget {
+  final String? userId;
+
+  const HistoryReportForm({super.key, this.userId});
 
   @override
-  State<CancelForm> createState() => _CancelFormState();
+  State<HistoryReportForm> createState() => _HistoryReportFormState();
 }
 
-class _CancelFormState extends State<CancelForm> {
-  final TextEditingController _cancelReasonController = TextEditingController();
-  final TextEditingController _cancelReasonOtherController =
+class _HistoryReportFormState extends State<HistoryReportForm> {
+  final TextEditingController _reportReasonController = TextEditingController();
+  final TextEditingController _reportReasonOtherController =
       TextEditingController();
   final TextEditingController _messageController = TextEditingController();
-  CancelReason? _cancelReason;
+  ReportReason? _reportReason;
 
   @override
   Widget build(BuildContext context) {
@@ -57,15 +59,15 @@ class _CancelFormState extends State<CancelForm> {
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(100),
                     child: CachedNetworkImage(
-                        imageUrl: state.currentBookedSchedule?.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.avatar ??
+                        imageUrl: state.currentBookedHistory?.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.avatar ??
                             'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
                         fit: BoxFit.fill,
                         placeholder: (context, url) => const Center(
-                          child: CircularProgressIndicator(),
-                        ),
+                              child: CircularProgressIndicator(),
+                            ),
                         errorWidget: (context, url, error) => CachedNetworkImage(
                             imageUrl:
-                            'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                                'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
                             fit: BoxFit.fill)),
                   ),
                 ),
@@ -75,11 +77,11 @@ class _CancelFormState extends State<CancelForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.currentBookedSchedule?.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.name ?? '',
+                        state.currentBookedHistory?.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.name ?? '',
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        state.currentBookedSchedule?.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.country ?? '',
+                        state.currentBookedHistory?.scheduleDetailInfo?.scheduleInfo?.tutorInfo?.country ?? '',
                       ),
                     ],
                   ),
@@ -89,7 +91,7 @@ class _CancelFormState extends State<CancelForm> {
             const SizedBox(height: 8,),
             RichText(
               text: const TextSpan(
-                text: 'What was the reason for canceling the booking',
+                text: 'What was the reason you reported on the lesson',
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 14,
@@ -108,25 +110,25 @@ class _CancelFormState extends State<CancelForm> {
               ),
             ),
             const SizedBox(height: 8),
-            DropdownMenu<CancelReason>(
+            DropdownMenu<ReportReason>(
               expandedInsets: EdgeInsets.zero,
-              controller: _cancelReasonController,
+              controller: _reportReasonController,
               onSelected: (value) {
                 setState(() {
-                  _cancelReason = value;
+                  _reportReason = value;
                   _messageController.text = '';
                 });
               },
-              dropdownMenuEntries: CancelReason.values
-                  .map<DropdownMenuEntry<CancelReason>>(
-                      (e) => DropdownMenuEntry<CancelReason>(
+              dropdownMenuEntries: ReportReason.values
+                  .map<DropdownMenuEntry<ReportReason>>(
+                      (e) => DropdownMenuEntry<ReportReason>(
                             value: e,
                             label: e.value,
                           ))
                   .toList(),
             ),
             Text(
-             _messageController.text,
+              _messageController.text,
               style: const TextStyle(
                 color: Colors.red,
                 fontSize: 14,
@@ -134,7 +136,7 @@ class _CancelFormState extends State<CancelForm> {
               ),
             ),
             InputFormField(
-              controller: _cancelReasonOtherController,
+              controller: _reportReasonOtherController,
               hint: 'Additional Notes',
               maxLines: 5,
             ),
@@ -147,7 +149,7 @@ class _CancelFormState extends State<CancelForm> {
                   },
                   child: Container(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: HexColor.fromHex('#cccccc'),
@@ -163,24 +165,25 @@ class _CancelFormState extends State<CancelForm> {
                 const Spacer(),
                 GestureDetector(
                   onTap: () {
-                    if (_cancelReason == null) {
+                    if (_reportReason == null) {
                       setState(() {
                         _messageController.text = 'Please select a reason';
                       });
                       return;
                     }
-                    context.read<ScheduleCubit>().cancelBookedSchedule(
-                      cancelReasonId: _cancelReason?.id ?? 0,
-                      data: state.currentBookedSchedule,
-                      note: _cancelReasonOtherController.text,
-                        ).then(
-                              (_) =>
-                            Navigator.pop(context)
-                          );
+                    context
+                        .read<ScheduleCubit>()
+                        .reportBookedHistory(
+                          reportReasonId: _reportReason?.id ?? 0,
+                          bookingId: state.currentBookedHistory?.id ?? '',
+                          userId: widget.userId ?? '',
+                          note: _reportReasonOtherController.text,
+                        )
+                        .then((_) => Navigator.pop(context));
                   },
                   child: Container(
                     padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                        const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8),
                       color: AppColors.appBlue100,

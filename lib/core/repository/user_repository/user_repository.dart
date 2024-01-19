@@ -1,7 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/data_state.dart';
+import 'package:lettutor/core/data_source/network/models/input/feedback_input_form.dart';
 import 'package:lettutor/core/data_source/network/models/input/update_profile_form.dart';
+import 'package:lettutor/core/data_source/network/models/output/feedback_model.dart';
 import 'package:lettutor/core/data_source/network/models/output/tutor_model.dart';
 import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
 import 'package:lettutor/core/repository/base_repository.dart';
@@ -38,6 +40,14 @@ class UserRepository extends BaseRepository{
       path: '/manageFavoriteTutor',
       parseJsonFunction: TutorFavoriteOutput.fromJson,
       data: {'tutorId': tutorId},
+    );
+  }
+
+  Future<DataState<FeedbackTutorOutput>> feedbackTutor(FeedbackInputForm input) async {
+    return post<FeedbackTutorOutput>(
+      path: '/feedbackTutor',
+      parseJsonFunction: FeedbackTutorOutput.fromJson,
+      data: input.toJson(),
     );
   }
 }

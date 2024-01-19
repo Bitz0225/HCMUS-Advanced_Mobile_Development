@@ -16,6 +16,10 @@ class ScheduleItem extends StatelessWidget with DialogMixin {
 
   @override
   Widget build(BuildContext context) {
+    return buildItem(context);
+  }
+
+  Widget buildItem(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -49,13 +53,19 @@ class ScheduleItem extends StatelessWidget with DialogMixin {
                       bookedSchedule?.scheduleDetailInfo?.startPeriodTimestamp ??
                           0))),
           const SizedBox(height: 16),
-          Text(
-            'Request for lesson: ${bookedSchedule?.studentRequest ?? 'No request'}',
-          ),
+          bookedSchedule?.studentRequest != null
+              ? Text(
+                  'Request for lesson: ${bookedSchedule?.studentRequest}',
+                )
+              : const Text(
+                  'No request for lesson',
+                ),
           const SizedBox(height: 16),
-          buildRequestAndReview(DateTime.fromMillisecondsSinceEpoch(
-                  bookedSchedule?.scheduleDetailInfo?.startPeriodTimestamp ?? 0)
-              , context),
+          buildRequestAndReview(
+              DateTime.fromMillisecondsSinceEpoch(
+                  bookedSchedule?.scheduleDetailInfo?.startPeriodTimestamp ??
+                      0),
+              context),
         ],
       ),
     );
@@ -153,17 +163,19 @@ class ScheduleItem extends StatelessWidget with DialogMixin {
           DateTime.now().add(const Duration(hours: 2)).isBefore(beginTime)
               ? GestureDetector(
                   onTap: () {
-                    context.read<ScheduleCubit>().setCurrentBookedSchedule(bookedSchedule);
+                    context
+                        .read<ScheduleCubit>()
+                        .setCurrentBookedSchedule(bookedSchedule);
                     showBasicDialog(
-                      context: context,
-                      barrierDismissible: false,
-                      title: 'Cancel lesson on ${DateFormat('EEE, dd/MM/yyyy').format(beginTime)}',
-                      showBottomButton: false,
-                      child: BlocProvider.value(
-                        value: context.read<ScheduleCubit>(),
-                        child: CancelForm(),
-                      )
-                    );
+                        context: context,
+                        barrierDismissible: false,
+                        title:
+                            'Cancel lesson on ${DateFormat('EEE, dd/MM/yyyy').format(beginTime)}',
+                        showBottomButton: false,
+                        child: BlocProvider.value(
+                          value: context.read<ScheduleCubit>(),
+                          child: const CancelForm(),
+                        ));
                   },
                   child: Container(
                       padding: const EdgeInsets.all(8),

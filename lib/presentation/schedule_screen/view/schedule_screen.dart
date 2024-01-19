@@ -9,6 +9,7 @@ import 'package:lettutor/gen/assets.gen.dart';
 import 'package:lettutor/presentation/schedule_screen/cubit/schedule_cubit.dart';
 import 'package:lettutor/presentation/schedule_screen/cubit/schedule_state.dart';
 import 'package:lettutor/presentation/schedule_screen/widget/schedule_item.dart';
+import 'package:number_paginator/number_paginator.dart';
 
 @RoutePage()
 class ScheduleScreen extends BaseWidget<ScheduleCubit, ScheduleState> {
@@ -98,6 +99,15 @@ class ScheduleScreen extends BaseWidget<ScheduleCubit, ScheduleState> {
                           );
                         },
                       ),
+                const SizedBox(height: 8),
+                state.bookedScheduleOutput?.data?.rows?.isNotEmpty ?? false
+                    ? NumberPaginator(
+                  numberPages: context.read<ScheduleCubit>().state.totalSchedulePages ?? 1,
+                  onPageChange: (int page) {
+                    context.read<ScheduleCubit>().getBookedSchedule(page + 1);
+                  },
+                )
+                    : const SizedBox.shrink(),
               ]),
             ),
           ),
