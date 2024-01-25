@@ -34,6 +34,7 @@ class ListTeachersItem extends StatelessWidget {
               handleRedirect:
                 handleRedirectToDetail,
               showFavoriteButton: true,
+              isShortDescription: true,
             ),
             const SizedBox(
               height: 16,

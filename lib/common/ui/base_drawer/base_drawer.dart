@@ -76,8 +76,8 @@ class BaseDrawer extends StatelessWidget {
                 leading: Icon(
                   Icons.logout_rounded, color: AppColors.appBlue100,),
                 title: const Text('Logout'),
-                onTap: () {
-                  context.read<SplashCubit>().logout();
+                onTap: () async {
+                  await context.read<SplashCubit>().logout();
                   context.router.replace(const LoginScreenRoute());
                 },
               )

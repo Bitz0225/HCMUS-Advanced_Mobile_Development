@@ -4,7 +4,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:choice/choice.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_timer_countdown/flutter_timer_countdown.dart';
 import 'package:intl/intl.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:lettutor/common/ui/base_appbar/base_appbar.dart';
 import 'package:lettutor/common/ui/base_drawer/base_drawer.dart';
 import 'package:lettutor/common/ui/input_field/base_input_field.dart';
@@ -16,6 +18,8 @@ import 'package:lettutor/core/data_source/network/models/input/search_tutor_form
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_state.dart';
 import 'package:lettutor/presentation/list_teachers_screen/widget/list_teachers_item.dart';
+import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
+import 'package:lettutor/presentation/splash_screen/cubit/splash_state.dart';
 import 'package:number_paginator/number_paginator.dart';
 
 @RoutePage()
@@ -33,6 +37,15 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
   final TextEditingController _endTimeInput = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    context
+        .read<SplashCubit>()
+        .getTotalLearningTime()
+        .then((_) => context.read<SplashCubit>().getNext());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<TutorCubit, TutorState>(
       builder: (context, state) {
@@ -45,6 +58,7 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    upcomingRegion(context),
                     const Text(
                       'Find a tutor',
                       style: TextStyle(
@@ -224,6 +238,121 @@ class _ListTeachersScreenState extends State<ListTeachersScreen> {
                 ),
               ),
             ));
+      },
+    );
+  }
+
+  Widget upcomingRegion(BuildContext context) {
+    return BlocBuilder<SplashCubit, SplashState>(
+      builder: (context, state) {
+        return Container(
+            padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+            width: MediaQuery.of(context).size.width,
+            color: AppColors.appBlue100,
+            child: state.nextSchedule != null ? Column(
+              children: [
+                const Text(
+                  'Upcoming sessions',
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                    '${DateFormat('EEE, dd/MM/yyyy').format(DateTime.fromMillisecondsSinceEpoch(state.nextSchedule?.scheduleDetailInfo?.startPeriodTimestamp ?? 0))}, ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(state.nextSchedule?.scheduleDetailInfo?.startPeriodTimestamp ?? 0))} - ${DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(state.nextSchedule?.scheduleDetailInfo?.endPeriodTimestamp ?? 0))}',
+                    style: const TextStyle(
+                        fontSize: 16,
+                        color: Colors.white)),
+                const SizedBox(
+                  height: 8,
+                ),
+                TimerCountdown(
+                  format: CountDownTimerFormat.hoursMinutesSeconds,
+                  endTime: DateTime.fromMillisecondsSinceEpoch(state.nextSchedule?.scheduleDetailInfo?.startPeriodTimestamp ?? 0),
+                  timeTextStyle: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white, fontWeight: FontWeight.w700),
+                  colonsTextStyle: const TextStyle(
+                      fontSize: 16,
+                      color: Colors.white, fontWeight: FontWeight.w700),
+                  descriptionTextStyle: const TextStyle(
+                      fontSize: 14,
+                      color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 8,
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    final meetingToken = state.nextSchedule?.studentMeetingLink?.split('token=')[1];
+                    if (meetingToken != null) {
+                      try {
+                        final options = JitsiMeetingOptions(
+                          roomNameOrUrl: 'learning',
+                          serverUrl: 'https://meet.lettutor.com',
+                          token: meetingToken,
+                          userDisplayName: context.read<SplashCubit>().state.user?.name ?? '',
+                          userEmail: context.read<SplashCubit>().state.user?.email ?? '',
+                          userAvatarUrl: context.read<SplashCubit>().state.user?.avatar ?? 'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                        );
+                        await JitsiMeetWrapper.joinMeeting(options: options);
+                      } catch (e) {
+                        context.read<SplashCubit>().showSnackBar(e.toString());
+                      }
+                    }
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8),
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(50),
+                      border: Border.all(color: Colors.white),
+                      color: Colors.white
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.ondemand_video_rounded, color: AppColors.appBlue100,),
+                        const SizedBox(width: 8,),
+                        Text('Join session',
+                            style: TextStyle(
+                              color: AppColors.appBlue100,
+                            )),
+                      ],
+                    ),
+                  )
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'Total lesson time is ${((state.totalLearningTime ?? 0) / 60).floor()} hours and ${(state.totalLearningTime ?? 0) % 60} minutes',
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                )
+              ],
+            ) : Column(
+              children: [
+                const Text(
+                  "You don't have any upcoming lessons",
+                  style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white),
+                ),
+                const SizedBox(
+                  height: 16,
+                ),
+                Text(
+                  'Total lesson time is ${((state.totalLearningTime ?? 0) / 60).floor()} hours and ${(state.totalLearningTime ?? 0) % 60} minutes',
+                  style: const TextStyle(fontSize: 14, color: Colors.white),
+                )
+              ],
+            )
+        );
       },
     );
   }

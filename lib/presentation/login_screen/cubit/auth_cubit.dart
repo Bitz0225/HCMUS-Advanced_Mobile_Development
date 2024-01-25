@@ -44,6 +44,7 @@ class AuthCubit extends WidgetCubit<AuthState> {
   }
 
   Future<void> register({String? email, String? password}) async {
+    showLoading();
     final _form = AuthForm().copyWith(email: email, password: password);
     final result = await _authRepository.register(_form);
     if (result is DataSuccess) {
@@ -51,5 +52,42 @@ class AuthCubit extends WidgetCubit<AuthState> {
     } else {
       emit(state.copyWith(isRegister: false, message: result.error?.response?.data['message'] as String? ?? ''));
     }
+    hideLoading();
+  }
+
+  Future<void> signInWithFacebook({String? token}) async {
+    showLoading();
+    final result = await _authRepository.signInWithFacebook(token);
+    if (result is DataSuccess) {
+      final user = result.data?.user;
+      final accessToken = result.data?.tokens?.access?.token;
+      final refreshToken = result.data?.tokens?.refresh?.token;
+      _localStorage
+        ..saveString(key: StorageKey.accessToken, value: accessToken ?? '')
+        ..saveString(key: StorageKey.refreshToken, value: refreshToken ?? '');
+      getIt.get<NetworkManager>().updateHeader(accessToken: accessToken);
+      emit(state.copyWith(user: user, isLogin: true));
+    } else {
+      // emit(state.copyWith(isLogin: false, message: result.error?.response?.data['message'] as String? ?? ''));
+    }
+    hideLoading();
+  }
+
+  Future<void> signInWithGoogle({String? token}) async {
+    showLoading();
+    final result = await _authRepository.signInWithGoogle(token);
+    if (result is DataSuccess) {
+      final user = result.data?.user;
+      final accessToken = result.data?.tokens?.access?.token;
+      final refreshToken = result.data?.tokens?.refresh?.token;
+      _localStorage
+        ..saveString(key: StorageKey.accessToken, value: accessToken ?? '')
+        ..saveString(key: StorageKey.refreshToken, value: refreshToken ?? '');
+      getIt.get<NetworkManager>().updateHeader(accessToken: accessToken);
+      emit(state.copyWith(user: user, isLogin: true));
+    } else {
+      // emit(state.copyWith(isLogin: false, message: result.error?.response?.data['message'] as String? ?? ''));
+    }
+    hideLoading();
   }
 }

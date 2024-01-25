@@ -327,7 +327,7 @@ class User extends BaseModel {
       canSendMessage: json['canSendMessage'] as bool?,
       studentGroup: json['studentGroup'] as List<dynamic>?,
       studentInfo: json['studentInfo'] as String?,
-      avgRating: json['avgRating'] as double?,
+      avgRating: json['avgRating'] is double ? (json['avgRating'] as double?) : (json['avgRating'] as int?)?.toDouble(),
     );
   }
 

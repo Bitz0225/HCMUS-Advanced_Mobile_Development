@@ -37,4 +37,11 @@ class BookingRepository extends BaseRepository {
       data: input.toJson(),
     );
   }
+
+  Future<DataState<NextBookedScheduleOutput>> getNext() async {
+    return get<NextBookedScheduleOutput>(
+      path: '/next',
+      parseJsonFunction: NextBookedScheduleOutput.fromJson,
+    );
+  }
 }

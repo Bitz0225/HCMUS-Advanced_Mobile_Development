@@ -2,12 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:jitsi_meet_wrapper/jitsi_meet_wrapper.dart';
 import 'package:lettutor/common/ui/base_dialog/dialog_mixin.dart';
 import 'package:lettutor/common/values/hex_color.dart';
+import 'package:lettutor/core/app_config/dependency.dart';
 import 'package:lettutor/core/data_source/network/models/output/schedule_model.dart';
 import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_cubit.dart';
 import 'package:lettutor/presentation/schedule_screen/cubit/schedule_cubit.dart';
 import 'package:lettutor/presentation/schedule_screen/widget/cancel_form.dart';
+import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
 
 class ScheduleItem extends StatelessWidget with DialogMixin {
   final BookedScheduleRow? bookedSchedule;
@@ -142,7 +145,24 @@ class ScheduleItem extends StatelessWidget with DialogMixin {
       child: Row(
         children: [
           GestureDetector(
-              onTap: () {},
+              onTap: () async {
+                final meetingToken = bookedSchedule?.studentMeetingLink?.split('token=')[1];
+                if (meetingToken != null) {
+                  try {
+                    final options = JitsiMeetingOptions(
+                      roomNameOrUrl: 'learning',
+                      serverUrl: 'https://meet.lettutor.com',
+                      token: meetingToken,
+                      userDisplayName: context.read<SplashCubit>().state.user?.name ?? '',
+                      userEmail: context.read<SplashCubit>().state.user?.email ?? '',
+                      userAvatarUrl: context.read<SplashCubit>().state.user?.avatar ?? 'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                    );
+                    await JitsiMeetWrapper.joinMeeting(options: options);
+                  } catch (e) {
+                    context.read<ScheduleCubit>().showSnackBar(e.toString());
+                  }
+                }
+              },
               child: Container(
                   padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(

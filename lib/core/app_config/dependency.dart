@@ -4,6 +4,7 @@ import 'package:lettutor/common/storage/local_storage.dart';
 import 'package:lettutor/core/network/network_manager.dart';
 import 'package:lettutor/core/repository/auth_repository/auth_repository.dart';
 import 'package:lettutor/core/repository/booking_repository/booking_repository.dart';
+import 'package:lettutor/core/repository/call_repository/call_repository.dart';
 import 'package:lettutor/core/repository/content_category_repository/content_category_repository.dart';
 import 'package:lettutor/core/repository/course_repository/course_repository.dart';
 import 'package:lettutor/core/repository/ebook_repository/ebook_repository.dart';
@@ -32,5 +33,6 @@ Future<void> initializeDependency() async {
         ContentCategoryRepository.new)
     ..registerLazySingleton<ScheduleRepository>(ScheduleRepository.new)
     ..registerLazySingleton<BookingRepository>(BookingRepository.new)
-    ..registerLazySingleton<LessonReportRepository>(LessonReportRepository.new);
+    ..registerLazySingleton<LessonReportRepository>(LessonReportRepository.new)
+    ..registerLazySingleton<CallRepository>(CallRepository.new);
 }

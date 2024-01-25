@@ -1,6 +1,9 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:lettutor/common/config/navigation_event.dart';
 import 'package:lettutor/common/config/router.dart';
 import 'package:lettutor/common/ui/base_snack_bar/snack_bar_mixin.dart';
@@ -151,17 +154,27 @@ class _LoginScreenState extends State<LoginWidget> with SnackBarMixin {
                   const SizedBox(
                     height: 16,
                   ),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      _Icons(
-                        icon: Icon(UniconsLine.facebook_f),
+                      GestureDetector(
+                        onTap: () async {
+                          await signInWithFacebook();
+                        },
+                        child: _Icons(
+                          icon: Icon(UniconsLine.facebook_f),
+                        ),
                       ),
                       SizedBox(
                         width: 16,
                       ),
-                      _Icons(
-                        icon: Icon(UniconsLine.google),
+                      GestureDetector(
+                        onTap: () async {
+                          await signInWithGoogle();
+                        },
+                        child: _Icons(
+                          icon: Icon(UniconsLine.google),
+                        ),
                       ),
                       SizedBox(
                         width: 16,
@@ -242,6 +255,55 @@ class _LoginScreenState extends State<LoginWidget> with SnackBarMixin {
     final message = context.read<AuthCubit>().state.message ?? '';
     if (isSuccess) {
       showSnackBar(context, message, snackBarType: SnackBarType.success);
+    } else {
+      showSnackBar(context, message);
+    }
+  }
+
+  Future<void> signInWithFacebook() async {
+    // Trigger the sign-in flow
+    final loginResult = await FacebookAuth.instance.login();
+    if (loginResult.status == LoginStatus.success) {
+      // you are logged
+      final accessToken = loginResult.accessToken?.token;
+      await context.read<AuthCubit>().signInWithFacebook(
+        token: accessToken
+      );
+      final isSuccess = context.read<AuthCubit>().state.isLogin;
+      final message = context.read<AuthCubit>().state.message ?? '';
+      if (isSuccess) {
+        await context.read<SplashCubit>().getUser();
+        context.router.replace(const ListTeachersWrapperRoute());
+      } else {
+        showSnackBar(context, message);
+      }
+    } else {
+
+    }
+    // // Create a credential from the access token
+    // final facebookAuthCredential = FacebookAuthProvider.credential(loginResult.accessToken?.token ?? '');
+    //
+    // // Once signed in, return the UserCredential
+    // return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
+
+  Future<void> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final googleAuth = await googleUser?.authentication;
+
+    final accessToken = googleAuth?.accessToken;
+
+    await context.read<AuthCubit>().signInWithGoogle(
+        token: accessToken
+    );
+    final isSuccess = context.read<AuthCubit>().state.isLogin;
+    final message = context.read<AuthCubit>().state.message ?? '';
+    if (isSuccess) {
+      await context.read<SplashCubit>().getUser();
+      context.router.replace(const ListTeachersWrapperRoute());
     } else {
       showSnackBar(context, message);
     }

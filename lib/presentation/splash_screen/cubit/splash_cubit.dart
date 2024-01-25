@@ -13,6 +13,9 @@ import 'package:lettutor/core/data_source/network/models/input/update_profile_fo
 import 'package:lettutor/core/data_source/network/models/output/user_model.dart';
 import 'package:lettutor/core/network/network_manager.dart';
 import 'package:lettutor/core/repository/auth_repository/auth_repository.dart';
+import 'package:lettutor/core/repository/booking_repository/booking_repository.dart';
+import 'package:lettutor/core/repository/call_repository/call_repository.dart';
+import 'package:lettutor/core/repository/feedback_repository/feedback_repository.dart';
 import 'package:lettutor/core/repository/user_repository/user_repository.dart';
 import 'package:lettutor/core/widget_cubit/widget_cubit.dart';
 import 'package:lettutor/presentation/lettutor_app/lettutor_app.dart';
@@ -28,6 +31,9 @@ class SplashCubit extends WidgetCubit<SplashState> {
   final _userRepository = getIt.get<UserRepository>();
   final _authRepository = getIt.get<AuthRepository>();
   final _localStorage = getIt.get<LocalStorage>();
+  final _feedbackRepository = getIt.get<FeedbackRepository>();
+  final _bookingRepository = getIt.get<BookingRepository>();
+  final _callRepository = getIt.get<CallRepository>();
 
   @override
   Future<void> init() async {
@@ -87,33 +93,55 @@ class SplashCubit extends WidgetCubit<SplashState> {
 
   Future<void> updateLearnTopics(Subject item) async {
     final _learningTopics = [...state.user?.learnTopics ?? []];
-    final isExist = _learningTopics
-        .where((element) => element.id == item.key)
-        .isNotEmpty;
+    final isExist =
+        _learningTopics.where((element) => element.id == item.key).isNotEmpty;
     if (!isExist) {
       _learningTopics.add(TestPreparation()
           .copyWith(id: item.key, key: item.value, name: item.tagName));
     } else {
-      _learningTopics
-          .removeWhere((element) => element.id == item.key);
+      _learningTopics.removeWhere((element) => element.id == item.key);
     }
     final _user = state.user?.copyWith(learnTopics: [..._learningTopics]);
     emit(state.copyWith(user: _user));
   }
 
+  Future<void> getOwnFeedBack(int page) async {
+    final response =
+        await _feedbackRepository.getFeedback(state.user?.id ?? '', page);
+    if (response is DataSuccess) {
+      emit(state.copyWith(
+          totalFeedbackPages: ((response.data?.data?.count ?? 0) / 9).ceil(),
+          listFeedbacks: response.data?.data?.rows));
+    } else {
+      emit(state.copyWith(
+          message: response.error?.response?.data['message'] as String? ?? ''));
+    }
+  }
+
+  Future<void> getNext() async {
+    showLoading();
+    final response = await _bookingRepository.getNext();
+    if (response is DataSuccess) {
+      emit(state.copyWith(nextSchedule: response.data?.data?.first));
+    } else {
+      emit(state.copyWith(
+          message: response.error?.response?.data['message'] as String? ?? ''));
+    }
+    hideLoading();
+  }
+
   Future<void> updateTestPreparations(Test item) async {
     final _testPreparations = [...state.user?.testPreparations ?? []];
-    final isExist = _testPreparations
-        .where((element) => element.id == item.key)
-        .isNotEmpty;
+    final isExist =
+        _testPreparations.where((element) => element.id == item.key).isNotEmpty;
     if (!isExist) {
       _testPreparations.add(TestPreparation()
           .copyWith(id: item.key, key: item.value, name: item.tagName));
     } else {
-      _testPreparations
-          .removeWhere((element) => element.id == item.key);
+      _testPreparations.removeWhere((element) => element.id == item.key);
     }
-    final _user = state.user?.copyWith(testPreparations: [..._testPreparations]);
+    final _user =
+        state.user?.copyWith(testPreparations: [..._testPreparations]);
     emit(state.copyWith(user: _user));
   }
 
@@ -132,7 +160,8 @@ class SplashCubit extends WidgetCubit<SplashState> {
     } else {
       emit(state.copyWith(
           updateProfileFormMessage:
-              response.error?.response?.data['message'] as String? ?? '', isProfileUpdateSuccess: false));
+              response.error?.response?.data['message'] as String? ?? '',
+          isProfileUpdateSuccess: false));
     }
     hideLoading();
   }
@@ -140,6 +169,18 @@ class SplashCubit extends WidgetCubit<SplashState> {
   Future<void> updateLevel(Level level) async {
     final _user = state.user?.copyWith(level: level.value);
     emit(state.copyWith(user: _user));
+  }
+
+  Future<void> getTotalLearningTime() async {
+    showLoading();
+    final response = await _callRepository.getTotalLearningTime();
+    if (response is DataSuccess) {
+      emit(state.copyWith(totalLearningTime: response.data?.total));
+    } else {
+      emit(state.copyWith(
+          message: response.error?.response?.data['message'] as String? ?? ''));
+    }
+    hideLoading();
   }
 
   Future<void> updateAvatar(String path) async {
@@ -162,6 +203,7 @@ class SplashCubit extends WidgetCubit<SplashState> {
 
   Future<void> logout() async {
     await _localStorage.clear();
+    await getIt.get<NetworkManager>().init();
     emit(state.copyWith(isLogin: false));
   }
 

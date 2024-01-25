@@ -320,4 +320,3 @@ class FeedbackTutorData extends BaseModel {
     createdAt: json['createdAt'] as String?,
   );
 }
-

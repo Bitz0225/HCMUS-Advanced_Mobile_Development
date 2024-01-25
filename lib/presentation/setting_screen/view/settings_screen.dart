@@ -21,6 +21,7 @@ import 'package:lettutor/common/values/hex_color.dart';
 import 'package:lettutor/core/base_widget/base_widget.dart';
 import 'package:lettutor/core/data_source/network/models/input/update_profile_form.dart';
 import 'package:lettutor/presentation/login_screen/components/input_form_field.dart';
+import 'package:lettutor/presentation/setting_screen/widget/feedback_list_dialog.dart';
 import 'package:lettutor/presentation/setting_screen/widget/update_password_form.dart';
 import 'package:lettutor/presentation/splash_screen/cubit/splash_cubit.dart';
 import 'package:lettutor/presentation/splash_screen/cubit/splash_state.dart';
@@ -113,7 +114,20 @@ class _SettingScreenState extends State<SettingScreen>
       const SizedBox(height: 8),
       Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         GestureDetector(
-            onTap: () {},
+            onTap: () {
+              context
+                  .read<SplashCubit>()
+                  .getOwnFeedBack(1)
+                  .then((_) => showBasicDialog(
+                      context: context,
+                      showBottomButton: false,
+                      title: 'Your review',
+                      barrierDismissible: true,
+                      child: BlocProvider.value(
+                        value: context.read<SplashCubit>(),
+                        child: const FeedbackListDialog(),
+                      )));
+            },
             child: Container(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
@@ -172,7 +186,8 @@ class DetailedInfoBlock extends StatefulWidget {
   State<DetailedInfoBlock> createState() => _DetailedInfoBlockState();
 }
 
-class _DetailedInfoBlockState extends State<DetailedInfoBlock> with SnackBarMixin {
+class _DetailedInfoBlockState extends State<DetailedInfoBlock>
+    with SnackBarMixin {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _countryController = TextEditingController();
@@ -286,7 +301,7 @@ class _DetailedInfoBlockState extends State<DetailedInfoBlock> with SnackBarMixi
               child: DropdownButton(
                 isExpanded: true,
                 value: Level.values.firstWhere(
-                    (element) => element.value == state.user?.level),
+                    (element) => element.value == state.user?.level, orElse: () => Level.beginner),
                 items: Level.values
                     .map((e) =>
                         DropdownMenuItem(value: e, child: Text(e.tagName)))
@@ -317,9 +332,15 @@ class _DetailedInfoBlockState extends State<DetailedInfoBlock> with SnackBarMixi
             itemCount: Subject.values.length,
             itemBuilder: (choiceState, i) {
               return ChoiceChip(
-                selected: state.user?.learnTopics?.map((e) => e.id).toList().contains(Subject.values[i].key) ?? false,
+                selected: state.user?.learnTopics
+                        ?.map((e) => e.id)
+                        .toList()
+                        .contains(Subject.values[i].key) ??
+                    false,
                 onSelected: (bool? value) {
-                  context.read<SplashCubit>().updateLearnTopics(Subject.values[i]);
+                  context
+                      .read<SplashCubit>()
+                      .updateLearnTopics(Subject.values[i]);
                   choiceState.onSelected(Subject.values[i]);
                 },
                 label: Text(Subject.values[i].tagName),
@@ -346,9 +367,15 @@ class _DetailedInfoBlockState extends State<DetailedInfoBlock> with SnackBarMixi
             itemCount: Test.values.length,
             itemBuilder: (choiceState, i) {
               return ChoiceChip(
-                selected: state.user?.testPreparations?.map((e) => e.id).toList().contains(Test.values[i].key) ?? false,
+                selected: state.user?.testPreparations
+                        ?.map((e) => e.id)
+                        .toList()
+                        .contains(Test.values[i].key) ??
+                    false,
                 onSelected: (bool? value) {
-                  context.read<SplashCubit>().updateTestPreparations(Test.values[i]);
+                  context
+                      .read<SplashCubit>()
+                      .updateTestPreparations(Test.values[i]);
                   choiceState.onSelected(Test.values[i]);
                 },
                 label: Text(Test.values[i].tagName),
@@ -401,12 +428,26 @@ class _DetailedInfoBlockState extends State<DetailedInfoBlock> with SnackBarMixi
       birthday: _birthdayController.text,
       level: context.read<SplashCubit>().state.user?.level,
       studySchedule: _scheduleController.text,
-      learnTopics: context.read<SplashCubit>().state.user?.learnTopics?.map((e) => e.id.toString()).toList(),
-      testPreparations: context.read<SplashCubit>().state.user?.testPreparations?.map((e) => e.id.toString()).toList(),
+      learnTopics: context
+          .read<SplashCubit>()
+          .state
+          .user
+          ?.learnTopics
+          ?.map((e) => e.id.toString())
+          .toList(),
+      testPreparations: context
+          .read<SplashCubit>()
+          .state
+          .user
+          ?.testPreparations
+          ?.map((e) => e.id.toString())
+          .toList(),
     );
     await context.read<SplashCubit>().updateProfile(inputForm);
     context.read<SplashCubit>().state.isProfileUpdateSuccess ?? false
-        ? showSnackBar(context, 'Update profile successfully', snackBarType: SnackBarType.success)
-        : showSnackBar(context, context.read<SplashCubit>().state.updateProfileFormMessage ?? '');
+        ? showSnackBar(context, 'Update profile successfully',
+            snackBarType: SnackBarType.success)
+        : showSnackBar(context,
+            context.read<SplashCubit>().state.updateProfileFormMessage ?? '');
   }
 }

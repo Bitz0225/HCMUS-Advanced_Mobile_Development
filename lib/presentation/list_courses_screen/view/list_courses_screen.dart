@@ -151,7 +151,7 @@ class _ListCoursesScreenState extends State<ListCoursesScreen> {
                         ? const CoursesList()
                         : _selectedCourseType == CourseType.ebook
                             ? const EbookList()
-                            : const Text('Interactive Ebook')
+                            : const Text('No interactive ebooks found')
                   ],
                 ),
               ),

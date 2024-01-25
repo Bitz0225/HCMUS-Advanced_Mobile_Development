@@ -359,6 +359,48 @@ class BookedScheduleOutput extends BaseModel {
       );
 }
 
+class NextBookedScheduleOutput extends BaseModel {
+  final String? message;
+  final List<BookedScheduleRow>? data;
+
+  const NextBookedScheduleOutput({
+    this.message,
+    this.data,
+  });
+
+  @override
+  // TODO: implement props
+  List<Object?> get props => [
+        message,
+        data,
+      ];
+
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      'message': message,
+      'data': data,
+    };
+  }
+
+  factory NextBookedScheduleOutput.fromJson(Map<String, dynamic> json) =>
+      NextBookedScheduleOutput(
+        message: json['message'] as String?,
+        data: (json['data'] as List<dynamic>?)
+            ?.map((e) => BookedScheduleRow.fromJson(e as Map<String, dynamic>))
+            .toList(),
+      );
+
+  NextBookedScheduleOutput copyWith({
+    String? message,
+    List<BookedScheduleRow>? data,
+  }) =>
+      NextBookedScheduleOutput(
+        message: message ?? this.message,
+        data: data ?? this.data,
+      );
+}
+
 class BookedScheduleData extends BaseModel {
   final int? count;
   final List<BookedScheduleRow>? rows;
@@ -694,7 +736,8 @@ class BookingFeedback extends BaseModel {
     };
   }
 
-  factory BookingFeedback.fromJson(Map<String, dynamic> json) => BookingFeedback(
+  factory BookingFeedback.fromJson(Map<String, dynamic> json) =>
+      BookingFeedback(
         id: json['id'] as String?,
         bookingId: json['bookingId'] as String?,
         firstId: json['firstId'] as String?,
@@ -912,7 +955,6 @@ class LessonStatus extends BaseModel {
         updatedAt: json['updatedAt'] as String?,
       );
 }
-
 
 class BookedScheduleDetailInfo extends BaseModel {
   final int? startPeriodTimestamp;
@@ -1353,9 +1395,10 @@ class BookedScheduleMessage extends BaseModel {
     };
   }
 
-  factory BookedScheduleMessage.fromJson(Map<String, dynamic> json) => BookedScheduleMessage(
-    message: json['message'] as String?,
-  );
+  factory BookedScheduleMessage.fromJson(Map<String, dynamic> json) =>
+      BookedScheduleMessage(
+        message: json['message'] as String?,
+      );
 
   BookedScheduleMessage copyWith({
     String? message,
@@ -1368,14 +1411,9 @@ class BookedScheduleMessage extends BaseModel {
 class ReportHistoryOutput extends BaseModel {
   final String? message;
 
-  const ReportHistoryOutput({
-    this.message
-  });
+  const ReportHistoryOutput({this.message});
 
-  ReportHistoryOutput copyWith({
-    String? message
-  }) =>
-      ReportHistoryOutput(
+  ReportHistoryOutput copyWith({String? message}) => ReportHistoryOutput(
         message: message ?? this.message,
       );
 
@@ -1392,7 +1430,8 @@ class ReportHistoryOutput extends BaseModel {
     };
   }
 
-  factory ReportHistoryOutput.fromJson(Map<String, dynamic> json) => ReportHistoryOutput(
-    message: json['message'] as String?,
-  );
+  factory ReportHistoryOutput.fromJson(Map<String, dynamic> json) =>
+      ReportHistoryOutput(
+        message: json['message'] as String?,
+      );
 }

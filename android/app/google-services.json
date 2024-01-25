@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "659296510115",
+    "project_id": "hcmus-lettutor",
+    "storage_bucket": "hcmus-lettutor.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:659296510115:android:3467a201679269a0e1df16",
+        "android_client_info": {
+          "package_name": "com.example.lettutor"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC23KlLYygdmi6H6cQPn5ghb3QhVZchCPQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

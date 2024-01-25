@@ -33,4 +33,20 @@ class AuthRepository extends BaseRepository {
       data: input.toJson()
     );
   }
+
+  Future<DataState<AuthOutput>> signInWithFacebook(String? token) async {
+    return post<AuthOutput>(
+      path: '/facebook',
+      parseJsonFunction: AuthOutput.fromJson,
+      data: {'access_token': token},
+    );
+  }
+
+  Future<DataState<AuthOutput>> signInWithGoogle(String? token) async {
+    return post<AuthOutput>(
+      path: '/google',
+      parseJsonFunction: AuthOutput.fromJson,
+      data: {'access_token': token},
+    );
+  }
 }

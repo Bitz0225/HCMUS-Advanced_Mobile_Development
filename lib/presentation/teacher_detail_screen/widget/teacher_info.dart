@@ -9,6 +9,7 @@ import 'package:lettutor/presentation/list_teachers_screen/cubit/tutor_state.dar
 class TeacherInfo extends StatefulWidget {
   final TutorSearchOutputItem? tutor;
   final bool? showFavoriteButton;
+  final bool? isShortDescription;
   final Function? handleRedirect;
   final int? index;
 
@@ -16,6 +17,7 @@ class TeacherInfo extends StatefulWidget {
       {super.key,
         this.tutor,
         this.showFavoriteButton,
+        this.isShortDescription = false,
         this.index,
         this.handleRedirect});
 
@@ -138,7 +140,13 @@ class _TeacherInfoState extends State<TeacherInfo> {
               widget.tutor?.country ?? '',
             ),
             const SizedBox(height: 8),
-            Text(
+            widget.isShortDescription ?? false
+                ? Text(
+              widget.tutor?.bio ?? '',
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            )
+                : Text(
               widget.tutor?.bio ?? '',
             ),
           ],

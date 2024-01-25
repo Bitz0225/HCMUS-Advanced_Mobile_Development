@@ -491,61 +491,6 @@ class _TeacherDetailScreenState extends State<TeacherDetailScreen>
     );
   }
 
-  Widget ReviewItem(BuildContext context, FeedbackRows? data) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
-      child: Row(
-        children: [
-          SizedBox(
-            width: 36,
-            height: 36,
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(100),
-              child: CachedNetworkImage(
-                  imageUrl: data?.firstInfo?.avatar ??
-                      'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
-                  fit: BoxFit.fill,
-                  placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                  errorWidget: (context, url, error) => CachedNetworkImage(
-                      imageUrl:
-                          'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
-                      fit: BoxFit.fill)),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                data?.firstInfo?.name ?? '',
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 8),
-              AnimatedRatingStars(
-                initialRating: data?.rating?.toDouble() ?? 0,
-                customEmptyIcon: Icons.star_border,
-                onChanged: (value) {},
-                customFilledIcon: Icons.star,
-                customHalfFilledIcon: Icons.star_half,
-                readOnly: true,
-                starSize: 8,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                data?.content ?? '',
-              )
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
   Future<void> handleFavoriteTutor({
     required BuildContext context,
     required bool currentState,
@@ -602,4 +547,60 @@ class _IconWithDescription extends StatelessWidget {
       ],
     );
   }
+}
+
+Widget ReviewItem(BuildContext context, FeedbackRows? data) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8),
+    child: Row(
+      children: [
+        SizedBox(
+          width: 36,
+          height: 36,
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(100),
+            child: CachedNetworkImage(
+                imageUrl: data?.firstInfo?.avatar ??
+                    'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                fit: BoxFit.fill,
+                placeholder: (context, url) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+                errorWidget: (context, url, error) => CachedNetworkImage(
+                    imageUrl:
+                    'https://res.cloudinary.com/demo/image/upload/d_avatar.png/non_existing_id.png',
+                    fit: BoxFit.fill)),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              data?.firstInfo?.name ?? '',
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 8),
+            AnimatedRatingStars(
+              initialRating: data?.rating?.toDouble() ?? 0,
+              customEmptyIcon: Icons.star_border,
+              onChanged: (value) {},
+              customFilledIcon: Icons.star,
+              customHalfFilledIcon: Icons.star_half,
+              readOnly: true,
+              starSize: 8,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              data?.content ?? '',
+              maxLines: 5,
+            )
+          ],
+        ),
+      ],
+    ),
+  );
 }

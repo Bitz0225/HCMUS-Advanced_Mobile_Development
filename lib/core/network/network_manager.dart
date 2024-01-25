@@ -33,7 +33,7 @@ class NetworkManager {
         receiveTimeout: const Duration(milliseconds: receiveTimeout),
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer $_accessToken',
+          'Authorization': _accessToken != '' ? 'Bearer $_accessToken' : '',
         });
 
     _dio.options = dioOption;
