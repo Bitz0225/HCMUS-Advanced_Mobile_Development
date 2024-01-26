@@ -149,44 +149,48 @@ class _LoginScreenState extends State<LoginWidget> with SnackBarMixin {
                   const SizedBox(
                     height: 48,
                   ),
-                  const Text('Or continue with',
-                      style: TextStyle(fontSize: 16)),
-                  const SizedBox(
-                    height: 16,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                  _isLoginScreen ? Column(
                     children: [
-                      GestureDetector(
-                        onTap: () async {
-                          await signInWithFacebook();
-                        },
-                        child: _Icons(
-                          icon: Icon(UniconsLine.facebook_f),
-                        ),
+                      const Text('Or continue with',
+                          style: TextStyle(fontSize: 16)),
+                      const SizedBox(
+                        height: 16,
                       ),
-                      SizedBox(
-                        width: 16,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () async {
+                              await signInWithFacebook();
+                            },
+                            child: const _Icons(
+                              icon: Icon(UniconsLine.facebook_f),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              await signInWithGoogle();
+                            },
+                            child: const _Icons(
+                              icon: Icon(UniconsLine.google),
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 16,
+                          ),
+                          const _Icons(
+                            icon: Icon(UniconsLine.mobile_android),
+                          ),
+                        ],
                       ),
-                      GestureDetector(
-                        onTap: () async {
-                          await signInWithGoogle();
-                        },
-                        child: _Icons(
-                          icon: Icon(UniconsLine.google),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 16,
-                      ),
-                      _Icons(
-                        icon: Icon(UniconsLine.mobile_android),
+                      const SizedBox(
+                        height: 24,
                       ),
                     ],
-                  ),
-                  const SizedBox(
-                    height: 24,
-                  ),
+                  ) : const SizedBox.shrink(),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
