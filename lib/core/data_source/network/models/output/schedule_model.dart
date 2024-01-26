@@ -672,7 +672,7 @@ class BookingFeedback extends BaseModel {
   final String? bookingId;
   final String? firstId;
   final String? secondId;
-  final int? rating;
+  final double? rating;
   final String? content;
   final String? createdAt;
   final String? updatedAt;
@@ -693,7 +693,7 @@ class BookingFeedback extends BaseModel {
     String? bookingId,
     String? firstId,
     String? secondId,
-    int? rating,
+    double? rating,
     String? content,
     String? createdAt,
     String? updatedAt,
@@ -742,7 +742,7 @@ class BookingFeedback extends BaseModel {
         bookingId: json['bookingId'] as String?,
         firstId: json['firstId'] as String?,
         secondId: json['secondId'] as String?,
-        rating: json['rating'] as int?,
+        rating: json['rating'] is double ? (json['rating'] as double?) : (json['rating'] as int?)?.toDouble(),
         content: json['content'] as String?,
         createdAt: json['createdAt'] as String?,
         updatedAt: json['updatedAt'] as String?,

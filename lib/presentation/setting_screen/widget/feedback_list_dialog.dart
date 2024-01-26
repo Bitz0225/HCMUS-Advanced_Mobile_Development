@@ -17,7 +17,7 @@ class FeedbackListDialog extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ))
           : SizedBox(
-              height: MediaQuery.sizeOf(context).height * 0.8,
+              height: MediaQuery.sizeOf(context).height * 0.7,
               child: Column(
                 children: [
                   Expanded(
