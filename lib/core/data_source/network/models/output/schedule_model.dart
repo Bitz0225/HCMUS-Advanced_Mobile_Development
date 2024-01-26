@@ -458,8 +458,8 @@ class BookedScheduleRow extends BaseModel {
   final String? createdAt;
   final String? updatedAt;
   final String? recordUrl;
-  final String? cancelReasonId;
-  final String? lessonPlanId;
+  final int? cancelReasonId;
+  final int? lessonPlanId;
   final String? cancelNote;
   final String? calendarId;
   final bool? isDeleted;
@@ -583,8 +583,8 @@ class BookedScheduleRow extends BaseModel {
         createdAt: json['createdAt'] as String?,
         updatedAt: json['updatedAt'] as String?,
         recordUrl: json['recordUrl'] as String?,
-        cancelReasonId: json['cancelReasonId'] as String?,
-        lessonPlanId: json['lessonPlanId'] as String?,
+        cancelReasonId: json['cancelReasonId'] as int?,
+        lessonPlanId: json['lessonPlanId'] as int?,
         cancelNote: json['cancelNote'] as String?,
         calendarId: json['calendarId'] as String?,
         isDeleted: json['isDeleted'] as bool?,
@@ -622,8 +622,8 @@ class BookedScheduleRow extends BaseModel {
     String? createdAt,
     String? updatedAt,
     String? recordUrl,
-    String? cancelReasonId,
-    String? lessonPlanId,
+    int? cancelReasonId,
+    int? lessonPlanId,
     String? cancelNote,
     String? calendarId,
     bool? isDeleted,
